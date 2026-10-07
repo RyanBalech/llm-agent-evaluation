@@ -25,7 +25,7 @@ That separation matters. End-to-end coding-agent scores mix together retrieval, 
 | Patch generation + validation | Planned |
 | Agent/tool-use ablations | Planned |
 | 20-instance SWE-bench Verified BM25 study | Completed |
-| Dense + hybrid matched comparison | Running |
+| Dense + hybrid matched comparison | Implemented; benchmark run pending |
 
 **Current measured baseline:** on the frozen 20-instance SWE-bench Verified study slice (excluding the three engineering smoke tasks), BM25 achieved Recall@5 **0.425**, MRR **0.279**, and nDCG@5 **0.297**, with 20/20 tasks completed. This is a controlled localization study, not a full SWE-bench patch-resolution score. See `docs/RETRIEVAL_STUDY.md` for the protocol and limitations.
 
@@ -167,3 +167,10 @@ The project is intended as a reproducible research artifact, not a production co
 - failure taxonomy,
 - and fully reproducible code.
 
+
+
+## Comparative retrieval experiments
+
+The repository now includes a common evaluation path for BM25, Transformer dense retrieval, and sparse-dense reciprocal-rank fusion. The matched comparison fixes task set, candidate count, top-k, and downstream character budget, then reports paired bootstrap confidence intervals over task-level Recall@k, MRR, and nDCG.
+
+A separate context-budget ablation evaluates the three retrievers at 10k, 20k, 40k, and 80k characters to measure the quality-context frontier rather than relying on a single arbitrary prompt budget.
