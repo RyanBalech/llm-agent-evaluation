@@ -5,7 +5,7 @@ import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Iterable
+from collections.abc import Iterable
 
 from .datasets import LocalizationTask
 from .evaluation import evaluate_localization
@@ -35,8 +35,7 @@ def _git(*args: str, cwd: str | Path | None = None) -> None:
         ["git", *args],
         cwd=cwd,
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
 
