@@ -1,14 +1,19 @@
+import json
+
 from llm_agent_eval.benchmark import load_swebench_jsonl
 from llm_agent_eval.swebench import SWEBenchRecord
 
 
 def test_jsonl_loader_preserves_gold_labels(tmp_path):
     path = tmp_path / "tasks.jsonl"
-    path.write_text(
-        '{"instance_id":"x-1","repo":"o/r","base_commit":"abc",'
-        '"problem_statement":"bug","patch":"diff --git a/a.py b/a.py\\n"}\\n',
-        encoding="utf-8",
-    )
+    record = {
+        "instance_id": "x-1",
+        "repo": "o/r",
+        "base_commit": "abc",
+        "problem_statement": "bug",
+        "patch": "diff --git a/a.py b/a.py\n",
+    }
+    path.write_text(json.dumps(record) + "\n", encoding="utf-8")
     records = load_swebench_jsonl(path)
     assert records[0].instance_id == "x-1"
     assert records[0].gold_files == {"a.py"}
