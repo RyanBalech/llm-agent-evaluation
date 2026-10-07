@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import json
 import subprocess
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from collections.abc import Iterable
 
 from .datasets import LocalizationTask
 from .evaluation import evaluate_localization
@@ -84,7 +84,7 @@ def evaluate_records(
                     context_budget_chars=context_budget_chars,
                 )
                 successes.append(result["tasks"][0])
-            except Exception as exc:  # benchmark runners must preserve failed instances
+            except (OSError, subprocess.SubprocessError, ValueError) as exc:
                 failures.append(
                     BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc))
                 )
