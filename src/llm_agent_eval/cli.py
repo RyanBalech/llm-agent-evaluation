@@ -64,6 +64,7 @@ def main() -> None:
         context_budget_chars=args.context_budget_chars,
         lines_per_chunk=args.lines_per_chunk,
         overlap=args.overlap,
+        checkpoint_path=args.output,
     )
     write_result(result, args.output)
     print(json.dumps({

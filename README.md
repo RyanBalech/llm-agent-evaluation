@@ -48,7 +48,7 @@ All methods are evaluated under the same context budget.
 
 For localization we track:
 
-- **Recall@k** — whether at least one gold file appears in the top-k retrieved files.
+- **Recall@k** — fraction of gold files appearing in the top-k retrieved files.
 - **MRR** — reciprocal rank of the first relevant file.
 - **nDCG@k** — rewards ranking multiple relevant files near the top.
 - **Context size** — characters / estimated tokens sent downstream.

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
@@ -79,6 +80,7 @@ def evaluate_records(
     context_budget_chars: int | None = 40_000,
     lines_per_chunk: int = 80,
     overlap: int = 20,
+    checkpoint_path: str | Path | None = None,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
     if method not in {"bm25", "dense", "hybrid"}:
@@ -88,10 +90,25 @@ def evaluate_records(
 
     successes: list[dict] = []
     failures: list[BenchmarkFailure] = []
+    records = list(records)
+    configuration = {
+        "method": method, "model_name": model_name, "top_k": top_k,
+        "candidate_chunks": candidate_chunks, "context_budget_chars": context_budget_chars,
+        "lines_per_chunk": lines_per_chunk, "overlap": overlap,
+    }
+
+    def snapshot() -> dict:
+        return {
+            "n_requested": len(records), "n_successful": len(successes),
+            "n_failed": len(failures), "n_completed": len(successes) + len(failures),
+            "aggregate": _aggregate(successes), "configuration": configuration,
+            "tasks": successes, "failures": [asdict(failure) for failure in failures],
+        }
 
     with TemporaryDirectory(prefix="llm-agent-eval-") as tmp:
         root = Path(tmp)
         for record in records:
+            repo_dir = None
             try:
                 repo_dir = checkout_revision(record, root)
                 chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
@@ -116,27 +133,20 @@ def evaluate_records(
                 successes.append(result["tasks"][0])
             except (OSError, subprocess.SubprocessError, ValueError, RuntimeError) as exc:
                 failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
+            finally:
+                if repo_dir is not None:
+                    shutil.rmtree(repo_dir, ignore_errors=True)
+            if checkpoint_path is not None:
+                write_result(snapshot(), checkpoint_path)
+            print(f"Completed {len(successes) + len(failures)}/{len(records)}: "
+                  f"{record.instance_id} ({len(failures)} failures)", flush=True)
 
-    return {
-        "n_requested": len(successes) + len(failures),
-        "n_successful": len(successes),
-        "n_failed": len(failures),
-        "aggregate": _aggregate(successes),
-        "configuration": {
-            "method": method,
-            "model_name": model_name,
-            "top_k": top_k,
-            "candidate_chunks": candidate_chunks,
-            "context_budget_chars": context_budget_chars,
-            "lines_per_chunk": lines_per_chunk,
-            "overlap": overlap,
-        },
-        "tasks": successes,
-        "failures": [asdict(failure) for failure in failures],
-    }
+    return snapshot()
 
 
 def write_result(result: dict, output: str | Path) -> None:
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    temporary = output.with_suffix(output.suffix + ".tmp")
+    temporary.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(output)

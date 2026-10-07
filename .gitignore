@@ -7,5 +7,8 @@ dist/
 build/
 *.egg-info/
 .env
-results/
+results/*
 .DS_Store
+
+!results/published/
+!results/published/*.json

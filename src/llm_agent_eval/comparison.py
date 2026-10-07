@@ -42,6 +42,8 @@ def compare_task_results(baseline: dict, challenger: dict) -> dict:
     chal_tasks = challenger["tasks"]
     base_ids = [row["task_id"] for row in base_tasks]
     chal_ids = [row["task_id"] for row in chal_tasks]
+    if len(set(base_ids)) != len(base_ids) or len(set(chal_ids)) != len(chal_ids):
+        raise ValueError("duplicate task IDs are not independent observations")
     if base_ids != chal_ids:
         raise ValueError("comparisons require identical ordered task IDs")
 
@@ -52,4 +54,23 @@ def compare_task_results(baseline: dict, challenger: dict) -> dict:
             [row[metric] for row in chal_tasks],
         )
         for metric in metrics
+    }
+
+
+def compare_benchmark_results(baseline: dict, challenger: dict) -> dict:
+    """Reject incomplete or mismatched studies before paired inference."""
+    for result in (baseline, challenger):
+        if result.get("n_failed", 0) or result.get("failures"):
+            raise ValueError("all requested tasks must succeed before a headline comparison")
+        if result.get("n_requested") != len(result["tasks"]):
+            raise ValueError("incomplete benchmark: requested and completed tasks differ")
+    keys = ("top_k", "candidate_chunks", "context_budget_chars", "lines_per_chunk", "overlap")
+    for key in keys:
+        if key not in baseline["configuration"] or key not in challenger["configuration"]:
+            raise ValueError(f"missing comparison configuration: {key}")
+        if baseline["configuration"][key] != challenger["configuration"][key]:
+            raise ValueError(f"mismatched comparison configuration: {key}")
+    return {
+        "n_paired": len(baseline["tasks"]),
+        "metrics": compare_task_results(baseline, challenger),
     }
