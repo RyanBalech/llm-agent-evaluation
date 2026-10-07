@@ -1,0 +1,59 @@
+name: SWE-bench retrieval comparison
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install benchmark and ML dependencies
+        run: python -m pip install -e ".[bench,ml]"
+      - name: Materialize fixed comparison slice
+        run: |
+          mkdir -p .benchmark results
+          python scripts/materialize_verified_slice.py \
+            --output .benchmark/verified-comparison.jsonl \
+            --limit 20 \
+            --exclude-smoke | tee .benchmark-comparison-manifest.json
+      - name: BM25
+        run: |
+          llm-agent-eval swebench --tasks .benchmark/verified-comparison.jsonl \
+            --output results/bm25.json --method bm25 --top-k 5 --candidate-chunks 50 \
+            --context-budget-chars 40000 --lines-per-chunk 80 --overlap 20
+      - name: Dense Transformer
+        run: |
+          llm-agent-eval swebench --tasks .benchmark/verified-comparison.jsonl \
+            --output results/dense.json --method dense \
+            --model-name microsoft/codebert-base --top-k 5 --candidate-chunks 50 \
+            --context-budget-chars 40000 --lines-per-chunk 80 --overlap 20
+      - name: Hybrid RRF
+        run: |
+          llm-agent-eval swebench --tasks .benchmark/verified-comparison.jsonl \
+            --output results/hybrid.json --method hybrid \
+            --model-name microsoft/codebert-base --top-k 5 --candidate-chunks 50 \
+            --context-budget-chars 40000 --lines-per-chunk 80 --overlap 20
+      - name: Compare paired results
+        run: python scripts/compare_retrieval_results.py results/bm25.json results/dense.json results/hybrid.json --output results/comparison.json
+      - name: Print comparison
+        if: always()
+        run: test -f results/comparison.json && cat results/comparison.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swebench-retrieval-comparison
+          path: |
+            .benchmark-comparison-manifest.json
+            results/*.json
+          if-no-files-found: warn
