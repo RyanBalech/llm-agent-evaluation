@@ -5,6 +5,12 @@ import hashlib
 import json
 from pathlib import Path
 
+SMOKE_INSTANCE_IDS = {
+    "sympy__sympy-13798",
+    "pytest-dev__pytest-5631",
+    "sympy__sympy-17318",
+}
+
 
 def stable_score(instance_id: str) -> str:
     return hashlib.sha256(instance_id.encode("utf-8")).hexdigest()
@@ -12,10 +18,15 @@ def stable_score(instance_id: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Materialize a deterministic SWE-bench Verified development slice"
+        description="Materialize a deterministic SWE-bench Verified slice"
     )
     parser.add_argument("--output", required=True)
     parser.add_argument("--limit", type=int, default=3)
+    parser.add_argument(
+        "--exclude-smoke",
+        action="store_true",
+        help="Exclude the three instances used while engineering the smoke pipeline.",
+    )
     args = parser.parse_args()
 
     if args.limit <= 0:
@@ -27,8 +38,12 @@ def main() -> None:
         raise RuntimeError('Install benchmark dependencies with: pip install -e ".[bench]"') from exc
 
     dataset = load_dataset("princeton-nlp/SWE-bench_Verified", split="test")
+    candidates = [
+        row for row in dataset
+        if not args.exclude_smoke or str(row["instance_id"]) not in SMOKE_INSTANCE_IDS
+    ]
     records = sorted(
-        dataset,
+        candidates,
         key=lambda row: (stable_score(str(row["instance_id"])), str(row["instance_id"])),
     )[: args.limit]
 
@@ -50,6 +65,8 @@ def main() -> None:
         "split": "test",
         "selection": "lowest SHA-256(instance_id), ascending",
         "limit": args.limit,
+        "exclude_smoke": args.exclude_smoke,
+        "excluded_instance_ids": sorted(SMOKE_INSTANCE_IDS) if args.exclude_smoke else [],
         "instance_ids": [row["instance_id"] for row in records],
     }
     print(json.dumps(manifest, indent=2))
