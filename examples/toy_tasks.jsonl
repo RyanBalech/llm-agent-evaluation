@@ -1,0 +1,1 @@
+{"task_id":"toy-divide-zero","issue":"Division by zero in the calculator should be validated instead of crashing.","gold_files":["calculator.py"]}
