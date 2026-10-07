@@ -27,6 +27,8 @@ def main() -> None:
     swebench.add_argument("--tasks", required=True)
     swebench.add_argument("--output", required=True)
     swebench.add_argument("--limit", type=int)
+    swebench.add_argument("--method", choices=["bm25", "dense", "hybrid"], default="bm25")
+    swebench.add_argument("--model-name")
     swebench.add_argument("--top-k", type=int, default=5)
     swebench.add_argument("--candidate-chunks", type=int, default=50)
     swebench.add_argument("--context-budget-chars", type=int, default=40_000)
@@ -55,6 +57,8 @@ def main() -> None:
         records = records[: args.limit]
     result = evaluate_records(
         records,
+        method=args.method,
+        model_name=args.model_name,
         top_k=args.top_k,
         candidate_chunks=args.candidate_chunks,
         context_budget_chars=args.context_budget_chars,
