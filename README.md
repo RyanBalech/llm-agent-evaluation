@@ -24,9 +24,10 @@ That separation matters. End-to-end coding-agent scores mix together retrieval, 
 | SWE-bench patch-label adapter | Implemented |
 | Patch generation + validation | Planned |
 | Agent/tool-use ablations | Planned |
-| Full benchmark results | Not run yet |
+| 20-instance SWE-bench Verified BM25 study | Completed |
+| Dense + hybrid matched comparison | Running |
 
-**No benchmark numbers are claimed until they are produced by a reproducible experiment run.**
+**Current measured baseline:** on the frozen 20-instance SWE-bench Verified study slice (excluding the three engineering smoke tasks), BM25 achieved Recall@5 **0.425**, MRR **0.279**, and nDCG@5 **0.297**, with 20/20 tasks completed. This is a controlled localization study, not a full SWE-bench patch-resolution score. See `docs/RETRIEVAL_STUDY.md` for the protocol and limitations.
 
 ## Why localization first?
 
@@ -131,7 +132,7 @@ class LLMClient(Protocol):
 
 can be used. The model is asked to return strict JSON containing chunk IDs, making the output auditable and easy to score.
 
-A future provider adapter will target Mistral/OpenAI-compatible chat endpoints without coupling the research code to a single vendor.
+A Mistral SDK adapter is implemented while the research interface remains provider-agnostic; credentials are supplied only through environment variables.
 
 ## Experimental principles
 
