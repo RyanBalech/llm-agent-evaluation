@@ -11,7 +11,8 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<9", "ruff>=0.8,<1"]\nml = ["torch>=2.4,<3", "transformers>=4.45,<5"]
+dev = ["pytest>=8,<9", "ruff>=0.8,<1"]
+ml = ["torch>=2.4,<3", "transformers>=4.45,<5"]
 
 [project.scripts]
 llm-agent-eval = "llm_agent_eval.cli:main"
