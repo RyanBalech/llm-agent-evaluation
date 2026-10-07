@@ -9,9 +9,10 @@ from statistics import mean
 from tempfile import TemporaryDirectory
 
 from .datasets import LocalizationTask
+from .dense import TransformerDenseRetriever, reciprocal_rank_fusion
 from .evaluation import evaluate_localization
 from .indexing import chunk_repository
-from .retrieval import BM25Retriever
+from .retrieval import BM25Retriever, RankedChunk
 from .swebench import SWEBenchRecord, from_mapping
 
 
@@ -20,6 +21,20 @@ class BenchmarkFailure:
     instance_id: str
     error_type: str
     message: str
+
+
+class HybridRetriever:
+    def __init__(self, sparse: BM25Retriever, dense: TransformerDenseRetriever, *, pool_size: int = 100):
+        self.sparse = sparse
+        self.dense = dense
+        self.pool_size = pool_size
+
+    def search(self, query: str, *, top_k: int = 10) -> list[RankedChunk]:
+        pool = max(top_k, self.pool_size)
+        return reciprocal_rank_fusion(
+            [self.sparse.search(query, top_k=pool), self.dense.search(query, top_k=pool)],
+            top_k=top_k,
+        )
 
 
 def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
@@ -57,6 +72,8 @@ def _aggregate(successes: list[dict]) -> dict:
 def evaluate_records(
     records: Iterable[SWEBenchRecord],
     *,
+    method: str = "bm25",
+    model_name: str | None = None,
     top_k: int = 5,
     candidate_chunks: int = 50,
     context_budget_chars: int | None = 40_000,
@@ -64,6 +81,11 @@ def evaluate_records(
     overlap: int = 20,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
+    if method not in {"bm25", "dense", "hybrid"}:
+        raise ValueError(f"Unsupported retrieval method: {method}")
+    if method != "bm25" and not model_name:
+        raise ValueError("model_name is required for dense and hybrid retrieval")
+
     successes: list[dict] = []
     failures: list[BenchmarkFailure] = []
 
@@ -73,20 +95,26 @@ def evaluate_records(
             try:
                 repo_dir = checkout_revision(record, root)
                 chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
+                if method == "bm25":
+                    retriever = BM25Retriever(chunks)
+                else:
+                    dense = TransformerDenseRetriever(chunks, model_name=model_name or "")
+                    retriever = dense if method == "dense" else HybridRetriever(BM25Retriever(chunks), dense)
+
                 task = LocalizationTask(
                     task_id=record.instance_id,
                     issue=record.problem_statement,
                     gold_files=record.gold_files,
                 )
                 result = evaluate_localization(
-                    BM25Retriever(chunks),
+                    retriever,
                     [task],
                     top_k=top_k,
                     candidate_chunks=candidate_chunks,
                     context_budget_chars=context_budget_chars,
                 )
                 successes.append(result["tasks"][0])
-            except (OSError, subprocess.SubprocessError, ValueError) as exc:
+            except (OSError, subprocess.SubprocessError, ValueError, RuntimeError) as exc:
                 failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
 
     return {
@@ -95,6 +123,8 @@ def evaluate_records(
         "n_failed": len(failures),
         "aggregate": _aggregate(successes),
         "configuration": {
+            "method": method,
+            "model_name": model_name,
             "top_k": top_k,
             "candidate_chunks": candidate_chunks,
             "context_budget_chars": context_budget_chars,
