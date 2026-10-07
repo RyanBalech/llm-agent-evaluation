@@ -18,8 +18,8 @@ That separation matters. End-to-end coding-agent scores mix together retrieval, 
 | Context-budget accounting | Implemented |
 | Structured LLM reranking interface | Implemented |
 | Deterministic tests + CI | Implemented |
-| Dense retrieval baseline | Planned |
-| SWE-bench Verified adapter | Planned |
+| PyTorch Transformer dense retrieval | Implemented |
+| SWE-bench patch-label adapter | Implemented |
 | Patch generation + validation | Planned |
 | Agent/tool-use ablations | Planned |
 | Full benchmark results | Not run yet |
@@ -36,7 +36,7 @@ The initial experiments compare:
 2. **BM25** — sparse lexical retrieval over code chunks.
 3. **BM25 + path prior** — lexical retrieval with a small filename/path relevance prior.
 4. **BM25 + LLM reranking** — retrieve a larger candidate set, then ask an LLM to return a structured ranking.
-5. **Dense / hybrid retrieval** — planned extension.
+5. **Dense / hybrid retrieval** — Transformer embeddings in PyTorch plus Reciprocal Rank Fusion.
 6. **Tool-use agent** — planned extension where the model can search/read files iteratively.
 
 All methods are evaluated under the same context budget.
@@ -85,6 +85,12 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
 pytest -q
+```
+
+Optional deep-retrieval dependencies:
+
+```bash
+pip install -e ".[ml]"
 ```
 
 Run the deterministic toy localization benchmark:
