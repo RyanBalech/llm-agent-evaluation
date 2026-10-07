@@ -1,0 +1,8 @@
+{
+  "retriever": "bm25",
+  "lines_per_chunk": 80,
+  "overlap": 20,
+  "candidate_chunks": 50,
+  "top_k": 5,
+  "path_weight": 0.15
+}
