@@ -5,6 +5,7 @@ import subprocess
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from statistics import mean
 from tempfile import TemporaryDirectory
 
 from .datasets import LocalizationTask
@@ -31,21 +32,26 @@ def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
 
 
 def _git(*args: str, cwd: str | Path | None = None) -> None:
-    subprocess.run(
-        ["git", *args],
-        cwd=cwd,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
+    subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
 
 
 def checkout_revision(record: SWEBenchRecord, destination: Path) -> Path:
-    """Materialize the exact repository revision specified by a benchmark record."""
     repo_dir = destination / record.instance_id.replace("/", "__")
     _git("clone", "--filter=blob:none", "--no-checkout", f"https://github.com/{record.repo}.git", str(repo_dir))
     _git("checkout", "--detach", record.base_commit, cwd=repo_dir)
     return repo_dir
+
+
+def _aggregate(successes: list[dict]) -> dict:
+    if not successes:
+        return {}
+    return {
+        "mean_recall_at_k": mean(row["recall_at_k"] for row in successes),
+        "mean_reciprocal_rank": mean(row["reciprocal_rank"] for row in successes),
+        "mean_ndcg_at_k": mean(row["ndcg_at_k"] for row in successes),
+        "mean_retrieval_ms": mean(row["retrieval_ms"] for row in successes),
+        "mean_retrieved_characters": mean(row["retrieved_characters"] for row in successes),
+    }
 
 
 def evaluate_records(
@@ -66,11 +72,7 @@ def evaluate_records(
         for record in records:
             try:
                 repo_dir = checkout_revision(record, root)
-                chunks = chunk_repository(
-                    repo_dir,
-                    lines_per_chunk=lines_per_chunk,
-                    overlap=overlap,
-                )
+                chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
                 task = LocalizationTask(
                     task_id=record.instance_id,
                     issue=record.problem_statement,
@@ -85,14 +87,13 @@ def evaluate_records(
                 )
                 successes.append(result["tasks"][0])
             except (OSError, subprocess.SubprocessError, ValueError) as exc:
-                failures.append(
-                    BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc))
-                )
+                failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
 
     return {
         "n_requested": len(successes) + len(failures),
         "n_successful": len(successes),
         "n_failed": len(failures),
+        "aggregate": _aggregate(successes),
         "configuration": {
             "top_k": top_k,
             "candidate_chunks": candidate_chunks,
