@@ -1,0 +1,45 @@
+{
+  "status": "smoke_test_only",
+  "benchmark": "princeton-nlp/SWE-bench_Verified",
+  "split": "test",
+  "selection": "lowest SHA-256(instance_id), ascending",
+  "n_requested": 3,
+  "n_successful": 3,
+  "n_failed": 0,
+  "configuration": {
+    "top_k": 5,
+    "candidate_chunks": 50,
+    "context_budget_chars": 40000,
+    "lines_per_chunk": 80,
+    "overlap": 20
+  },
+  "aggregate": {
+    "mean_recall_at_5": 1.0,
+    "mean_reciprocal_rank": 1.0,
+    "mean_ndcg_at_5": 0.9732402630493959
+  },
+  "tasks": [
+    {
+      "task_id": "sympy__sympy-13798",
+      "recall_at_5": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "retrieval_ms": 240.27948699998092
+    },
+    {
+      "task_id": "pytest-dev__pytest-5631",
+      "recall_at_5": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 1.0,
+      "retrieval_ms": 48.55621499999074
+    },
+    {
+      "task_id": "sympy__sympy-17318",
+      "recall_at_5": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_5": 0.9197207891481876,
+      "retrieval_ms": 560.4336950000004
+    }
+  ],
+  "warning": "This three-instance deterministic smoke test validates the pipeline only. It is not evidence of benchmark-level performance."
+}
