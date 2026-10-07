@@ -1,0 +1,10 @@
+{
+  "benchmark": "SWE-bench Verified",
+  "retriever": "bm25",
+  "top_k": 5,
+  "candidate_chunks": 50,
+  "context_budget_chars": 40000,
+  "lines_per_chunk": 80,
+  "overlap": 20,
+  "notes": "Baseline configuration. Freeze before held-out evaluation."
+}
