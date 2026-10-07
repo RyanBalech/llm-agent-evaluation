@@ -13,6 +13,8 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest>=8,<9", "ruff>=0.8,<1"]
 ml = ["torch>=2.4,<3", "transformers>=4.45,<5"]
+providers = ["mistralai>=1,<2"]
+bench = ["datasets>=3,<5"]
 
 [project.scripts]
 llm-agent-eval = "llm_agent_eval.cli:main"
