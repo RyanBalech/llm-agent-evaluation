@@ -1,5 +1,7 @@
 # Repository-Level LLM Agent Evaluation
 
+[![CI](https://github.com/RyanBalech/llm-agent-evaluation/actions/workflows/ci.yml/badge.svg)](https://github.com/RyanBalech/llm-agent-evaluation/actions/workflows/ci.yml)
+
 A research-oriented framework for studying **how repository retrieval and structured tool use affect software-engineering agents under fixed context and cost budgets**.
 
 The project starts from a deliberately narrow question:
