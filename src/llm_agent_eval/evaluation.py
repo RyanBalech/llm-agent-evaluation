@@ -3,10 +3,15 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from statistics import mean
 from time import perf_counter
+from typing import Protocol
 
 from .datasets import LocalizationTask
 from .metrics import ndcg_at_k, recall_at_k, reciprocal_rank
-from .retrieval import BM25Retriever, RankedChunk, unique_file_ranking
+from .retrieval import RankedChunk, unique_file_ranking
+
+
+class Retriever(Protocol):
+    def search(self, query: str, *, top_k: int = 10) -> list[RankedChunk]: ...
 
 
 @dataclass(frozen=True)
@@ -27,7 +32,6 @@ def select_under_character_budget(
         return ranked
     if budget <= 0:
         raise ValueError("context budget must be positive")
-
     selected: list[RankedChunk] = []
     used = 0
     for item in ranked:
@@ -40,16 +44,16 @@ def select_under_character_budget(
 
 
 def evaluate_localization(
-    retriever: BM25Retriever,
+    retriever: Retriever,
     tasks: list[LocalizationTask],
     *,
     top_k: int = 10,
     candidate_chunks: int = 50,
     context_budget_chars: int | None = None,
 ) -> dict:
+    """Evaluate any retriever implementing search(), not only BM25."""
     if not tasks:
         raise ValueError("No evaluation tasks provided")
-
     results: list[TaskResult] = []
     for task in tasks:
         start = perf_counter()
@@ -57,7 +61,7 @@ def evaluate_localization(
         elapsed_ms = (perf_counter() - start) * 1000
         selected = select_under_character_budget(candidates, context_budget_chars)
         files = unique_file_ranking(selected)
-        result = TaskResult(
+        results.append(TaskResult(
             task_id=task.task_id,
             recall_at_k=recall_at_k(files, set(task.gold_files), top_k),
             reciprocal_rank=reciprocal_rank(files, set(task.gold_files)),
@@ -65,9 +69,7 @@ def evaluate_localization(
             retrieved_files=files[:top_k],
             retrieved_characters=sum(len(item.chunk.text) for item in selected),
             retrieval_ms=elapsed_ms,
-        )
-        results.append(result)
-
+        ))
     return {
         "n_tasks": len(results),
         "top_k": top_k,
