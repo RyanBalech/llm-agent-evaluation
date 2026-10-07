@@ -18,7 +18,7 @@ def main() -> None:
     evaluate.add_argument("--top-k", type=int, default=5)
     evaluate.add_argument("--candidate-chunks", type=int, default=50)
     evaluate.add_argument("--lines-per-chunk", type=int, default=80)
-    evaluate.add_argument("--overlap", type=int, default=20)
+    evaluate.add_argument("--overlap", type=int, default=20)\n    evaluate.add_argument("--context-budget-chars", type=int)
     args = parser.parse_args()
 
     chunks = chunk_repository(
