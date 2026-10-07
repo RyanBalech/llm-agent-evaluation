@@ -1,0 +1,49 @@
+name: SWE-bench BM25 study
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bm25-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install benchmark dependencies
+        run: python -m pip install -e ".[bench]"
+      - name: Materialize deterministic held-out slice
+        run: |
+          mkdir -p .benchmark
+          python scripts/materialize_verified_slice.py \
+            --output .benchmark/verified-bm25-study.jsonl \
+            --limit 20 \
+            --exclude-smoke | tee .benchmark-manifest.json
+      - name: Run BM25 localization baseline
+        run: |
+          llm-agent-eval swebench \
+            --tasks .benchmark/verified-bm25-study.jsonl \
+            --output results/swebench_verified_bm25_20.json \
+            --top-k 5 \
+            --candidate-chunks 50 \
+            --context-budget-chars 40000 \
+            --lines-per-chunk 80 \
+            --overlap 20
+      - name: Print benchmark result
+        if: always()
+        run: |
+          test -f results/swebench_verified_bm25_20.json && cat results/swebench_verified_bm25_20.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swebench-verified-bm25-20
+          path: |
+            .benchmark-manifest.json
+            results/swebench_verified_bm25_20.json
+          if-no-files-found: warn
