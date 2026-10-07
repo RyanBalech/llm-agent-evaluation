@@ -1,5 +1,3 @@
-import subprocess
-
 from llm_agent_eval.benchmark import load_swebench_jsonl
 from llm_agent_eval.swebench import SWEBenchRecord
 
