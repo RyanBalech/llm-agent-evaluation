@@ -29,6 +29,8 @@ def main() -> None:
     swebench.add_argument("--limit", type=int)
     swebench.add_argument("--method", choices=["bm25", "dense", "hybrid"], default="bm25")
     swebench.add_argument("--model-name")
+    swebench.add_argument("--model-revision", help="Pinned Hugging Face encoder commit")
+    swebench.add_argument("--embedding-cache", help="Reuse content-addressed repository embeddings")
     swebench.add_argument("--top-k", type=int, default=5)
     swebench.add_argument("--candidate-chunks", type=int, default=50)
     swebench.add_argument("--context-budget-chars", type=int, default=40_000)
@@ -65,6 +67,8 @@ def main() -> None:
         lines_per_chunk=args.lines_per_chunk,
         overlap=args.overlap,
         checkpoint_path=args.output,
+        model_revision=args.model_revision,
+        embedding_cache=args.embedding_cache,
     )
     write_result(result, args.output)
     print(json.dumps({
@@ -73,6 +77,8 @@ def main() -> None:
         "n_successful": result["n_successful"],
         "n_failed": result["n_failed"],
     }, indent=2))
+    if result["n_failed"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

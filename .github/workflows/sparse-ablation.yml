@@ -1,0 +1,32 @@
+name: Paired sparse retrieval ablation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -e ".[bench]"
+      - name: Materialize frozen slice
+        run: |
+          python scripts/materialize_verified_slice.py --limit 20 --exclude-smoke \
+            --revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a \
+            --output .benchmark/study.jsonl > .benchmark-manifest.json
+      - run: python scripts/run_sparse_ablation.py .benchmark/study.jsonl
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sparse-ablation
+          path: |
+            results/sparse_ablation.json
+            .benchmark-manifest.json

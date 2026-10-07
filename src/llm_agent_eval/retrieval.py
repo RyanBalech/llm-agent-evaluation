@@ -23,12 +23,14 @@ class RankedChunk:
 class BM25Retriever:
     """Small dependency-free BM25 baseline suitable for controlled experiments."""
 
-    def __init__(self, chunks: list[CodeChunk], *, k1: float = 1.5, b: float = 0.75):
+    def __init__(self, chunks: list[CodeChunk], *, k1: float = 1.5, b: float = 0.75,
+                 path_weight: float = 0.15):
         if not chunks:
             raise ValueError("Cannot index an empty repository")
         self.chunks = chunks
         self.k1 = k1
         self.b = b
+        self.path_weight = path_weight
         self.docs = [tokenize(f"{c.path}\n{c.text}") for c in chunks]
         self.term_freqs = [Counter(doc) for doc in self.docs]
         self.avgdl = sum(map(len, self.docs)) / len(self.docs)
@@ -41,10 +43,12 @@ class BM25Retriever:
             for term, freq in document_frequency.items()
         }
 
-    def search(self, query: str, *, top_k: int = 10, path_weight: float = 0.15) -> list[RankedChunk]:
+    def search(self, query: str, *, top_k: int = 10,
+               path_weight: float | None = None) -> list[RankedChunk]:
         if top_k <= 0:
             return []
         query_terms = tokenize(query)
+        path_weight = self.path_weight if path_weight is None else path_weight
         query_set = set(query_terms)
         scored: list[RankedChunk] = []
 

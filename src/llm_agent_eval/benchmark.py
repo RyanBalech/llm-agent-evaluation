@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import platform
 import shutil
 import subprocess
 from collections.abc import Iterable
@@ -8,12 +10,14 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from statistics import mean
 from tempfile import TemporaryDirectory
+from time import perf_counter
 
 from .datasets import LocalizationTask
-from .dense import TransformerDenseRetriever, reciprocal_rank_fusion
+from .dense import TransformerDenseRetriever, TransformerEncoder
 from .evaluation import evaluate_localization
+from .hybrid import HybridRetriever
 from .indexing import chunk_repository
-from .retrieval import BM25Retriever, RankedChunk
+from .retrieval import BM25Retriever
 from .swebench import SWEBenchRecord, from_mapping
 
 
@@ -22,20 +26,6 @@ class BenchmarkFailure:
     instance_id: str
     error_type: str
     message: str
-
-
-class HybridRetriever:
-    def __init__(self, sparse: BM25Retriever, dense: TransformerDenseRetriever, *, pool_size: int = 100):
-        self.sparse = sparse
-        self.dense = dense
-        self.pool_size = pool_size
-
-    def search(self, query: str, *, top_k: int = 10) -> list[RankedChunk]:
-        pool = max(top_k, self.pool_size)
-        return reciprocal_rank_fusion(
-            [self.sparse.search(query, top_k=pool), self.dense.search(query, top_k=pool)],
-            top_k=top_k,
-        )
 
 
 def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
@@ -81,6 +71,8 @@ def evaluate_records(
     lines_per_chunk: int = 80,
     overlap: int = 20,
     checkpoint_path: str | Path | None = None,
+    model_revision: str | None = None,
+    embedding_cache: str | Path | None = None,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
     if method not in {"bm25", "dense", "hybrid"}:
@@ -91,10 +83,19 @@ def evaluate_records(
     successes: list[dict] = []
     failures: list[BenchmarkFailure] = []
     records = list(records)
+    if not records or len({r.instance_id for r in records}) != len(records):
+        raise ValueError("benchmark requires non-empty, unique task IDs")
+    manifest = [{"instance_id": r.instance_id, "repo": r.repo, "base_commit": r.base_commit,
+                 "issue_sha256": hashlib.sha256(r.problem_statement.encode()).hexdigest(),
+                 "patch_sha256": hashlib.sha256(r.patch.encode()).hexdigest()} for r in records]
+    encoder = None
     configuration = {
-        "method": method, "model_name": model_name, "top_k": top_k,
+        "method": method, "model_name": model_name, "model_revision": model_revision, "top_k": top_k,
         "candidate_chunks": candidate_chunks, "context_budget_chars": context_budget_chars,
         "lines_per_chunk": lines_per_chunk, "overlap": overlap,
+        "bm25_path_prior_weight": 0.15,
+        "rrf_candidate_multiplier": 4 if method == "hybrid" else None,
+        "rrf_constant": 60 if method == "hybrid" else None,
     }
 
     def snapshot() -> dict:
@@ -103,6 +104,9 @@ def evaluate_records(
             "n_failed": len(failures), "n_completed": len(successes) + len(failures),
             "aggregate": _aggregate(successes), "configuration": configuration,
             "tasks": successes, "failures": [asdict(failure) for failure in failures],
+            "input_manifest": manifest,
+            "input_manifest_sha256": hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest(),
+            "environment": {"python": platform.python_version()},
         }
 
     with TemporaryDirectory(prefix="llm-agent-eval-") as tmp:
@@ -110,13 +114,19 @@ def evaluate_records(
         for record in records:
             repo_dir = None
             try:
+                setup_start = perf_counter()
                 repo_dir = checkout_revision(record, root)
                 chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
                 if method == "bm25":
                     retriever = BM25Retriever(chunks)
                 else:
-                    dense = TransformerDenseRetriever(chunks, model_name=model_name or "")
+                    if encoder is None:
+                        encoder = TransformerEncoder(model_name or "", revision=model_revision)
+                    dense = TransformerDenseRetriever(chunks, model_name=model_name or "",
+                                                       encoder=encoder, cache_dir=embedding_cache)
+                    configuration["resolved_model_revision"] = dense.resolved_revision
                     retriever = dense if method == "dense" else HybridRetriever(BM25Retriever(chunks), dense)
+                setup_seconds = perf_counter() - setup_start
 
                 task = LocalizationTask(
                     task_id=record.instance_id,
@@ -130,7 +140,13 @@ def evaluate_records(
                     candidate_chunks=candidate_chunks,
                     context_budget_chars=context_budget_chars,
                 )
-                successes.append(result["tasks"][0])
+                row = result["tasks"][0]
+                indexed_files = {chunk.path for chunk in chunks}
+                row.update({"setup_seconds": setup_seconds, "n_indexed_chunks": len(chunks),
+                            "n_indexed_files": len(indexed_files), "gold_files": sorted(record.gold_files),
+                            "unindexed_gold_files": sorted(record.gold_files - indexed_files),
+                            "embedding_cache_hit": dense.cache_hit if method != "bm25" else None})
+                successes.append(row)
             except (OSError, subprocess.SubprocessError, ValueError, RuntimeError) as exc:
                 failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
             finally:

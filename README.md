@@ -1,176 +1,81 @@
 # Repository-Level LLM Agent Evaluation
 
-[![CI](https://github.com/RyanBalech/llm-agent-evaluation/actions/workflows/ci.yml/badge.svg)](https://github.com/RyanBalech/llm-agent-evaluation/actions/workflows/ci.yml)
+A file-localization benchmark for the retrieval stage of software-engineering agents.
+Given an issue and its repository at the issue's base commit, rank candidate source
+files under a fixed code-context budget. Reference patches supply scoring labels only.
 
-A research-oriented framework for studying **how repository retrieval and structured tool use affect software-engineering agents under fixed context and cost budgets**.
+## Measured baseline
 
-The project starts from a deliberately narrow question:
+On a fixed **20-task SWE-bench Verified slice**, the lexical baseline completed 20/20 tasks:
 
-> **How much does repository-level retrieval improve fault localization before an LLM ever attempts a patch?**
+| Metric | BM25 + filename/path prior |
+|---|---:|
+| Mean file Recall@5 | 0.425 |
+| Mean reciprocal rank | 0.279 |
+| Mean nDCG@5 | 0.297 |
 
-That separation matters. End-to-end coding-agent scores mix together retrieval, reasoning, patch generation, tool use, and test feedback. This repository makes those components measurable independently before composing them into a full agent.
+The existing baseline includes a path-match weight of 0.15; it is not unmodified
+BM25. Gold-label verification finds eight complete top-five localizations, one
+partial localization and eleven misses. Twelve of the twenty tasks are from Django.
+These are localization scores, not resolved-issue or patch-correctness scores.
 
-## Research status
+[Results and concrete failure cases](docs/RETRIEVAL_STUDY.md) ·
+[Raw baseline](results/published/swebench_verified_bm25_20.json) ·
+[Label-checked analysis](results/published/bm25_error_analysis.json) ·
+[Design decisions](docs/METHOD.md)
 
-| Component | Status |
-|---|---|
-| Repository chunking and indexing | Implemented |
-| BM25 lexical retrieval baseline | Implemented |
-| Localization metrics (Recall@k, MRR, nDCG) | Implemented |
-| Context-budget accounting | Implemented |
-| Structured LLM reranking interface | Implemented |
-| Deterministic tests + CI | Implemented |
-| PyTorch Transformer dense retrieval | Implemented |
-| SWE-bench patch-label adapter | Implemented |
-| Patch generation + validation | Planned |
-| Agent/tool-use ablations | Planned |
-| 20-instance SWE-bench Verified BM25 study | Completed |
-| Dense + hybrid matched comparison | Implemented; benchmark run pending |
+The completed paired sparse ablation finds Recall@5 of 0.200, 0.275, 0.375,
+0.425 and 0.425 at 5k, 10k, 20k, 40k and 80k code characters. Plain BM25 matches
+the path-prior baseline on this slice; doubling 40k to 80k adds no top-five recall.
+[All seven arms and per-task scores](results/published/sparse_ablation.json).
 
-**Current measured baseline:** on the frozen 20-instance SWE-bench Verified study slice (excluding the three engineering smoke tasks), BM25 achieved Recall@5 **0.425**, MRR **0.279**, and nDCG@5 **0.297**, with 20/20 tasks completed. This is a controlled localization study, not a full SWE-bench patch-resolution score. See `docs/RETRIEVAL_STUDY.md` for the protocol and limitations.
+## Implemented methods
 
-## Why localization first?
+- BM25 with configurable filename/path prior and a no-issue file-order control.
+- Transformer dense retrieval: attention-masked mean pooling, L2 normalization and cosine ranking.
+- Sparse/dense reciprocal-rank fusion through one shared implementation.
+- Distinct-file Recall@K, MRR and nDCG; whole-chunk packing under a character budget.
+- Paired comparisons that reject mismatched budgets, task lists and incomplete runs.
 
-Recent software-engineering agent work shows that strong results do not necessarily require a large autonomous control loop. A simpler pipeline can first localize the relevant repository context, then reason over a much smaller candidate set. This project treats localization as a first-class research problem rather than an invisible prompt-preparation step.
+Dense inference and cache reuse have been checked with the real CodeBERT encoder on
+the engineering smoke task. The full dense/hybrid study has not completed; no gain is
+claimed. The benchmark now loads one encoder per run, reuses content-addressed
+embeddings, records resolved encoder revisions and writes an atomic checkpoint per task.
 
-The initial experiments compare:
+## Run
 
-1. **No retrieval** — repository context ordered without issue-aware ranking.
-2. **BM25** — sparse lexical retrieval over code chunks.
-3. **BM25 + path prior** — lexical retrieval with a small filename/path relevance prior.
-4. **BM25 + LLM reranking** — retrieve a larger candidate set, then ask an LLM to return a structured ranking.
-5. **Dense / hybrid retrieval** — Transformer embeddings in PyTorch plus Reciprocal Rank Fusion.
-6. **Tool-use agent** — planned extension where the model can search/read files iteratively.
-
-All methods are evaluated under the same context budget.
-
-## Core metrics
-
-For localization we track:
-
-- **Recall@k** — fraction of gold files appearing in the top-k retrieved files.
-- **MRR** — reciprocal rank of the first relevant file.
-- **nDCG@k** — rewards ranking multiple relevant files near the top.
-- **Context size** — characters / estimated tokens sent downstream.
-- **Latency** — retrieval and reranking time.
-- **LLM usage** — request count and provider-reported token usage when available.
-
-The goal is not just to maximize accuracy. The interesting question is the **quality–cost frontier**.
-
-## Repository layout
-
-```text
-.
-├── src/llm_agent_eval/
-│   ├── indexing.py       # repository scanning and line-based code chunks
-│   ├── retrieval.py      # BM25 + path-aware ranking
-│   ├── rerank.py         # provider-agnostic structured LLM reranking
-│   ├── metrics.py        # localization metrics
-│   ├── evaluation.py     # experiment runner
-│   ├── datasets.py       # JSONL task loading
-│   └── cli.py            # command-line entry point
-├── tests/                # deterministic unit/integration tests
-├── examples/             # tiny local benchmark for smoke tests
-├── configs/              # experiment configurations
-└── docs/
-    ├── RESEARCH_PLAN.md
-    └── EXPERIMENT_PROTOCOL.md
-```
-
-## Quick start
+Python 3.10+. The basic lexical benchmark has no ML dependencies.
 
 ```bash
-git clone https://github.com/RyanBalech/llm-agent-evaluation.git
-cd llm-agent-evaluation
-
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e ".[dev]"
-
-pytest -q
+python -m pip install -e ".[dev,bench]"
+python scripts/materialize_verified_slice.py --output .benchmark/study.jsonl --limit 20 --exclude-smoke
+python -m llm_agent_eval.cli swebench --tasks .benchmark/study.jsonl \
+  --output results/bm25.json --method bm25
+python scripts/run_sparse_ablation.py .benchmark/study.jsonl
+python scripts/analyze_localization.py results/bm25.json .benchmark/study.jsonl
+python -m pytest -q
 ```
 
-Optional deep-retrieval dependencies:
+The materializer resolves a dataset branch to an immutable Hugging Face commit.
+The frozen [20-task audit manifest](configs/verified_20_manifest.json) includes base
+commits and issue/patch hashes. Dense/hybrid runs need `.[ml]`; the comparison workflow
+pins CodeBERT weights and shares an embedding cache between methods.
 
-```bash
-pip install -e ".[ml]"
-```
+For the measured local stack, see [requirements-reproduce.txt](requirements-reproduce.txt)
+(Python 3.12; critical package pins).
 
-Run the deterministic toy localization benchmark:
+## Code
 
-```bash
-llm-agent-eval evaluate \
-  --repo examples/toy_repo \
-  --tasks examples/toy_tasks.jsonl \
-  --top-k 3
-```
+- [benchmark.py](src/llm_agent_eval/benchmark.py): base-commit checkouts, manifest, progress and failures.
+- [retrieval.py](src/llm_agent_eval/retrieval.py), [dense.py](src/llm_agent_eval/dense.py), [hybrid.py](src/llm_agent_eval/hybrid.py): ranking methods.
+- [evaluation.py](src/llm_agent_eval/evaluation.py): context packing and file-level scoring.
+- [comparison.py](src/llm_agent_eval/comparison.py): strict paired-artifact validation.
 
-The output is JSON so runs can be logged or compared automatically.
+LLM reranking/provider interfaces are additional plumbing. Patch generation and an
+iterative coding-agent loop are future work, not demonstrated capabilities.
 
-## Task format
+## References
 
-Each benchmark task is a JSON object:
-
-```json
-{
-  "task_id": "toy-divide-zero",
-  "issue": "Division by zero should return a clear validation error instead of crashing.",
-  "gold_files": ["calculator.py"]
-}
-```
-
-For SWE-bench-style experiments, `gold_files` can be derived from the reference patch **only for evaluation**. The retriever never receives it.
-
-## LLM reranking
-
-The reranking layer is deliberately provider-agnostic. Any client implementing:
-
-```python
-class LLMClient(Protocol):
-    def complete(self, prompt: str) -> str: ...
-```
-
-can be used. The model is asked to return strict JSON containing chunk IDs, making the output auditable and easy to score.
-
-A Mistral SDK adapter is implemented while the research interface remains provider-agnostic; credentials are supplied only through environment variables.
-
-## Experimental principles
-
-This project follows five rules:
-
-1. **Time/order-aware evaluation where applicable.**
-2. **No gold-patch leakage into retrieval or prompts.**
-3. **Equal context budgets across methods.**
-4. **Paired comparisons on the same benchmark instances.**
-5. **Report uncertainty and failure cases, not only mean scores.**
-
-See [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md).
-
-## Planned research questions
-
-- Does an LLM reranker materially improve file localization over BM25 at the same context budget?
-- When does path-aware lexical retrieval beat dense retrieval for repository search?
-- How quickly do localization gains saturate with larger candidate sets?
-- Does iterative tool use help beyond one-shot retrieval after controlling for tokens and latency?
-- Are gains stable across repository size, issue length, and bug type?
-- How much end-to-end patch success can be explained by localization quality alone?
-
-## Positioning
-
-The project is intended as a reproducible research artifact, not a production coding agent. The final target is a benchmark-backed report with:
-
-- strong classical baselines,
-- modern LLM/agent variants,
-- controlled ablations,
-- statistical uncertainty,
-- cost/latency analysis,
-- failure taxonomy,
-- and fully reproducible code.
-
-
-
-## Comparative retrieval experiments
-
-The repository now includes a common evaluation path for BM25, Transformer dense retrieval, and sparse-dense reciprocal-rank fusion. The matched comparison fixes task set, candidate count, top-k, and downstream character budget, then reports paired bootstrap confidence intervals over task-level Recall@k, MRR, and nDCG.
-
-A separate context-budget ablation evaluates the three retrievers at 10k, 20k, 40k, and 80k characters to measure the quality-context frontier rather than relying on a single arbitrary prompt budget.
+[SWE-bench retrieval guide](https://www.swebench.com/SWE-bench/guides/create_rag_datasets/)
+and [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) provide benchmark and
+agent context; this repository isolates retrieval instead of reproducing their agent scores.

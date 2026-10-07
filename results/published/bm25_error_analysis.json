@@ -1,0 +1,462 @@
+{
+  "n_tasks": 20,
+  "outcomes": {
+    "complete": 8,
+    "miss": 11,
+    "partial": 1
+  },
+  "by_repository": {
+    "astropy/astropy": {
+      "n": 3,
+      "recall_at_5": 0.5,
+      "mrr": 0.5
+    },
+    "django/django": {
+      "n": 12,
+      "recall_at_5": 0.4166666666666667,
+      "mrr": 0.22916666666666666
+    },
+    "scikit-learn/scikit-learn": {
+      "n": 1,
+      "recall_at_5": 1.0,
+      "mrr": 1.0
+    },
+    "sphinx-doc/sphinx": {
+      "n": 2,
+      "recall_at_5": 0.5,
+      "mrr": 0.16666666666666666
+    },
+    "sympy/sympy": {
+      "n": 2,
+      "recall_at_5": 0.0,
+      "mrr": 0.0
+    }
+  },
+  "cases": [
+    {
+      "instance_id": "django__django-16100",
+      "repo": "django/django",
+      "base_commit": "c6350d594c359151ee17b0c4f354bb44f28ff69e",
+      "gold_files": [
+        "django/contrib/admin/options.py"
+      ],
+      "retrieved_files": [
+        "django/contrib/admin/options.py",
+        "django/db/transaction.py",
+        "tests/select_for_update/tests.py",
+        "tests/transactions/tests.py",
+        "django/db/backends/base/features.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "sympy__sympy-18211",
+      "repo": "sympy/sympy",
+      "base_commit": "b4f1aa3540fe68d078d76e78ba59d022dd6df39f",
+      "gold_files": [
+        "sympy/core/relational.py"
+      ],
+      "retrieved_files": [
+        "sympy/solvers/solveset.py",
+        "sympy/utilities/tests/test_wester.py",
+        "sympy/solvers/tests/test_solveset.py"
+      ],
+      "missed_gold_files": [
+        "sympy/core/relational.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+      "gold_files": [
+        "sphinx/util/docfields.py"
+      ],
+      "retrieved_files": [
+        "sphinx/ext/intersphinx.py",
+        "sphinx/builders/_epub_base.py",
+        "sphinx/themes/basic/static/jquery-3.5.1.js",
+        "sphinx/ext/autosummary/__init__.py",
+        "sphinx/ext/napoleon/__init__.py"
+      ],
+      "missed_gold_files": [
+        "sphinx/util/docfields.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-11880",
+      "repo": "django/django",
+      "base_commit": "06909fe084f87a65459a83bd69d7cdbe4fce9a7c",
+      "gold_files": [
+        "django/forms/fields.py"
+      ],
+      "retrieved_files": [
+        "django/forms/models.py",
+        "django/forms/forms.py",
+        "django/forms/fields.py",
+        "django/core/exceptions.py",
+        "django/test/testcases.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "django__django-13809",
+      "repo": "django/django",
+      "base_commit": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "gold_files": [
+        "django/core/management/commands/runserver.py"
+      ],
+      "retrieved_files": [
+        "django/core/management/base.py",
+        "django/core/management/commands/check.py",
+        "django/core/management/commands/migrate.py",
+        "django/core/management/commands/runserver.py",
+        "django/core/management/commands/startproject.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "django__django-11740",
+      "repo": "django/django",
+      "base_commit": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "gold_files": [
+        "django/db/migrations/autodetector.py"
+      ],
+      "retrieved_files": [
+        "tests/admin_widgets/models.py",
+        "tests/admin_views/models.py",
+        "tests/model_formsets/models.py",
+        "tests/gis_tests/layermap/models.py",
+        "tests/prefetch_related/models.py"
+      ],
+      "missed_gold_files": [
+        "django/db/migrations/autodetector.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-15315",
+      "repo": "django/django",
+      "base_commit": "652c68ffeebd510a6f59e1b56b3e007d07683ad8",
+      "gold_files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "retrieved_files": [
+        "django/db/models/base.py",
+        "django/db/models/fields/files.py",
+        "django/db/models/fields/reverse_related.py",
+        "tests/basic/tests.py",
+        "django/db/models/fields/related.py"
+      ],
+      "missed_gold_files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "base_commit": "19cc80471739bcb67b7e8099246b391c355023ee",
+      "gold_files": [
+        "astropy/io/ascii/html.py"
+      ],
+      "retrieved_files": [
+        "astropy/io/ascii/tests/test_html.py",
+        "astropy/io/fits/scripts/fitsheader.py",
+        "astropy/table/connect.py",
+        "setup.py",
+        "astropy/table/tests/test_jsviewer.py"
+      ],
+      "missed_gold_files": [
+        "astropy/io/ascii/html.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-15731",
+      "repo": "django/django",
+      "base_commit": "93cedc82f29076c824d476354527af1150888e4f",
+      "gold_files": [
+        "django/db/models/manager.py"
+      ],
+      "retrieved_files": [
+        "django/test/testcases.py",
+        "tests/template_tests/syntax_tests/i18n/test_blocktranslate.py",
+        "django/db/models/expressions.py",
+        "django/template/base.py",
+        "tests/template_tests/syntax_tests/i18n/test_translate.py"
+      ],
+      "missed_gold_files": [
+        "django/db/models/manager.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-16454",
+      "repo": "django/django",
+      "base_commit": "1250483ebf73f7a82ff820b94092c63ce4238264",
+      "gold_files": [
+        "django/core/management/base.py"
+      ],
+      "retrieved_files": [
+        "tests/user_commands/management/commands/subparser.py",
+        "tests/user_commands/management/commands/subparser_dest.py",
+        "django/core/management/base.py",
+        "tests/user_commands/tests.py",
+        "django/core/management/__init__.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "django__django-14787",
+      "repo": "django/django",
+      "base_commit": "004b4620f6f4ad87261e149898940f2dcd5757ef",
+      "gold_files": [
+        "django/utils/decorators.py"
+      ],
+      "retrieved_files": [
+        "django/utils/functional.py",
+        "django/test/testcases.py",
+        "tests/gis_tests/utils.py",
+        "tests/decorators/tests.py",
+        "django/test/utils.py"
+      ],
+      "missed_gold_files": [
+        "django/utils/decorators.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9711",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "81a4fd973d4cfcb25d01a7b0be62cdb28f82406d",
+      "gold_files": [
+        "sphinx/extension.py"
+      ],
+      "retrieved_files": [
+        "sphinx/application.py",
+        "sphinx/cmd/quickstart.py",
+        "sphinx/extension.py",
+        "tests/test_environment_indexentries.py",
+        "sphinx/util/stemmer/porter.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "repo": "astropy/astropy",
+      "base_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "gold_files": [
+        "astropy/io/fits/card.py",
+        "astropy/io/fits/header.py"
+      ],
+      "retrieved_files": [
+        "astropy/io/fits/hdu/base.py",
+        "astropy/io/fits/header.py",
+        "astropy/io/fits/hdu/hdulist.py",
+        "astropy/io/fits/tests/test_hdulist.py",
+        "astropy/io/fits/tests/test_header.py"
+      ],
+      "missed_gold_files": [
+        "astropy/io/fits/card.py"
+      ],
+      "recall_at_5": 0.5,
+      "gold_file_count": 2,
+      "issue_mentions_gold_path": false,
+      "outcome": "partial"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0",
+      "gold_files": [
+        "sklearn/utils/_set_output.py"
+      ],
+      "retrieved_files": [
+        "sklearn/utils/_set_output.py",
+        "sklearn/utils/tests/test_set_output.py",
+        "sklearn/utils/tests/test_utils.py",
+        "sklearn/compose/tests/test_column_transformer.py",
+        "sklearn/_build_utils/openmp_helpers.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "sympy__sympy-13031",
+      "repo": "sympy/sympy",
+      "base_commit": "2dfa7457f20ee187fbb09b5b6a1631da4458388c",
+      "gold_files": [
+        "sympy/matrices/sparse.py"
+      ],
+      "retrieved_files": [
+        "sympy/matrices/tests/test_commonmatrix.py",
+        "sympy/printing/tests/test_theanocode.py",
+        "sympy/physics/quantum/pauli.py",
+        "sympy/physics/mechanics/tests/test_models.py",
+        "sympy/physics/hep/tests/test_gamma_matrices.py"
+      ],
+      "missed_gold_files": [
+        "sympy/matrices/sparse.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "astropy__astropy-7671",
+      "repo": "astropy/astropy",
+      "base_commit": "a7141cd90019b62688d507ae056298507678c058",
+      "gold_files": [
+        "astropy/utils/introspection.py"
+      ],
+      "retrieved_files": [
+        "astropy/utils/introspection.py",
+        "astropy/units/tests/test_quantity.py",
+        "ah_bootstrap.py",
+        "astropy/utils/tests/test_introspection.py",
+        "astropy/__init__.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "complete"
+    },
+    {
+      "instance_id": "django__django-15695",
+      "repo": "django/django",
+      "base_commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
+      "gold_files": [
+        "django/db/migrations/operations/models.py"
+      ],
+      "retrieved_files": [
+        "tests/migrations/test_operations.py",
+        "tests/postgres_tests/test_operations.py"
+      ],
+      "missed_gold_files": [
+        "django/db/migrations/operations/models.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-15563",
+      "repo": "django/django",
+      "base_commit": "9ffd4eae2ce7a7100c98f681e2b6ab818df384a4",
+      "gold_files": [
+        "django/db/models/sql/compiler.py",
+        "django/db/models/sql/subqueries.py"
+      ],
+      "retrieved_files": [
+        "tests/model_inheritance/tests.py",
+        "tests/admin_changelist/tests.py",
+        "tests/model_inheritance_regress/tests.py",
+        "django/db/models/fields/related_descriptors.py",
+        "tests/delete_regress/tests.py"
+      ],
+      "missed_gold_files": [
+        "django/db/models/sql/compiler.py",
+        "django/db/models/sql/subqueries.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 2,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-16502",
+      "repo": "django/django",
+      "base_commit": "246eb4836a6fb967880f838aa0d22ecfdca8b6f1",
+      "gold_files": [
+        "django/core/servers/basehttp.py"
+      ],
+      "retrieved_files": [
+        "django/utils/cache.py",
+        "django/views/csrf.py",
+        "django/views/static.py",
+        "django/test/client.py",
+        "tests/middleware/tests.py"
+      ],
+      "missed_gold_files": [
+        "django/core/servers/basehttp.py"
+      ],
+      "recall_at_5": 0.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": false,
+      "outcome": "miss"
+    },
+    {
+      "instance_id": "django__django-12774",
+      "repo": "django/django",
+      "base_commit": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "gold_files": [
+        "django/db/models/query.py"
+      ],
+      "retrieved_files": [
+        "tests/lookup/tests.py",
+        "django/db/models/query.py",
+        "django/db/models/fields/related.py",
+        "django/db/models/constraints.py",
+        "tests/schema/tests.py"
+      ],
+      "missed_gold_files": [],
+      "recall_at_5": 1.0,
+      "gold_file_count": 1,
+      "issue_mentions_gold_path": true,
+      "outcome": "complete"
+    }
+  ],
+  "note": "Labels are for post-hoc scoring only. This does not measure patch correctness. Case taxonomy describes observed retrieval outcomes, not inferred root causes.",
+  "source_result_sha256": "13e40f1235d631ef3198f35b2b60a70928c37913cf9b389277941ac312558b59",
+  "source_tasks_sha256": "cd49ff9d03588fd8f255485db286ce1086c3a960f73bc39d403004ce2f871e4f"
+}

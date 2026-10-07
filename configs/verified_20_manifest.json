@@ -1,0 +1,148 @@
+{
+  "dataset": "princeton-nlp/SWE-bench_Verified",
+  "dataset_revision_at_audit": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+  "note": "Recovered and label-checked at audit time; the original BM25 run did not archive the dataset revision.",
+  "selection": "lowest SHA256(instance_id), excluding 3 smoke tasks",
+  "tasks": [
+    {
+      "instance_id": "django__django-16100",
+      "repo": "django/django",
+      "base_commit": "c6350d594c359151ee17b0c4f354bb44f28ff69e",
+      "issue_sha256": "1348b1dd6ab1cb64b3178fe8cf3fa0b9998eaa9eb0a7c522fb5eed67f62254ba",
+      "patch_sha256": "138d0f4718704c149e0d700931a1996a1c9f8ac11801f6241e9015d47695a49b"
+    },
+    {
+      "instance_id": "sympy__sympy-18211",
+      "repo": "sympy/sympy",
+      "base_commit": "b4f1aa3540fe68d078d76e78ba59d022dd6df39f",
+      "issue_sha256": "e2e6d8d8bb9ce663b29aaccb73683ba91e87ceb98a7d613750de91f2d4b245a5",
+      "patch_sha256": "f391664f98c719c093064631d83e53a01d97786031184ad221ad623516d8392a"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+      "issue_sha256": "e814405fe0885a2284bec4dfdf1efa5bd0386117d02410e9ad0ec98c0e1712ab",
+      "patch_sha256": "e6cc08c8b1858c3d41964c220e396638c15e601f88fa9cb6493938e5fdd814c6"
+    },
+    {
+      "instance_id": "django__django-11880",
+      "repo": "django/django",
+      "base_commit": "06909fe084f87a65459a83bd69d7cdbe4fce9a7c",
+      "issue_sha256": "e602e90dd73a70f9faf006238dfda2347f4aa08bb29365ae2611b3ea92f3eff4",
+      "patch_sha256": "8c47d5fdef900230cb6fd10f627d6b0efeb792d704526a476d0ffe6c0e2dd3e9"
+    },
+    {
+      "instance_id": "django__django-13809",
+      "repo": "django/django",
+      "base_commit": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "issue_sha256": "7a85668efd30416150d8bb3013727c6ebf8d0013064afc93e5b96d2aabcf456c",
+      "patch_sha256": "6ffda1af3e10ea2092376fb86a88a1e7533dbae2c2a09bf9e1974f62bf0fbba8"
+    },
+    {
+      "instance_id": "django__django-11740",
+      "repo": "django/django",
+      "base_commit": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "issue_sha256": "e957578643e3473772f3962d3350cf65879725d62c071efa6b97fc4fda1f7d27",
+      "patch_sha256": "87a8df03c5a6c48e26c26af2b41d2c9d67e197947dfb94bdbda1f07a3c613d85"
+    },
+    {
+      "instance_id": "django__django-15315",
+      "repo": "django/django",
+      "base_commit": "652c68ffeebd510a6f59e1b56b3e007d07683ad8",
+      "issue_sha256": "a26b3534bece469f866614b19fadd37e13c9a06ce293bfe21e32313b9cfa90fd",
+      "patch_sha256": "dd19fbbb798dd2c982213626ce7cc38a457efc858d2df02621d80ea1e288687b"
+    },
+    {
+      "instance_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "base_commit": "19cc80471739bcb67b7e8099246b391c355023ee",
+      "issue_sha256": "be929904c3062b54da2fa3ad7de338bd7f1f41a5aa48e64bec41f244d6e17c5a",
+      "patch_sha256": "7f579408e4ad94b129886283f9c6df7d27d3965e2aaaa88141045515dd4710d9"
+    },
+    {
+      "instance_id": "django__django-15731",
+      "repo": "django/django",
+      "base_commit": "93cedc82f29076c824d476354527af1150888e4f",
+      "issue_sha256": "b28cf585d0d568812aef7b882e47df7a542f7736ee900877c426c000a3ed953c",
+      "patch_sha256": "2fdd6b1bc7201f28c9eaf734652e6431eaea51114b75d9b35fe43ea0e2ce066b"
+    },
+    {
+      "instance_id": "django__django-16454",
+      "repo": "django/django",
+      "base_commit": "1250483ebf73f7a82ff820b94092c63ce4238264",
+      "issue_sha256": "1b38e35ca2721cfc6bfdf1b9fdc133975c7e5c72b4ef5e91e132fd578e89d0e0",
+      "patch_sha256": "c6d58006c0fc2adb0d3e2c0a3639767ffda1306b493f820480cd9570028d95ce"
+    },
+    {
+      "instance_id": "django__django-14787",
+      "repo": "django/django",
+      "base_commit": "004b4620f6f4ad87261e149898940f2dcd5757ef",
+      "issue_sha256": "b52409ced83e2b68e7961a34db6792ca6b89277456ea14c6c166c7f8c8e17c0d",
+      "patch_sha256": "96d2dfb5441604f64daf06f4bc5ce0877dd5ab7db83a11835d1201d067ca92a6"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9711",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "81a4fd973d4cfcb25d01a7b0be62cdb28f82406d",
+      "issue_sha256": "774dbded97246fc337cc3a9f01569a66641396f3952440385d51e6f7e095234a",
+      "patch_sha256": "93e8416e245c285b21095773344f64a37bb31a7ba66227864873ac4622934ae2"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "repo": "astropy/astropy",
+      "base_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "issue_sha256": "f7420a19ba5b0c807396a84da376d8303e69ff66d0216c332adf099da589a714",
+      "patch_sha256": "f993c1ada6f19bcdfa8989e0c1c61151cd881a81d549f2789663270537c093f2"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0",
+      "issue_sha256": "9737299393a037ff2845a2f62b558550b2900387a4de7ee94c19b48d397f1d33",
+      "patch_sha256": "cd985cfd10afb83adb9d714fb81873b001a56de5938d93b5a9c7dbb641d3c9b3"
+    },
+    {
+      "instance_id": "sympy__sympy-13031",
+      "repo": "sympy/sympy",
+      "base_commit": "2dfa7457f20ee187fbb09b5b6a1631da4458388c",
+      "issue_sha256": "5d95a063a1ada8b9273255940d122605d87ea3ab2aa27f524725442be780b5c6",
+      "patch_sha256": "a3b080cca8903951b4fdaa9df27df3f50269b170f4f4b726733c6a3d782efc9d"
+    },
+    {
+      "instance_id": "astropy__astropy-7671",
+      "repo": "astropy/astropy",
+      "base_commit": "a7141cd90019b62688d507ae056298507678c058",
+      "issue_sha256": "90a901a7b3d510c5fe9317b76fc9f83e883b577de167936d9e76ccbd69677f70",
+      "patch_sha256": "42828c5c129810409cbbf1882df2b6c7f82d613261b8c9da70cb2ac67a184ab3"
+    },
+    {
+      "instance_id": "django__django-15695",
+      "repo": "django/django",
+      "base_commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
+      "issue_sha256": "613bfb30e51009598a05937b5149afbc0cf7b5eb59572cc4282e9154fd39da22",
+      "patch_sha256": "7d0932bd7b423b787a0b7e34ef3875efcbf1e9a54987ae7e3094db2b4987f748"
+    },
+    {
+      "instance_id": "django__django-15563",
+      "repo": "django/django",
+      "base_commit": "9ffd4eae2ce7a7100c98f681e2b6ab818df384a4",
+      "issue_sha256": "46a090e69eecd18516e4819f11699ec9c5b3d2226db86a616217d9115cdfb5a7",
+      "patch_sha256": "5e8e9ba00474f521ef63e85e42edb2d51e2566ad114d6ff7c62e1d64dbadd832"
+    },
+    {
+      "instance_id": "django__django-16502",
+      "repo": "django/django",
+      "base_commit": "246eb4836a6fb967880f838aa0d22ecfdca8b6f1",
+      "issue_sha256": "7efef7822c78cdf0e41a2bf058fd740eeb35cb07a471343a0bbc7128caf0305f",
+      "patch_sha256": "a4cd5d618966b2716837f8c58dbe81436c7580acb05b28cfc5a4f8bf144cad85"
+    },
+    {
+      "instance_id": "django__django-12774",
+      "repo": "django/django",
+      "base_commit": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "issue_sha256": "8c35fba9272466eec8851a624ea13c5c07eb184359c94dfb922efed85b0fc3b6",
+      "patch_sha256": "d0b9b8daa663676ec20792e9adfd03c280b7e80f2b45d40197d805c1baea6dce"
+    }
+  ]
+}

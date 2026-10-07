@@ -1,0 +1,77 @@
+{
+  "scope": "Engineering smoke test only; not a research benchmark",
+  "model": "microsoft/codebert-base",
+  "revision": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "setup_seconds": 57.20686217699995,
+  "results": {
+    "bm25": {
+      "n_tasks": 1,
+      "top_k": 3,
+      "context_budget_chars": 40000,
+      "mean_recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "mean_retrieval_ms": 0.06344399980662274,
+      "tasks": [
+        {
+          "task_id": "toy-divide-zero",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "calculator.py",
+            "formatting.py"
+          ],
+          "retrieved_characters": 117,
+          "retrieval_ms": 0.06344399980662274
+        }
+      ]
+    },
+    "dense": {
+      "n_tasks": 1,
+      "top_k": 3,
+      "context_budget_chars": 40000,
+      "mean_recall_at_k": 1.0,
+      "mean_reciprocal_rank": 0.5,
+      "mean_ndcg_at_k": 0.6309297535714575,
+      "mean_retrieval_ms": 1327.1083749998525,
+      "tasks": [
+        {
+          "task_id": "toy-divide-zero",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.6309297535714575,
+          "retrieved_files": [
+            "formatting.py",
+            "calculator.py"
+          ],
+          "retrieved_characters": 117,
+          "retrieval_ms": 1327.1083749998525
+        }
+      ]
+    },
+    "hybrid": {
+      "n_tasks": 1,
+      "top_k": 3,
+      "context_budget_chars": 40000,
+      "mean_recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "mean_retrieval_ms": 1311.8071320000126,
+      "tasks": [
+        {
+          "task_id": "toy-divide-zero",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "calculator.py",
+            "formatting.py"
+          ],
+          "retrieved_characters": 117,
+          "retrieval_ms": 1311.8071320000126
+        }
+      ]
+    }
+  }
+}

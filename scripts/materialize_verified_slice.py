@@ -22,6 +22,7 @@ def main() -> None:
     )
     parser.add_argument("--output", required=True)
     parser.add_argument("--limit", type=int, default=3)
+    parser.add_argument("--revision", default="main", help="Dataset branch or immutable HF commit")
     parser.add_argument(
         "--exclude-smoke",
         action="store_true",
@@ -34,10 +35,12 @@ def main() -> None:
 
     try:
         from datasets import load_dataset
+        from huggingface_hub import HfApi
     except ImportError as exc:
         raise RuntimeError('Install benchmark dependencies with: pip install -e ".[bench]"') from exc
 
-    dataset = load_dataset("princeton-nlp/SWE-bench_Verified", split="test")
+    revision = HfApi().dataset_info("princeton-nlp/SWE-bench_Verified", revision=args.revision).sha
+    dataset = load_dataset("princeton-nlp/SWE-bench_Verified", split="test", revision=revision)
     candidates = [
         row for row in dataset
         if not args.exclude_smoke or str(row["instance_id"]) not in SMOKE_INSTANCE_IDS
@@ -63,6 +66,8 @@ def main() -> None:
     manifest = {
         "dataset": "princeton-nlp/SWE-bench_Verified",
         "split": "test",
+        "dataset_revision": revision,
+        "jsonl_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
         "selection": "lowest SHA-256(instance_id), ascending",
         "limit": args.limit,
         "exclude_smoke": args.exclude_smoke,
