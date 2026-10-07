@@ -31,7 +31,7 @@ def rerank(issue: str, candidates: list[RankedChunk], client: LLMClient) -> list
     response = json.loads(client.complete(build_rerank_prompt(issue, candidates)))
     ids = response.get("ranked_chunk_ids")
     if not isinstance(ids, list):
-        raise ValueError("LLM response must contain ranked_chunk_ids")
+        raise TypeError("LLM response must contain ranked_chunk_ids as a list")
 
     ordered: list[RankedChunk] = []
     seen: set[str] = set()
