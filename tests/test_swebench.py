@@ -1,4 +1,4 @@
-from llm_agent_eval.swebench import from_mapping, gold_files_from_patch
+from llm_agent_eval.swebench import (\n    from_mapping,\n    gold_files_from_patch,\n)
 
 
 PATCH = """diff --git a/pkg/core.py b/pkg/core.py
