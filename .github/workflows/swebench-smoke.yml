@@ -1,0 +1,45 @@
+name: SWE-bench smoke study
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "scripts/materialize_verified_slice.py"
+      - "configs/swebench_bm25_baseline.json"
+      - ".github/workflows/swebench-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  bm25-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install benchmark dependencies
+        run: python -m pip install -e ".[bench]"
+      - name: Materialize deterministic Verified slice
+        run: |
+          python scripts/materialize_verified_slice.py             --output .benchmark/verified-smoke.jsonl             --limit 3 | tee .benchmark-manifest.json
+      - name: Run BM25 localization baseline
+        run: |
+          llm-agent-eval swebench             --tasks .benchmark/verified-smoke.jsonl             --output results/swebench_verified_smoke.json             --top-k 5             --candidate-chunks 50             --context-budget-chars 40000             --lines-per-chunk 80             --overlap 20
+      - name: Print benchmark result
+        if: always()
+        run: |
+          test -f results/swebench_verified_smoke.json && cat results/swebench_verified_smoke.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swebench-verified-smoke
+          path: |
+            .benchmark-manifest.json
+            results/swebench_verified_smoke.json
+          if-no-files-found: warn
