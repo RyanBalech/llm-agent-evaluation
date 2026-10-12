@@ -18,9 +18,40 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - run: python -m pip install -e ".[dev]"
+      - run: python -m pip install -e ".[dev,app]"
       - run: ruff check src tests
       - run: pytest -q
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[app]" playwright
+      - run: python -m playwright install --with-deps chromium
+      - name: Browser integration
+        run: |
+          repolens > /tmp/repolens.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/healthz && break; sleep 1; done
+          python scripts/smoke_ui.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: artifacts/
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t repolens:test .
+      - name: Container health and demo
+        run: |
+          docker run -d --name repolens -p 8000:8000 -e REPOLENS_TOKEN=ci-only-token repolens:test
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/healthz && break; sleep 1; done
+          curl -fsS -X POST -H 'Authorization: Bearer ci-only-token' http://127.0.0.1:8000/api/demo
 
   dense-cache:
     runs-on: ubuntu-latest

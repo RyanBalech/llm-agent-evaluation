@@ -1,0 +1,317 @@
+{
+  "n_requested": 20,
+  "n_successful": 20,
+  "n_failed": 0,
+  "aggregate": {
+    "mean_recall_at_k": 0.425,
+    "mean_reciprocal_rank": 0.2791666666666667,
+    "mean_ndcg_at_k": 0.2974229559439696,
+    "mean_retrieval_ms": 288.1163366500033,
+    "mean_retrieved_characters": 39428.6
+  },
+  "configuration": {
+    "top_k": 5,
+    "candidate_chunks": 50,
+    "context_budget_chars": 40000,
+    "lines_per_chunk": 80,
+    "overlap": 20
+  },
+  "tasks": [
+    {
+      "task_id": "django__django-16100",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "django/contrib/admin/options.py",
+        "django/db/transaction.py",
+        "tests/select_for_update/tests.py",
+        "tests/transactions/tests.py",
+        "django/db/backends/base/features.py"
+      ],
+      "retrieved_characters": 38431,
+      "retrieval_ms": 90.85080099998777
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sympy/solvers/solveset.py",
+        "sympy/utilities/tests/test_wester.py",
+        "sympy/solvers/tests/test_solveset.py"
+      ],
+      "retrieved_characters": 39888,
+      "retrieval_ms": 182.09543000000394
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sphinx/ext/intersphinx.py",
+        "sphinx/builders/_epub_base.py",
+        "sphinx/themes/basic/static/jquery-3.5.1.js",
+        "sphinx/ext/autosummary/__init__.py",
+        "sphinx/ext/napoleon/__init__.py"
+      ],
+      "retrieved_characters": 39929,
+      "retrieval_ms": 58.02660400001969
+    },
+    {
+      "task_id": "django__django-11880",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "django/forms/models.py",
+        "django/forms/forms.py",
+        "django/forms/fields.py",
+        "django/core/exceptions.py",
+        "django/test/testcases.py"
+      ],
+      "retrieved_characters": 39807,
+      "retrieval_ms": 187.59129199997915
+    },
+    {
+      "task_id": "django__django-13809",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "retrieved_files": [
+        "django/core/management/base.py",
+        "django/core/management/commands/check.py",
+        "django/core/management/commands/migrate.py",
+        "django/core/management/commands/runserver.py",
+        "django/core/management/commands/startproject.py"
+      ],
+      "retrieved_characters": 38517,
+      "retrieval_ms": 93.8774439999861
+    },
+    {
+      "task_id": "django__django-11740",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/admin_widgets/models.py",
+        "tests/admin_views/models.py",
+        "tests/model_formsets/models.py",
+        "tests/gis_tests/layermap/models.py",
+        "tests/prefetch_related/models.py"
+      ],
+      "retrieved_characters": 39435,
+      "retrieval_ms": 263.24875599999586
+    },
+    {
+      "task_id": "django__django-15315",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/db/models/base.py",
+        "django/db/models/fields/files.py",
+        "django/db/models/fields/reverse_related.py",
+        "tests/basic/tests.py",
+        "django/db/models/fields/related.py"
+      ],
+      "retrieved_characters": 39499,
+      "retrieval_ms": 229.00308900000255
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "astropy/io/ascii/tests/test_html.py",
+        "astropy/io/fits/scripts/fitsheader.py",
+        "astropy/table/connect.py",
+        "setup.py",
+        "astropy/table/tests/test_jsviewer.py"
+      ],
+      "retrieved_characters": 38994,
+      "retrieval_ms": 1550.5563400000142
+    },
+    {
+      "task_id": "django__django-15731",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/test/testcases.py",
+        "tests/template_tests/syntax_tests/i18n/test_blocktranslate.py",
+        "django/db/models/expressions.py",
+        "django/template/base.py",
+        "tests/template_tests/syntax_tests/i18n/test_translate.py"
+      ],
+      "retrieved_characters": 39742,
+      "retrieval_ms": 230.26061499999173
+    },
+    {
+      "task_id": "django__django-16454",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "tests/user_commands/management/commands/subparser.py",
+        "tests/user_commands/management/commands/subparser_dest.py",
+        "django/core/management/base.py",
+        "tests/user_commands/tests.py",
+        "django/core/management/__init__.py"
+      ],
+      "retrieved_characters": 39328,
+      "retrieval_ms": 311.9150189999971
+    },
+    {
+      "task_id": "django__django-14787",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/utils/functional.py",
+        "django/test/testcases.py",
+        "tests/gis_tests/utils.py",
+        "tests/decorators/tests.py",
+        "django/test/utils.py"
+      ],
+      "retrieved_characters": 39183,
+      "retrieval_ms": 138.7895870000193
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "sphinx/application.py",
+        "sphinx/cmd/quickstart.py",
+        "sphinx/extension.py",
+        "tests/test_environment_indexentries.py",
+        "sphinx/util/stemmer/porter.py"
+      ],
+      "retrieved_characters": 39239,
+      "retrieval_ms": 79.57619199999044
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "astropy/io/fits/hdu/base.py",
+        "astropy/io/fits/header.py",
+        "astropy/io/fits/hdu/hdulist.py",
+        "astropy/io/fits/tests/test_hdulist.py",
+        "astropy/io/fits/tests/test_header.py"
+      ],
+      "retrieved_characters": 39512,
+      "retrieval_ms": 248.91477099998838
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sklearn/utils/_set_output.py",
+        "sklearn/utils/tests/test_set_output.py",
+        "sklearn/utils/tests/test_utils.py",
+        "sklearn/compose/tests/test_column_transformer.py",
+        "sklearn/_build_utils/openmp_helpers.py"
+      ],
+      "retrieved_characters": 39701,
+      "retrieval_ms": 540.6436350000376
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sympy/matrices/tests/test_commonmatrix.py",
+        "sympy/printing/tests/test_theanocode.py",
+        "sympy/physics/quantum/pauli.py",
+        "sympy/physics/mechanics/tests/test_models.py",
+        "sympy/physics/hep/tests/test_gamma_matrices.py"
+      ],
+      "retrieved_characters": 39396,
+      "retrieval_ms": 238.36183399998845
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "astropy/utils/introspection.py",
+        "astropy/units/tests/test_quantity.py",
+        "ah_bootstrap.py",
+        "astropy/utils/tests/test_introspection.py",
+        "astropy/__init__.py"
+      ],
+      "retrieved_characters": 39512,
+      "retrieval_ms": 349.36048700001265
+    },
+    {
+      "task_id": "django__django-15695",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/migrations/test_operations.py",
+        "tests/postgres_tests/test_operations.py"
+      ],
+      "retrieved_characters": 38814,
+      "retrieval_ms": 166.41111799998498
+    },
+    {
+      "task_id": "django__django-15563",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/model_inheritance/tests.py",
+        "tests/admin_changelist/tests.py",
+        "tests/model_inheritance_regress/tests.py",
+        "django/db/models/fields/related_descriptors.py",
+        "tests/delete_regress/tests.py"
+      ],
+      "retrieved_characters": 39763,
+      "retrieval_ms": 303.39608600002066
+    },
+    {
+      "task_id": "django__django-16502",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/utils/cache.py",
+        "django/views/csrf.py",
+        "django/views/static.py",
+        "django/test/client.py",
+        "tests/middleware/tests.py"
+      ],
+      "retrieved_characters": 39914,
+      "retrieval_ms": 319.8015420000502
+    },
+    {
+      "task_id": "django__django-12774",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "tests/lookup/tests.py",
+        "django/db/models/query.py",
+        "django/db/models/fields/related.py",
+        "django/db/models/constraints.py",
+        "tests/schema/tests.py"
+      ],
+      "retrieved_characters": 39968,
+      "retrieval_ms": 179.64609099999507
+    }
+  ],
+  "failures": []
+}

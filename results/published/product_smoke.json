@@ -1,0 +1,57 @@
+{
+  "kind": "functional_smoke_not_benchmark",
+  "repository": "RyanBalech/llm-agent-evaluation",
+  "commit": "2587c2633d78c67d353e8f2d98611c6cc8135ba5",
+  "query": "select_under_character_budget skips chunks that exceed the context budget",
+  "model": "microsoft/codebert-base",
+  "model_revision": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "device": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "scope": "One query on one 34-file repository snapshot. Not a quality or latency benchmark.",
+  "results": [
+    {
+      "method": "bm25",
+      "retrieval_ms": 1.19,
+      "total_ms": 3.45,
+      "selected_characters": 37977,
+      "context_budget_chars": 40000,
+      "index_sha256": "204b07a3d5927dbb9d053e1dbdb8bd416b3565a4631226574c60f83e402fe12f",
+      "files": [
+        "src/llm_agent_eval/evaluation.py",
+        "src/llm_agent_eval/cli.py",
+        "scripts/run_sparse_ablation.py",
+        "scripts/compare_retrievers.py",
+        "scripts/run_context_budget_ablation.py"
+      ]
+    },
+    {
+      "method": "dense",
+      "retrieval_ms": 123.39,
+      "total_ms": 124.74,
+      "selected_characters": 39518,
+      "context_budget_chars": 40000,
+      "index_sha256": "204b07a3d5927dbb9d053e1dbdb8bd416b3565a4631226574c60f83e402fe12f",
+      "files": [
+        "src/llm_agent_eval/__init__.py",
+        "tests/test_providers.py",
+        "tests/test_metrics.py",
+        "tests/test_statistics.py",
+        "tests/test_rerank.py"
+      ]
+    },
+    {
+      "method": "hybrid",
+      "retrieval_ms": 71.2,
+      "total_ms": 72.92,
+      "selected_characters": 39960,
+      "context_budget_chars": 40000,
+      "index_sha256": "204b07a3d5927dbb9d053e1dbdb8bd416b3565a4631226574c60f83e402fe12f",
+      "files": [
+        "src/llm_agent_eval/evaluation.py",
+        "src/llm_agent_eval/rerank.py",
+        "src/llm_agent_eval/__init__.py",
+        "scripts/run_sparse_ablation.py",
+        "tests/test_dense.py"
+      ]
+    }
+  ]
+}

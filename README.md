@@ -1,4 +1,43 @@
-# Repository-Level LLM Agent Evaluation
+# RepoLens — from issue to evidence
+
+A working developer tool for finding the code behind an issue, backed by a repository-level
+retrieval evaluation framework. Index a public GitHub repository, describe a problem, inspect
+ranked source excerpts at an immutable commit, and export your investigation.
+
+![RepoLens investigating a real repository](docs/images/repolens.png)
+
+## Run the application
+
+Python 3.10+ and Git are required. From this checkout:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e ".[app,dev]"
+repolens
+```
+
+On macOS/Linux, activate with `source .venv/bin/activate`. Open **http://127.0.0.1:8000**.
+Click **Try the sample shop**, then **Find relevant code** for an offline demonstration.
+Or enter a public GitHub repository and click **Index repo**. No paid API key is required.
+
+The app includes background indexing, SQLite job persistence, saved source snapshots,
+BM25 search, context budgets, line-numbered code, commit-pinned GitHub links, matched-term
+evidence, JSON export, and an evaluation view backed by the archived benchmark artifact.
+Optional CodeBERT and hybrid search are enabled with `pip install -e ".[app,ml]"` and
+`REPOLENS_ENABLE_DENSE=1` before launch. In PowerShell: `$env:REPOLENS_ENABLE_DENSE="1"`.
+Then check **Include CodeBERT & hybrid** when indexing a repository.
+
+**Start here:** [Product guide and deployment](docs/PRODUCT.md) ·
+[Architecture and tradeoffs](docs/ARCHITECTURE.md) ·
+[Local verification record](docs/VERIFICATION.md).
+
+This release localizes code. Generated fixes and execution of repository code are outside
+its implemented workflow. Full dense/hybrid SWE-bench results are still pending; no accuracy
+improvement is claimed. The application is intended for a local or authenticated single-user
+deployment, with one server process per data directory.
+
+## Evaluation framework
 
 A file-localization benchmark for the retrieval stage of software-engineering agents.
 Given an issue and its repository at the issue's base commit, rank candidate source
