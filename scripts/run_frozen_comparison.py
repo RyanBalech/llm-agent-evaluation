@@ -2,7 +2,7 @@
 
 python scripts/run_frozen_comparison.py .benchmark/study.jsonl
 Completed method artifacts are reused only when their inputs and settings match.
-Incomplete methods restart; per-task checkpoints remain available for diagnosis.
+Interrupted methods resume only when the evaluation code, inputs, and settings match.
 """
 from __future__ import annotations
 
@@ -14,7 +14,12 @@ import subprocess
 from importlib.metadata import version
 from pathlib import Path
 
-from llm_agent_eval.benchmark import evaluate_records, load_swebench_jsonl, write_result
+from llm_agent_eval.benchmark import (
+    engine_fingerprint,
+    evaluate_records,
+    load_swebench_jsonl,
+    write_result,
+)
 from llm_agent_eval.comparison import compare_benchmark_results
 
 MODEL = "microsoft/codebert-base"
@@ -35,15 +40,15 @@ def main():
     parser.add_argument("tasks")
     parser.add_argument("--manifest", default="configs/verified_20_manifest.json")
     parser.add_argument("--output-dir", default="results/frozen-comparison")
+    parser.add_argument("--methods", nargs="+", choices=["bm25", "dense", "hybrid"],
+                        default=["bm25", "dense", "hybrid"])
     args = parser.parse_args()
     records = load_swebench_jsonl(args.tasks)
     manifest = verify_manifest(records, json.loads(Path(args.manifest).read_text())["tasks"])
     output = Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
-    source_hash = hashlib.sha256()
-    for source in sorted(Path("src/llm_agent_eval").glob("*.py")) + [Path(__file__)]:
-        source_hash.update(source.name.encode())
-        source_hash.update(source.read_bytes())
+    source_hash = hashlib.sha256(engine_fingerprint().encode())
+    source_hash.update(Path(__file__).read_text(encoding="utf-8").encode())
     environment = {"python": platform.python_version(), "platform": platform.platform(),
                    "source_sha256": source_hash.hexdigest(),
                    "packages": {p: version(p) for p in ["torch", "transformers", "datasets"]},
@@ -54,7 +59,7 @@ def main():
                    "tasks_sha256": hashlib.sha256(Path(args.tasks).read_bytes()).hexdigest()}
     write_result(environment, output / "environment.json")
     results = {}
-    for method in ("bm25", "dense", "hybrid"):
+    for method in dict.fromkeys(args.methods):
         path = output / f"{method}.json"
         if path.exists():
             cached = json.loads(path.read_text())
@@ -70,7 +75,9 @@ def main():
             if not matches:
                 raise ValueError(f"Existing artifact has different inputs or settings: {path}")
             if complete:
-                if cached.get("study_environment") != environment:
+                provenance_keys = ("source_sha256", "python", "platform", "packages", "tasks_sha256")
+                if any(cached.get("study_environment", {}).get(k) != environment[k]
+                       for k in provenance_keys):
                     raise ValueError(f"Completed artifact has different code/environment: {path}")
                 results[method] = cached
                 continue
@@ -79,11 +86,14 @@ def main():
             records, method=method, model_name=MODEL if method != "bm25" else None,
             model_revision=REVISION if method != "bm25" else None,
             embedding_cache=".benchmark/embeddings", source_cache=".benchmark/sources",
-            checkpoint_path=path)
+            checkpoint_path=path, resume=True)
         results[method]["study_environment"] = environment
         write_result(results[method], path)
         if results[method]["n_failed"]:
             raise RuntimeError(f"{method} contains failed tasks; inspect {path}")
+    if set(results) != {"bm25", "dense", "hybrid"}:
+        print("Requested methods completed; run all three methods to produce the comparison")
+        return
     comparison = {"aggregates": {m: r["aggregate"] for m, r in results.items()},
                   "paired_vs_bm25": {m: compare_benchmark_results(results["bm25"], results[m])
                                      for m in ("dense", "hybrid")},

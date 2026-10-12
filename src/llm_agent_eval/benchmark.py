@@ -28,6 +28,16 @@ class BenchmarkFailure:
     message: str
 
 
+def engine_fingerprint() -> str:
+    """Hash evaluation code independently of UI changes and platform line endings."""
+    digest = hashlib.sha256()
+    for name in ("benchmark.py", "datasets.py", "dense.py", "evaluation.py", "hybrid.py",
+                 "indexing.py", "metrics.py", "retrieval.py", "swebench.py"):
+        digest.update(name.encode())
+        digest.update(Path(__file__).with_name(name).read_text(encoding="utf-8").encode())
+    return digest.hexdigest()
+
+
 def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
     records: list[SWEBenchRecord] = []
     with Path(path).open(encoding="utf-8") as handle:
@@ -77,6 +87,7 @@ def evaluate_records(
     model_revision: str | None = None,
     embedding_cache: str | Path | None = None,
     source_cache: str | Path | None = None,
+    resume: bool = False,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
     if method not in {"bm25", "dense", "hybrid"}:
@@ -100,7 +111,23 @@ def evaluate_records(
         "bm25_path_prior_weight": 0.15,
         "rrf_candidate_multiplier": 4 if method == "hybrid" else None,
         "rrf_constant": 60 if method == "hybrid" else None,
+        "engine_sha256": engine_fingerprint(),
     }
+    if resume and checkpoint_path is not None and Path(checkpoint_path).exists():
+        previous = json.loads(Path(checkpoint_path).read_text(encoding="utf-8"))
+        if previous.get("input_manifest") != manifest:
+            raise ValueError("Cannot resume: benchmark inputs changed")
+        if any(previous.get("configuration", {}).get(k) != v for k, v in configuration.items()):
+            raise ValueError("Cannot resume: benchmark code or configuration changed")
+        successes = previous["tasks"]
+        completed = [row["task_id"] for row in successes]
+        expected = {r.instance_id for r in records}
+        if len(set(completed)) != len(completed) or not set(completed) <= expected:
+            raise ValueError("Cannot resume: checkpoint contains unexpected or duplicate tasks")
+        if previous["configuration"].get("resolved_model_revision"):
+            configuration["resolved_model_revision"] = previous["configuration"]["resolved_model_revision"]
+        print(f"Resuming {method}: {len(successes)} completed tasks retained", flush=True)
+    completed_ids = {row["task_id"] for row in successes}
 
     def snapshot() -> dict:
         return {
@@ -116,6 +143,8 @@ def evaluate_records(
     with TemporaryDirectory(prefix="llm-agent-eval-") as tmp:
         root = Path(tmp)
         for record in records:
+            if record.instance_id in completed_ids:
+                continue
             repo_dir = None
             try:
                 setup_start = perf_counter()
@@ -178,6 +207,8 @@ def evaluate_records(
                             "unindexed_gold_files": sorted(record.gold_files - indexed_files),
                             "embedding_cache_hit": dense.cache_hit if method != "bm25" else None})
                 successes.append(row)
+                order = {r.instance_id: i for i, r in enumerate(records)}
+                successes.sort(key=lambda r: order[r["task_id"]])
             except (OSError, subprocess.SubprocessError, ValueError, RuntimeError) as exc:
                 failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
             finally:
