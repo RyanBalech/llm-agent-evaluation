@@ -48,3 +48,24 @@ def test_checkpoint_preserves_completed_tasks_and_failures(tmp_path, monkeypatch
     assert result["n_successful"] == 1
     assert result["n_failed"] == 1
     assert json.loads(checkpoint.read_text()) == result
+
+
+def test_source_cache_reuses_identical_chunks_without_checkout(tmp_path, monkeypatch):
+    from llm_agent_eval import benchmark
+    calls = []
+    def checkout(record, destination):
+        calls.append(record.instance_id)
+        repo = destination / record.instance_id
+        repo.mkdir()
+        (repo / "calculator.py").write_text("def calculator(): return 1\n")
+        return repo
+    monkeypatch.setattr(benchmark, "checkout_revision", checkout)
+    record = SWEBenchRecord("x", "o/r", "abc", "calculator",
+                            "diff --git a/calculator.py b/calculator.py\n")
+    first = benchmark.evaluate_records([record], source_cache=tmp_path / "cache")
+    second = benchmark.evaluate_records([record], source_cache=tmp_path / "cache")
+    assert calls == ["x"]
+    assert not first["tasks"][0]["source_cache_hit"]
+    assert second["tasks"][0]["source_cache_hit"]
+    assert first["tasks"][0]["source_sha256"] == second["tasks"][0]["source_sha256"]
+    assert first["tasks"][0]["retrieved_files"] == second["tasks"][0]["retrieved_files"]

@@ -76,6 +76,10 @@ def compare_benchmark_results(baseline: dict, challenger: dict) -> dict:
             raise ValueError("both results must include the input manifest")
         if baseline["input_manifest"] != challenger["input_manifest"]:
             raise ValueError("mismatched input manifests: source, issue, or labels changed")
+    base_sources = [row.get("source_sha256") for row in baseline["tasks"]]
+    chal_sources = [row.get("source_sha256") for row in challenger["tasks"]]
+    if any(base_sources + chal_sources) and base_sources != chal_sources:
+        raise ValueError("mismatched indexed source contents")
     return {
         "n_paired": len(baseline["tasks"]),
         "metrics": compare_task_results(baseline, challenger),

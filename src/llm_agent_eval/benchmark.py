@@ -16,7 +16,7 @@ from .datasets import LocalizationTask
 from .dense import TransformerDenseRetriever, TransformerEncoder
 from .evaluation import evaluate_localization
 from .hybrid import HybridRetriever
-from .indexing import chunk_repository
+from .indexing import CodeChunk, chunk_repository
 from .retrieval import BM25Retriever
 from .swebench import SWEBenchRecord, from_mapping
 
@@ -38,13 +38,16 @@ def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
 
 
 def _git(*args: str, cwd: str | Path | None = None) -> None:
-    subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "-c", "core.autocrlf=false", *args], cwd=cwd, check=True,
+                   capture_output=True, text=True, timeout=300)
 
 
 def checkout_revision(record: SWEBenchRecord, destination: Path) -> Path:
     repo_dir = destination / record.instance_id.replace("/", "__")
-    _git("clone", "--filter=blob:none", "--no-checkout", f"https://github.com/{record.repo}.git", str(repo_dir))
-    _git("checkout", "--detach", record.base_commit, cwd=repo_dir)
+    _git("init", str(repo_dir))
+    _git("fetch", "--depth=1", "--no-tags", f"https://github.com/{record.repo}.git",
+         record.base_commit, cwd=repo_dir)
+    _git("checkout", "--detach", "FETCH_HEAD", cwd=repo_dir)
     return repo_dir
 
 
@@ -73,6 +76,7 @@ def evaluate_records(
     checkpoint_path: str | Path | None = None,
     model_revision: str | None = None,
     embedding_cache: str | Path | None = None,
+    source_cache: str | Path | None = None,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
     if method not in {"bm25", "dense", "hybrid"}:
@@ -115,8 +119,30 @@ def evaluate_records(
             repo_dir = None
             try:
                 setup_start = perf_counter()
-                repo_dir = checkout_revision(record, root)
-                chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
+                source_cache_hit = False
+                cache_path = None
+                if source_cache is not None:
+                    indexer_hash = hashlib.sha256(
+                        Path(__file__).with_name("indexing.py").read_bytes()).hexdigest()
+                    cache_key = hashlib.sha256(json.dumps({
+                        "repo": record.repo, "commit": record.base_commit,
+                        "lines": lines_per_chunk, "overlap": overlap, "indexer": indexer_hash,
+                    }, sort_keys=True).encode()).hexdigest()
+                    cache_path = Path(source_cache) / f"{cache_key}.json"
+                    if cache_path.exists():
+                        cached = json.loads(cache_path.read_text(encoding="utf-8"))
+                        chunks = [CodeChunk(**c) for c in cached["chunks"]]
+                        source_cache_hit = True
+                if not source_cache_hit:
+                    repo_dir = checkout_revision(record, root)
+                    chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk,
+                                              overlap=overlap)
+                    if cache_path is not None:
+                        write_result({"chunks": [asdict(c) for c in chunks]}, cache_path)
+                source_seconds = perf_counter() - setup_start
+                source_sha256 = hashlib.sha256(json.dumps(
+                    [asdict(c) for c in chunks], sort_keys=True).encode()).hexdigest()
+                index_start = perf_counter()
                 if method == "bm25":
                     retriever = BM25Retriever(chunks)
                 else:
@@ -126,6 +152,7 @@ def evaluate_records(
                                                        encoder=encoder, cache_dir=embedding_cache)
                     configuration["resolved_model_revision"] = dense.resolved_revision
                     retriever = dense if method == "dense" else HybridRetriever(BM25Retriever(chunks), dense)
+                index_seconds = perf_counter() - index_start
                 setup_seconds = perf_counter() - setup_start
 
                 task = LocalizationTask(
@@ -143,6 +170,10 @@ def evaluate_records(
                 row = result["tasks"][0]
                 indexed_files = {chunk.path for chunk in chunks}
                 row.update({"setup_seconds": setup_seconds, "n_indexed_chunks": len(chunks),
+                            "source_seconds": source_seconds,
+                            "index_seconds": index_seconds,
+                            "source_sha256": source_sha256,
+                            "source_cache_hit": source_cache_hit,
                             "n_indexed_files": len(indexed_files), "gold_files": sorted(record.gold_files),
                             "unindexed_gold_files": sorted(record.gold_files - indexed_files),
                             "embedding_cache_hit": dense.cache_hit if method != "bm25" else None})

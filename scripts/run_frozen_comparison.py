@@ -78,7 +78,8 @@ def main():
         results[method] = evaluate_records(
             records, method=method, model_name=MODEL if method != "bm25" else None,
             model_revision=REVISION if method != "bm25" else None,
-            embedding_cache=".benchmark/embeddings", checkpoint_path=path)
+            embedding_cache=".benchmark/embeddings", source_cache=".benchmark/sources",
+            checkpoint_path=path)
         results[method]["study_environment"] = environment
         write_result(results[method], path)
         if results[method]["n_failed"]:
@@ -87,7 +88,7 @@ def main():
                   "paired_vs_bm25": {m: compare_benchmark_results(results["bm25"], results[m])
                                      for m in ("dense", "hybrid")},
                   "input_manifest": manifest, "environment": environment,
-                  "interpretation": "Exploratory 20-task slice; 12 Django tasks. "
+                  "interpretation": "Dataset composition is recorded in the frozen input manifest. "
                   "No improvement claim if the paired 95% interval includes zero."}
     write_result(comparison, output / "comparison.json")
     print(json.dumps(comparison["aggregates"], indent=2))
