@@ -69,6 +69,28 @@ def summarize(results: dict, name: str) -> dict:
             ]}
 
 
+def resource_observations(path: Path, label: str) -> dict | None:
+    if not path.is_file():
+        return None
+    samples = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    samples = [row for row in samples if row.get("study") == label]
+    if not samples:
+        return None
+    memory = [row["rss_bytes"] for row in samples]
+    lifetime_peaks = [row["process_peak_rss_bytes"] for row in samples
+                      if row.get("process_peak_rss_bytes")]
+    gpu = [row["gpu_used_mib"] for row in samples if row.get("gpu_used_mib") is not None]
+    return {"samples": len(samples), "first_sample": samples[0]["timestamp"],
+            "last_sample": samples[-1]["timestamp"],
+            "peak_observed_process_rss_mib": round(max(memory) / 2**20, 1),
+            "max_process_lifetime_peak_rss_mib": round(max(lifetime_peaks) / 2**20, 1)
+            if lifetime_peaks else None,
+            "peak_observed_device_gpu_used_mib": max(gpu) if gpu else None,
+            "scope": "Process resident memory samples; Windows lifetime peaks where available. "
+                     "GPU device usage includes other applications and is not attributable to this run. "
+                     "Sampling began during the original 20-task dense arm."}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("directory")
@@ -79,6 +101,9 @@ def main():
     results = {m: json.loads((directory / f"{m}.json").read_text(encoding="utf-8"))
                for m in ("bm25", "dense", "hybrid")}
     report = summarize(results, args.name)
+    label = "verified_20" if report["n_tasks"] == 20 else "balanced_50"
+    report["resource_observations"] = resource_observations(
+        Path("artifacts/resource-observations.jsonl"), label)
     write_result(report, args.output)
     print(json.dumps(report["aggregates"], indent=2))
 
