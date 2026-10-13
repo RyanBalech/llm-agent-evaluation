@@ -1,11 +1,11 @@
 """Complete both frozen comparisons and prepare verified reports for review."""
 from __future__ import annotations
 
+import argparse
+import os
 import shutil
 import subprocess
 import sys
-import argparse
-import os
 from pathlib import Path
 from time import sleep
 
