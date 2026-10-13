@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "statement": "The `cancel_order` function in `orders.py` does not correctly restore inventory after an order is cancelled.",
+      "evidence": [
+        {
+          "id": "orders.py",
+          "quote": "\"\"\"Small demonstration shop, deliberately containing an inventory cancellation bug.\"\"\"\nfrom .inventory import reserve_stock\n\n\ndef place_order(inventory, product_id, quantity):\n    reserve_stock(inventory, product_id, quantity)\n    return {\"product_id\": product_id, \"quantity\": quantity, \"status\": \"placed\"}\n\n\ndef cancel_order(order, inventory):\n    \"\"\"Cancel an order. Reserved inventory should become available again.\"\"\"\n    if order[\"status\"] == \"cancelled\":\n        return order\n    order[\"status\"] = \"cancelled\"\n    return order",
+          "path": "orders.py",
+          "start_line": 1,
+          "end_line": 15,
+          "source_url": null
+        }
+      ]
+    }
+  ],
+  "suggested_check": "Verify that the `restore_stock` function in `inventory.py` correctly restores the inventory after an order is cancelled.",
+  "index_id": "3bf27b9883854be89a45945e5d9628cc",
+  "commit": "demo-622566eb9298",
+  "query": "Cancelling an order does not restore inventory.",
+  "method": "bm25",
+  "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "model_revision": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+  "usage": {
+    "prompt_tokens": 632,
+    "completion_tokens": 185,
+    "total_tokens": 817
+  },
+  "generation_ms": 28753,
+  "notice": "Model-generated hypotheses. Cited excerpts come from the retrieved snapshot; the diagnosis has not been verified and no tests were executed."
+}

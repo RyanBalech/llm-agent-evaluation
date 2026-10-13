@@ -70,6 +70,16 @@ def compare_benchmark_results(baseline: dict, challenger: dict) -> dict:
             raise ValueError(f"missing comparison configuration: {key}")
         if baseline["configuration"][key] != challenger["configuration"][key]:
             raise ValueError(f"mismatched comparison configuration: {key}")
+    # Task IDs alone do not establish identical source snapshots, queries, or labels.
+    if "input_manifest" in baseline or "input_manifest" in challenger:
+        if not baseline.get("input_manifest") or not challenger.get("input_manifest"):
+            raise ValueError("both results must include the input manifest")
+        if baseline["input_manifest"] != challenger["input_manifest"]:
+            raise ValueError("mismatched input manifests: source, issue, or labels changed")
+    base_sources = [row.get("source_sha256") for row in baseline["tasks"]]
+    chal_sources = [row.get("source_sha256") for row in challenger["tasks"]]
+    if any(base_sources + chal_sources) and base_sources != chal_sources:
+        raise ValueError("mismatched indexed source contents")
     return {
         "n_paired": len(baseline["tasks"]),
         "metrics": compare_task_results(baseline, challenger),

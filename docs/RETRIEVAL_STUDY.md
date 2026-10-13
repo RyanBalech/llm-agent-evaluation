@@ -18,7 +18,55 @@ zero failures. Per-task scores are committed in
 Recall@5 is the fraction of gold files retrieved in the first five distinct files,
 averaged across tasks. It is not simply a binary hit rate. These scores measure
 file localization, not successful code patches or resolved SWE-bench instances.
-Latency excludes repository checkout, chunking and index/embedding construction.
+Latency excludes repository checkout, chunking and index/embedding construction. The
+archived latency reflects its original run; the paired study below records a new local run.
+
+## Completed 20-task paired comparison
+
+All three arms completed the same twenty issues at the same base commits, with identical
+source hashes, 80-line chunks, 20-line overlap, 50 candidate chunks, a 40,000-character
+budget and five output files. The [full report](../results/published/verified_20_report.json)
+contains per-task rankings, method configurations, package versions, latency, resource
+observations and paired confidence intervals. Raw
+[BM25](../results/published/verified_20_bm25.json),
+[CodeBERT](../results/published/verified_20_dense.json) and
+[hybrid](../results/published/verified_20_hybrid.json) artifacts are also preserved.
+The BM25 artifact records a dirty working tree at launch. All three artifacts record the
+same evaluated engine and runner source hashes, which also match the current files;
+the working-tree flag is retained rather than silently rewritten.
+
+| Method | Recall@5 | MRR | nDCG@5 | Mean query latency | Mean index time |
+|---|---:|---:|---:|---:|---:|
+| BM25 + path prior | **0.425** | **0.279** | **0.297** | 652 ms | 2.7 s |
+| CodeBERT mean pooling | 0.000 | 0.000 | 0.000 | 104 ms | 320.8 s |
+| Hybrid RRF | 0.300 | 0.163 | 0.183 | 732 ms | 2.5 s |
+
+CodeBERT minus BM25 Recall@5 is −0.425, with a paired task-bootstrap 95% interval
+[−0.650, −0.225]. Hybrid minus BM25 is −0.125 [−0.325, 0.050]. The latter interval
+includes zero. With only five repositories, the repository-macro interval for hybrid
+is [−0.333, −0.017], but it estimates a different quantity and is sensitive to the
+small repository count. We do not infer a general hybrid effect from this slice.
+
+Dense retrieval missed every gold file at five on these twenty issues. Hybrid improved
+one issue, worsened four, and matched BM25 on fifteen. For `django__django-16502`,
+hybrid found `django/core/servers/basehttp.py` at rank five while BM25 missed it.
+For `django__django-11880`, BM25 found `django/forms/fields.py` at rank three and
+hybrid missed it. These are observed ranks, not explanations of why a method failed.
+The dense and BM25 top-five file sets overlapped by only 0.15 files per issue on
+average, so fusion combined mostly different candidates.
+CodeBERT uses general pretrained weights with mean pooling, without retrieval fine-tuning;
+long chunks also truncate at 512 model tokens. Neither factor has been isolated here.
+The [CodeBERT paper](https://aclanthology.org/2020.findings-emnlp.139/) evaluates code search
+after task-specific fine-tuning. These results measure this project's untuned pooling
+configuration, not the paper's trained code-search system.
+
+Dense index time mixes fifteen cache misses (mean 425.4 s) with five cache hits
+(mean 6.9 s). Hybrid reused all twenty embedding caches. All twenty source snapshots
+were cached for each arm. A five-second resource sampler observed a peak process
+resident set of 1,585 MiB; Windows reported a lifetime process peak of 1,697 MiB.
+Peak GPU device usage was 1,039 MiB, including other applications and therefore not
+attributable solely to this benchmark. The sampler started during the dense arm.
+These timings describe one local machine and recorded cache states, not throughput.
 
 ## Protocol
 
@@ -32,9 +80,11 @@ those IDs before calling a rerun identical.
 The lexical baseline includes a filename/path-match weight of 0.15.
 
 All methods use top-k 5, 50 candidate chunks, a 40,000-character budget, 80-line
-chunks and 20-line overlap. The CodeBERT dense/hybrid comparison did not complete; no gain is claimed.
-A real-encoder smoke task validates inference and cache reuse only, and is archived
-separately in `results/published/dense_smoke.json`.
+chunks and 20-line overlap. The completed 20-task comparison above supersedes the
+earlier real-encoder smoke check, which is archived separately in
+`results/published/dense_smoke.json`. The balanced 50-task dense/hybrid run stopped after
+19 completed dense tasks and remains an optional, unfinished extension. Its checkpoint
+is retained outside published results.
 
 The comparison command rejects failed/incomplete studies, duplicate task IDs,
 different ordered task sets and unequal context/chunk budgets. This prevents a

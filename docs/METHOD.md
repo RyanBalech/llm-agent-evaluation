@@ -57,4 +57,5 @@ slice before tuning chunk selection or fitting a retriever.
 
 The original dense comparison did not complete. Optimization and real-model smoke
 validation improve its engineering readiness, not its measured research performance.
-A checkpoint is partial evidence, not automatic resume or a completed benchmark.
+The frozen comparison runner now resumes matching per-task checkpoints after an interruption.
+A checkpoint remains partial evidence until every requested task and paired validation finish.

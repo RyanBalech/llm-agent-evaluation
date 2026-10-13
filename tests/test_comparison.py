@@ -56,3 +56,15 @@ def test_identical_complete_benchmarks_have_zero_effect():
     result = compare_benchmark_results(benchmark(), benchmark())
     assert result["n_paired"] == 1
     assert result["metrics"]["recall_at_k"]["mean_difference"] == 0
+
+
+def test_rejects_identical_task_ids_with_different_source_commits():
+    a = benchmark()
+    a["input_manifest"] = [{"instance_id": "a", "base_commit": "before"}]
+    b = deepcopy(a)
+    b["input_manifest"][0]["base_commit"] = "after"
+    with pytest.raises(ValueError, match="mismatched input manifests"):
+        compare_benchmark_results(a, b)
+    del b["input_manifest"]
+    with pytest.raises(ValueError, match="both results"):
+        compare_benchmark_results(a, b)

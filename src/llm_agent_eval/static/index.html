@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Find the code behind an issue. Repository search with traceable evidence and honest evaluation."
+    />
+    <title>RepoLens · From issue to evidence</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="RepoLens home"
+        ><span class="brand-icon">⌘</span> RepoLens<span class="version"
+          >0.1</span
+        ></a
+      >
+      <div class="workspace-label">DEVELOPER WORKSPACE</div>
+      <nav aria-label="Main navigation">
+        <button class="nav-item active" id="search-tab" aria-current="page">
+          <span aria-hidden="true">⌕</span> Investigate
+        </button>
+        <button class="nav-item" id="eval-tab">
+          <span aria-hidden="true">▥</span> Evaluation lab
+        </button>
+        <a class="nav-item" href="/docs" target="_blank" rel="noopener"
+          ><span>⌘</span> API reference ↗</a
+        >
+      </nav>
+      <div class="repo-heading">
+        YOUR INDEXES
+        <button id="refresh" aria-label="Refresh repository indexes">↻</button>
+      </div>
+      <div id="index-list" class="index-list">
+        <p class="muted small">Your repositories will appear here.</p>
+      </div>
+      <div class="sidebar-footer">
+        <span class="online-dot"></span>
+        <span id="connection">Connecting…</span>
+        <p>Evidence before assumptions.</p>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div>
+          Workspace <span>/</span> <strong id="page-name">Investigate</strong>
+        </div>
+        <button id="access-button" class="quiet">Server access</button>
+      </header>
+      <div id="notice" class="notice" role="alert" hidden></div>
+      <section id="search-view">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">REPOSITORY INTELLIGENCE</p>
+            <h1>From issue to evidence.</h1>
+            <p class="subtitle">
+              Find where to look. Inspect the code. Make your next move.
+            </p>
+          </div>
+          <span class="tag">SOURCE-LINKED SEARCH</span>
+        </div>
+        <div class="investigation-grid">
+          <section class="panel compose">
+            <div class="section-title">
+              <span class="step">01</span>
+              <h2>Choose your codebase</h2>
+            </div>
+            <p id="public-demo-note" class="fine-print" hidden>
+              Explore the prepared repositories below. Run RepoLens locally to
+              index your own public GitHub repository.
+            </p>
+            <form id="index-form">
+              <label for="repository">Public GitHub repository</label>
+              <input
+                id="repository"
+                placeholder="owner/repository"
+                value="RyanBalech/llm-agent-evaluation"
+                required
+                maxlength="250"
+                autocomplete="off"
+              />
+              <div class="input-row">
+                <div>
+                  <label for="revision"
+                    >Branch, tag or commit
+                    <span class="muted">optional</span></label
+                  ><input
+                    id="revision"
+                    placeholder="Default branch"
+                    maxlength="151"
+                  />
+                </div>
+                <button class="secondary" type="submit" id="index-button">
+                  Index repo ↗
+                </button>
+              </div>
+              <label class="checkbox" id="dense-option" hidden
+                ><input id="dense-index" type="checkbox" /> Include CodeBERT
+                &amp; hybrid (slower indexing)</label
+              >
+            </form>
+            <div class="or-demo">
+              <span>Just exploring?</span
+              ><button id="demo-button" class="text-button">
+                Try the sample shop →
+              </button>
+            </div>
+            <div id="active-index" class="active-index" aria-live="polite">
+              <span class="status-dot"></span>
+              <div>
+                <strong>No repository selected</strong
+                ><small>Index a repository or try the sample.</small>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <form id="search-form">
+              <div class="section-title">
+                <span class="step">02</span>
+                <h2>Describe the issue</h2>
+              </div>
+              <label for="query">What is going wrong?</label>
+              <textarea
+                id="query"
+                rows="6"
+                minlength="3"
+                maxlength="8000"
+                required
+                placeholder="Include the behavior you expected, what happened, and any useful function names or errors."
+              ></textarea>
+              <div class="input-row options">
+                <div>
+                  <label for="method">Retrieval method</label
+                  ><select id="method">
+                    <option value="bm25">BM25 + path prior</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="budget">Context budget</label
+                  ><select id="budget">
+                    <option value="5000">5,000 characters</option>
+                    <option value="10000">10,000 characters</option>
+                    <option value="20000">20,000 characters</option>
+                    <option value="40000" selected>40,000 characters</option>
+                    <option value="80000">80,000 characters</option>
+                  </select>
+                </div>
+              </div>
+              <button id="search-button" class="primary" type="submit" disabled>
+                Find relevant code <span>→</span>
+              </button>
+              <p class="fine-print">
+                Your issue is searched against the selected snapshot. Repository
+                code is never executed.
+              </p>
+            </form>
+          </section>
+          <section class="results-area" aria-label="Search results">
+            <div class="results-heading">
+              <h2>Investigation results</h2>
+              <button id="export-button" class="quiet" disabled>
+                ↓ Export JSON
+              </button>
+            </div>
+            <div id="search-summary" class="search-summary" hidden></div>
+            <div id="empty-state" class="empty-state">
+              <div class="lens-art"><span>⌕</span></div>
+              <h3>A better starting point.</h3>
+              <p>
+                Describe a bug to get a ranked shortlist of files,<br />with the
+                source code behind every result.
+              </p>
+              <div class="flow">
+                <span>Issue</span><i>→</i><span>Retrieve</span><i>→</i
+                ><span>Inspect</span>
+              </div>
+              <p class="small muted">No API key needed for lexical search.</p>
+            </div>
+            <div id="results" aria-live="polite"></div>
+            <p id="results-note" class="fine-print" hidden></p>
+            <button id="explain-button" class="secondary" hidden>
+              Explain retrieved evidence
+            </button>
+            <div id="explanation" class="panel" aria-live="polite" hidden></div>
+          </section>
+        </div>
+        <div class="bottom-note">
+          <span>BUILT TO BE INSPECTED</span> Immutable commits · Explicit
+          context budgets · Exportable evidence
+        </div>
+      </section>
+      <section id="evaluation-view" hidden>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">MEASURE, THEN IMPROVE</p>
+            <h1>Show your work.</h1>
+            <p class="subtitle">
+              A real benchmark, with its limitations in view.
+            </p>
+          </div>
+          <span class="tag">SWE-BENCH VERIFIED</span>
+        </div>
+        <div id="evaluation-content"></div>
+      </section>
+    </main>
+    <dialog id="access-dialog">
+      <form id="access-form">
+        <h2>Server access</h2>
+        <p class="muted">
+          For a server configured with an access token.<br />The token stays in
+          this browser tab's memory.
+        </p>
+        <label for="token">Access token</label
+        ><input id="token" type="password" autocomplete="off" />
+        <div class="dialog-actions">
+          <button id="close-access" type="button" class="quiet">Cancel</button
+          ><button class="primary" type="submit">Connect</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

@@ -48,3 +48,49 @@ def test_checkpoint_preserves_completed_tasks_and_failures(tmp_path, monkeypatch
     assert result["n_successful"] == 1
     assert result["n_failed"] == 1
     assert json.loads(checkpoint.read_text()) == result
+
+
+def test_source_cache_reuses_identical_chunks_without_checkout(tmp_path, monkeypatch):
+    from llm_agent_eval import benchmark
+    calls = []
+    def checkout(record, destination):
+        calls.append(record.instance_id)
+        repo = destination / record.instance_id
+        repo.mkdir()
+        (repo / "calculator.py").write_text("def calculator(): return 1\n")
+        return repo
+    monkeypatch.setattr(benchmark, "checkout_revision", checkout)
+    record = SWEBenchRecord("x", "o/r", "abc", "calculator",
+                            "diff --git a/calculator.py b/calculator.py\n")
+    first = benchmark.evaluate_records([record], source_cache=tmp_path / "cache")
+    second = benchmark.evaluate_records([record], source_cache=tmp_path / "cache")
+    assert calls == ["x"]
+    assert not first["tasks"][0]["source_cache_hit"]
+    assert second["tasks"][0]["source_cache_hit"]
+    assert first["tasks"][0]["source_sha256"] == second["tasks"][0]["source_sha256"]
+    assert first["tasks"][0]["retrieved_files"] == second["tasks"][0]["retrieved_files"]
+
+
+def test_resume_retains_successes_and_retries_failures(tmp_path, monkeypatch):
+    import pytest
+
+    from llm_agent_eval import benchmark
+    attempts = []
+    records = [SWEBenchRecord(str(i), "o/r", "abc", "calculator",
+                             "diff --git a/calculator.py b/calculator.py\n") for i in range(2)]
+    def checkout(record, destination):
+        attempts.append(record.instance_id)
+        if record.instance_id == "1" and attempts.count("1") == 1:
+            raise RuntimeError("interrupted fetch")
+        repo = destination / record.instance_id
+        repo.mkdir()
+        (repo / "calculator.py").write_text("def calculator(): return 1\n")
+        return repo
+    monkeypatch.setattr(benchmark, "checkout_revision", checkout)
+    path = tmp_path / "checkpoint.json"
+    benchmark.evaluate_records(records, checkpoint_path=path)
+    result = benchmark.evaluate_records(records, checkpoint_path=path, resume=True)
+    assert attempts == ["0", "1", "1"]
+    assert result["n_successful"] == 2 and result["n_failed"] == 0
+    with pytest.raises(ValueError, match="configuration changed"):
+        benchmark.evaluate_records(records, checkpoint_path=path, resume=True, top_k=10)

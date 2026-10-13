@@ -1,25 +1,88 @@
-# Repository-Level LLM Agent Evaluation
+# RepoLens — from issue to evidence
+
+A working developer tool for finding the code behind an issue, backed by a repository-level
+retrieval evaluation framework. Index a public GitHub repository, describe a problem, inspect
+ranked source excerpts at an immutable commit, and export your investigation.
+
+![RepoLens investigating a real repository](docs/images/repolens.png)
+
+## Run the application
+
+Python 3.10+ and Git are required. From this checkout:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e ".[app,dev]"
+repolens
+```
+
+On macOS/Linux, activate with `source .venv/bin/activate`. Open **http://127.0.0.1:8000**.
+Click **Try the sample shop**, then **Find relevant code** for an offline demonstration.
+Or enter a public GitHub repository and click **Index repo**. No paid API key is required.
+
+The app includes background indexing, SQLite job persistence, saved source snapshots,
+BM25 search, context budgets, line-numbered code, commit-pinned GitHub links, matched-term
+evidence, JSON export, and an evaluation view backed by the archived benchmark artifact.
+Optional CodeBERT and hybrid search are enabled with `pip install -e ".[app,ml]"` and
+`REPOLENS_ENABLE_DENSE=1` before launch. In PowerShell: `$env:REPOLENS_ENABLE_DENSE="1"`.
+Then check **Include CodeBERT & hybrid** when indexing a repository.
+
+For source-cited local explanations, install `.[app,ml]`, set
+`REPOLENS_ENABLE_EXPLANATIONS=1`, and restart. Qwen2.5-Coder runs locally with no inference API.
+Generated diagnoses remain hypotheses; source excerpts and locations come from the retrieved snapshot.
+
+**Start here:** [Product guide and deployment](docs/PRODUCT.md) ·
+[Architecture and tradeoffs](docs/ARCHITECTURE.md) ·
+[Local verification record](docs/VERIFICATION.md).
+
+Live static demo: [ryanbalech.github.io/llm-agent-evaluation](https://ryanbalech.github.io/llm-agent-evaluation/).
+It runs the shared BM25 engine in the browser against prepared source snapshots. The Python app
+supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval.
+
+This release localizes code. Generated fixes and execution of repository code are outside
+its implemented workflow. The completed 20-task dense/hybrid study does not show an accuracy
+improvement; the balanced 50-task comparison is an optional unfinished extension. The server
+supports local or authenticated single-user deployment, with
+one process per data directory. A static browser build supports prepared repositories, Python BM25
+in WebAssembly, and optional WebGPU explanations without a paid hosting account.
+
+The retrieval engine ranks existing source excerpts. Optional local model generation describes
+those excerpts and suggests what to inspect next; citations point to the retrieved snapshot.
+A complete coding agent would also edit code and verify a patch against tests. RepoLens does not
+perform those steps, and a plausible explanation is not proof that it found the cause.
+
+## Evaluation framework
 
 A file-localization benchmark for the retrieval stage of software-engineering agents.
 Given an issue and its repository at the issue's base commit, rank candidate source
 files under a fixed code-context budget. Reference patches supply scoring labels only.
 
-## Measured baseline
+## Measured retrieval results
 
-On a fixed **20-task SWE-bench Verified slice**, the lexical baseline completed 20/20 tasks:
+On a fixed **20-task SWE-bench Verified slice**, all three methods completed the same 20 tasks at
+the same base commits, with a 40,000-character budget and five distinct output files:
 
-| Metric | BM25 + filename/path prior |
-|---|---:|
-| Mean file Recall@5 | 0.425 |
-| Mean reciprocal rank | 0.279 |
-| Mean nDCG@5 | 0.297 |
+| Method | Recall@5 | MRR | nDCG@5 | Mean query latency |
+|---|---:|---:|---:|---:|
+| BM25 + filename/path prior | **0.425** | **0.279** | **0.297** | 652 ms |
+| CodeBERT mean pooling | 0.000 | 0.000 | 0.000 | 104 ms |
+| Hybrid reciprocal-rank fusion | 0.300 | 0.163 | 0.183 | 732 ms |
+
+The paired task-bootstrap 95% interval for CodeBERT minus BM25 Recall@5 is
+**[−0.650, −0.225]**; for hybrid minus BM25 it is **[−0.325, 0.050]**. CodeBERT
+underperformed in this setup. The hybrid interval includes zero, so this sample does not
+establish a difference in Recall@5. Query latency excludes source acquisition and indexing.
+Dense index construction averaged 425 seconds on 15 cache misses and 6.9 seconds on five cache
+hits; these local timings are not a serving-load benchmark.
 
 The existing baseline includes a path-match weight of 0.15; it is not unmodified
 BM25. Gold-label verification finds eight complete top-five localizations, one
 partial localization and eleven misses. Twelve of the twenty tasks are from Django.
 These are localization scores, not resolved-issue or patch-correctness scores.
 
-[Results and concrete failure cases](docs/RETRIEVAL_STUDY.md) ·
+[Results, confidence intervals and failure cases](docs/RETRIEVAL_STUDY.md) ·
+[Complete 20-task comparison](results/published/verified_20_report.json) ·
 [Raw baseline](results/published/swebench_verified_bm25_20.json) ·
 [Label-checked analysis](results/published/bm25_error_analysis.json) ·
 [Design decisions](docs/METHOD.md)
@@ -29,6 +92,15 @@ The completed paired sparse ablation finds Recall@5 of 0.200, 0.275, 0.375,
 the path-prior baseline on this slice; doubling 40k to 80k adds no top-five recall.
 [All seven arms and per-task scores](results/published/sparse_ablation.json).
 
+On a separately frozen **50-task slice across 12 repositories**, excluding the original twenty
+and smoke tasks, BM25 completed 50/50 with Recall@5 **0.555**, MRR **0.441**, and nDCG@5 **0.443**.
+This repository-balanced sample has a different composition; the difference from the original
+baseline is not a method improvement. [Raw results](results/published/verified_balanced_50_bm25.json)
+and [frozen manifest](configs/verified_balanced_50_manifest.json) include task-level provenance.
+One balanced task includes `setup.cfg` among its gold files. The source-only index excludes that
+configuration file, so perfect recall is unavailable on that task; the raw result records it as
+an unindexed gold file.
+
 ## Implemented methods
 
 - BM25 with configurable filename/path prior and a no-issue file-order control.
@@ -37,9 +109,11 @@ the path-prior baseline on this slice; doubling 40k to 80k adds no top-five reca
 - Distinct-file Recall@K, MRR and nDCG; whole-chunk packing under a character budget.
 - Paired comparisons that reject mismatched budgets, task lists and incomplete runs.
 
-Dense inference and cache reuse have been checked with the real CodeBERT encoder on
-the engineering smoke task. The full dense/hybrid study has not completed; no gain is
-claimed. The benchmark now loads one encoder per run, reuses content-addressed
+Dense inference and cache reuse have been checked with the real CodeBERT encoder. The
+20-task comparison is complete. The balanced 50-task BM25 arm is complete; its dense/hybrid
+comparison was stopped after 19 dense tasks, with its checkpoint preserved. It is not used for
+an accuracy comparison or required to run RepoLens.
+The benchmark loads one encoder per run, reuses content-addressed
 embeddings, records resolved encoder revisions and writes an atomic checkpoint per task.
 
 ## Run

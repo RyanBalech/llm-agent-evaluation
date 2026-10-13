@@ -16,7 +16,7 @@ from .datasets import LocalizationTask
 from .dense import TransformerDenseRetriever, TransformerEncoder
 from .evaluation import evaluate_localization
 from .hybrid import HybridRetriever
-from .indexing import chunk_repository
+from .indexing import CodeChunk, chunk_repository
 from .retrieval import BM25Retriever
 from .swebench import SWEBenchRecord, from_mapping
 
@@ -26,6 +26,16 @@ class BenchmarkFailure:
     instance_id: str
     error_type: str
     message: str
+
+
+def engine_fingerprint() -> str:
+    """Hash evaluation code independently of UI changes and platform line endings."""
+    digest = hashlib.sha256()
+    for name in ("benchmark.py", "datasets.py", "dense.py", "evaluation.py", "hybrid.py",
+                 "indexing.py", "metrics.py", "retrieval.py", "swebench.py"):
+        digest.update(name.encode())
+        digest.update(Path(__file__).with_name(name).read_text(encoding="utf-8").encode())
+    return digest.hexdigest()
 
 
 def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
@@ -38,13 +48,16 @@ def load_swebench_jsonl(path: str | Path) -> list[SWEBenchRecord]:
 
 
 def _git(*args: str, cwd: str | Path | None = None) -> None:
-    subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "-c", "core.autocrlf=false", *args], cwd=cwd, check=True,
+                   capture_output=True, text=True, timeout=300)
 
 
 def checkout_revision(record: SWEBenchRecord, destination: Path) -> Path:
     repo_dir = destination / record.instance_id.replace("/", "__")
-    _git("clone", "--filter=blob:none", "--no-checkout", f"https://github.com/{record.repo}.git", str(repo_dir))
-    _git("checkout", "--detach", record.base_commit, cwd=repo_dir)
+    _git("init", str(repo_dir))
+    _git("fetch", "--depth=1", "--no-tags", f"https://github.com/{record.repo}.git",
+         record.base_commit, cwd=repo_dir)
+    _git("checkout", "--detach", "FETCH_HEAD", cwd=repo_dir)
     return repo_dir
 
 
@@ -73,6 +86,8 @@ def evaluate_records(
     checkpoint_path: str | Path | None = None,
     model_revision: str | None = None,
     embedding_cache: str | Path | None = None,
+    source_cache: str | Path | None = None,
+    resume: bool = False,
 ) -> dict:
     """Evaluate localization while keeping reference patches outside model-visible inputs."""
     if method not in {"bm25", "dense", "hybrid"}:
@@ -96,7 +111,23 @@ def evaluate_records(
         "bm25_path_prior_weight": 0.15,
         "rrf_candidate_multiplier": 4 if method == "hybrid" else None,
         "rrf_constant": 60 if method == "hybrid" else None,
+        "engine_sha256": engine_fingerprint(),
     }
+    if resume and checkpoint_path is not None and Path(checkpoint_path).exists():
+        previous = json.loads(Path(checkpoint_path).read_text(encoding="utf-8"))
+        if previous.get("input_manifest") != manifest:
+            raise ValueError("Cannot resume: benchmark inputs changed")
+        if any(previous.get("configuration", {}).get(k) != v for k, v in configuration.items()):
+            raise ValueError("Cannot resume: benchmark code or configuration changed")
+        successes = previous["tasks"]
+        completed = [row["task_id"] for row in successes]
+        expected = {r.instance_id for r in records}
+        if len(set(completed)) != len(completed) or not set(completed) <= expected:
+            raise ValueError("Cannot resume: checkpoint contains unexpected or duplicate tasks")
+        if previous["configuration"].get("resolved_model_revision"):
+            configuration["resolved_model_revision"] = previous["configuration"]["resolved_model_revision"]
+        print(f"Resuming {method}: {len(successes)} completed tasks retained", flush=True)
+    completed_ids = {row["task_id"] for row in successes}
 
     def snapshot() -> dict:
         return {
@@ -112,11 +143,35 @@ def evaluate_records(
     with TemporaryDirectory(prefix="llm-agent-eval-") as tmp:
         root = Path(tmp)
         for record in records:
+            if record.instance_id in completed_ids:
+                continue
             repo_dir = None
             try:
                 setup_start = perf_counter()
-                repo_dir = checkout_revision(record, root)
-                chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk, overlap=overlap)
+                source_cache_hit = False
+                cache_path = None
+                if source_cache is not None:
+                    indexer_hash = hashlib.sha256(
+                        Path(__file__).with_name("indexing.py").read_bytes()).hexdigest()
+                    cache_key = hashlib.sha256(json.dumps({
+                        "repo": record.repo, "commit": record.base_commit,
+                        "lines": lines_per_chunk, "overlap": overlap, "indexer": indexer_hash,
+                    }, sort_keys=True).encode()).hexdigest()
+                    cache_path = Path(source_cache) / f"{cache_key}.json"
+                    if cache_path.exists():
+                        cached = json.loads(cache_path.read_text(encoding="utf-8"))
+                        chunks = [CodeChunk(**c) for c in cached["chunks"]]
+                        source_cache_hit = True
+                if not source_cache_hit:
+                    repo_dir = checkout_revision(record, root)
+                    chunks = chunk_repository(repo_dir, lines_per_chunk=lines_per_chunk,
+                                              overlap=overlap)
+                    if cache_path is not None:
+                        write_result({"chunks": [asdict(c) for c in chunks]}, cache_path)
+                source_seconds = perf_counter() - setup_start
+                source_sha256 = hashlib.sha256(json.dumps(
+                    [asdict(c) for c in chunks], sort_keys=True).encode()).hexdigest()
+                index_start = perf_counter()
                 if method == "bm25":
                     retriever = BM25Retriever(chunks)
                 else:
@@ -126,6 +181,7 @@ def evaluate_records(
                                                        encoder=encoder, cache_dir=embedding_cache)
                     configuration["resolved_model_revision"] = dense.resolved_revision
                     retriever = dense if method == "dense" else HybridRetriever(BM25Retriever(chunks), dense)
+                index_seconds = perf_counter() - index_start
                 setup_seconds = perf_counter() - setup_start
 
                 task = LocalizationTask(
@@ -143,10 +199,16 @@ def evaluate_records(
                 row = result["tasks"][0]
                 indexed_files = {chunk.path for chunk in chunks}
                 row.update({"setup_seconds": setup_seconds, "n_indexed_chunks": len(chunks),
+                            "source_seconds": source_seconds,
+                            "index_seconds": index_seconds,
+                            "source_sha256": source_sha256,
+                            "source_cache_hit": source_cache_hit,
                             "n_indexed_files": len(indexed_files), "gold_files": sorted(record.gold_files),
                             "unindexed_gold_files": sorted(record.gold_files - indexed_files),
                             "embedding_cache_hit": dense.cache_hit if method != "bm25" else None})
                 successes.append(row)
+                order = {r.instance_id: i for i, r in enumerate(records)}
+                successes.sort(key=lambda r: order[r["task_id"]])
             except (OSError, subprocess.SubprocessError, ValueError, RuntimeError) as exc:
                 failures.append(BenchmarkFailure(record.instance_id, type(exc).__name__, str(exc)))
             finally:

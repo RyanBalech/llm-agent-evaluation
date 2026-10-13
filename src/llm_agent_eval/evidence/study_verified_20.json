@@ -1,0 +1,1490 @@
+{
+  "name": "Frozen 20-task comparison",
+  "n_tasks": 20,
+  "n_repositories": 5,
+  "repository_counts": {
+    "astropy/astropy": 3,
+    "django/django": 12,
+    "scikit-learn/scikit-learn": 1,
+    "sphinx-doc/sphinx": 2,
+    "sympy/sympy": 2
+  },
+  "aggregates": {
+    "bm25": {
+      "mean_recall_at_k": 0.425,
+      "mean_reciprocal_rank": 0.2791666666666667,
+      "mean_ndcg_at_k": 0.2974229559439696,
+      "mean_retrieval_ms": 651.8249549990287,
+      "mean_retrieved_characters": 39428.6
+    },
+    "dense": {
+      "mean_recall_at_k": 0.0,
+      "mean_reciprocal_rank": 0.0,
+      "mean_ndcg_at_k": 0.0,
+      "mean_retrieval_ms": 104.03798500192352,
+      "mean_retrieved_characters": 36382.95
+    },
+    "hybrid": {
+      "mean_recall_at_k": 0.3,
+      "mean_reciprocal_rank": 0.1631168831168831,
+      "mean_ndcg_at_k": 0.18302792108518123,
+      "mean_retrieval_ms": 732.2020900028292,
+      "mean_retrieved_characters": 39621.8
+    }
+  },
+  "paired_vs_bm25": {
+    "dense": {
+      "n_paired": 20,
+      "metrics": {
+        "recall_at_k": {
+          "mean_difference": -0.425,
+          "ci_low": -0.65,
+          "ci_high": -0.225,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        },
+        "reciprocal_rank": {
+          "mean_difference": -0.2791666666666667,
+          "ci_low": -0.4375,
+          "ci_high": -0.14166666666666666,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        },
+        "ndcg_at_k": {
+          "mean_difference": -0.2974229559439696,
+          "ci_low": -0.4632994242093663,
+          "ci_high": -0.14742295594396962,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        }
+      }
+    },
+    "hybrid": {
+      "n_paired": 20,
+      "metrics": {
+        "recall_at_k": {
+          "mean_difference": -0.125,
+          "ci_low": -0.325,
+          "ci_high": 0.05,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        },
+        "reciprocal_rank": {
+          "mean_difference": -0.11604978354978356,
+          "ci_low": -0.2475757575757576,
+          "ci_high": 0.012803030303030313,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        },
+        "ndcg_at_k": {
+          "mean_difference": -0.11439503485878837,
+          "ci_low": -0.2417655963056967,
+          "ci_high": 0.011314719276545837,
+          "confidence": 0.95,
+          "bootstrap_samples": 10000
+        }
+      }
+    }
+  },
+  "repository_macro": {
+    "bm25": {
+      "mean_recall_at_k": 0.48333333333333334,
+      "paired_vs_bm25": {
+        "mean_difference": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "confidence": 0.95,
+        "bootstrap_samples": 10000
+      }
+    },
+    "dense": {
+      "mean_recall_at_k": 0.0,
+      "paired_vs_bm25": {
+        "mean_difference": -0.48333333333333334,
+        "ci_low": -0.7833333333333333,
+        "ci_high": -0.2,
+        "confidence": 0.95,
+        "bootstrap_samples": 10000
+      }
+    },
+    "hybrid": {
+      "mean_recall_at_k": 0.3333333333333333,
+      "paired_vs_bm25": {
+        "mean_difference": -0.15000000000000002,
+        "ci_low": -0.3333333333333333,
+        "ci_high": -0.016666666666666673,
+        "confidence": 0.95,
+        "bootstrap_samples": 10000
+      }
+    }
+  },
+  "by_repository": {
+    "bm25": {
+      "astropy/astropy": {
+        "n_tasks": 3,
+        "recall_at_k": 0.5,
+        "reciprocal_rank": 0.5,
+        "ndcg_at_k": 0.46228426907818054
+      },
+      "django/django": {
+        "n_tasks": 12,
+        "recall_at_k": 0.4166666666666667,
+        "reciprocal_rank": 0.22916666666666666,
+        "ndcg_at_k": 0.25513385930373755
+      },
+      "scikit-learn/scikit-learn": {
+        "n_tasks": 1,
+        "recall_at_k": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "sphinx-doc/sphinx": {
+        "n_tasks": 2,
+        "recall_at_k": 0.5,
+        "reciprocal_rank": 0.16666666666666666,
+        "ndcg_at_k": 0.25
+      },
+      "sympy/sympy": {
+        "n_tasks": 2,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      }
+    },
+    "dense": {
+      "astropy/astropy": {
+        "n_tasks": 3,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "django/django": {
+        "n_tasks": 12,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "scikit-learn/scikit-learn": {
+        "n_tasks": 1,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "sphinx-doc/sphinx": {
+        "n_tasks": 2,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "sympy/sympy": {
+        "n_tasks": 2,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      }
+    },
+    "hybrid": {
+      "astropy/astropy": {
+        "n_tasks": 3,
+        "recall_at_k": 0.3333333333333333,
+        "reciprocal_rank": 0.12222222222222222,
+        "ndcg_at_k": 0.1289509357448472
+      },
+      "django/django": {
+        "n_tasks": 12,
+        "recall_at_k": 0.3333333333333333,
+        "reciprocal_rank": 0.21352813852813854,
+        "ndcg_at_k": 0.23114213453909027
+      },
+      "scikit-learn/scikit-learn": {
+        "n_tasks": 1,
+        "recall_at_k": 1.0,
+        "reciprocal_rank": 0.3333333333333333,
+        "ndcg_at_k": 0.5
+      },
+      "sphinx-doc/sphinx": {
+        "n_tasks": 2,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "sympy/sympy": {
+        "n_tasks": 2,
+        "recall_at_k": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_k": 0.0
+      }
+    }
+  },
+  "timings": {
+    "bm25": {
+      "median_retrieval_ms": 483.6442499945406,
+      "mean_source_seconds": 0.3277463950013043,
+      "mean_index_seconds": 2.6891654950071824,
+      "source_cache_hits": 20,
+      "embedding_cache_hits": 0
+    },
+    "dense": {
+      "median_retrieval_ms": 61.4114000054542,
+      "mean_source_seconds": 0.3418026400002418,
+      "mean_index_seconds": 320.75440350500577,
+      "source_cache_hits": 20,
+      "embedding_cache_hits": 5
+    },
+    "hybrid": {
+      "median_retrieval_ms": 543.8113500131294,
+      "mean_source_seconds": 0.2662321900104871,
+      "mean_index_seconds": 2.5154932649893453,
+      "source_cache_hits": 20,
+      "embedding_cache_hits": 20
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "django__django-16100",
+      "repo": "django/django",
+      "gold_files": [
+        "django/contrib/admin/options.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "django/contrib/admin/options.py",
+            "django/db/transaction.py",
+            "tests/select_for_update/tests.py",
+            "tests/transactions/tests.py",
+            "django/db/backends/base/features.py"
+          ],
+          "retrieval_ms": 337.4294000095688
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/urls.py",
+            "tests/i18n/exclude/__init__.py",
+            "tests/empty/models.py",
+            "tests/import_error_package/__init__.py",
+            "tests/base/models.py"
+          ],
+          "retrieval_ms": 851.8346000346355
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "django/contrib/admin/options.py",
+            "tests/urls.py",
+            "django/db/transaction.py",
+            "tests/i18n/exclude/__init__.py",
+            "tests/empty/models.py"
+          ],
+          "retrieval_ms": 264.2317999852821
+        }
+      }
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "repo": "sympy/sympy",
+      "gold_files": [
+        "sympy/core/relational.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/solvers/solveset.py",
+            "sympy/utilities/tests/test_wester.py",
+            "sympy/solvers/tests/test_solveset.py"
+          ],
+          "retrieval_ms": 475.1920999842696
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/integrals/risch.py",
+            "sympy/functions/combinatorial/numbers.py",
+            "sympy/stats/tests/test_joint_rv.py",
+            "sympy/solvers/ode.py",
+            "sympy/discrete/convolutions.py"
+          ],
+          "retrieval_ms": 39.49630004353821
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/calculus/util.py",
+            "sympy/integrals/risch.py",
+            "sympy/solvers/solveset.py",
+            "sympy/functions/combinatorial/numbers.py",
+            "sympy/utilities/tests/test_wester.py"
+          ],
+          "retrieval_ms": 1440.2574999839999
+        }
+      }
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "repo": "sphinx-doc/sphinx",
+      "gold_files": [
+        "sphinx/util/docfields.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sphinx/ext/intersphinx.py",
+            "sphinx/builders/_epub_base.py",
+            "sphinx/themes/basic/static/jquery-3.5.1.js",
+            "sphinx/ext/autosummary/__init__.py",
+            "sphinx/ext/napoleon/__init__.py"
+          ],
+          "retrieval_ms": 143.06750003015622
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/test_build_html.py",
+            "tests/test_build_texinfo.py",
+            "sphinx/util/cfamily.py",
+            "sphinx/themes/basic/static/jquery-3.5.1.js",
+            "sphinx/builders/_epub_base.py"
+          ],
+          "retrieval_ms": 39.27010000916198
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sphinx/themes/basic/static/jquery-3.5.1.js",
+            "sphinx/util/inspect.py",
+            "tests/test_build_linkcheck.py",
+            "sphinx/cmd/quickstart.py",
+            "sphinx/util/rst.py"
+          ],
+          "retrieval_ms": 310.0193000282161
+        }
+      }
+    },
+    {
+      "task_id": "django__django-11880",
+      "repo": "django/django",
+      "gold_files": [
+        "django/forms/fields.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.5,
+          "retrieved_files": [
+            "django/forms/models.py",
+            "django/forms/forms.py",
+            "django/forms/fields.py",
+            "django/core/exceptions.py",
+            "django/test/testcases.py"
+          ],
+          "retrieval_ms": 325.7764999871142
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/contrib/gis/geoip2/__init__.py",
+            "tests/test_sqlite.py",
+            "django/conf/global_settings.py",
+            "django/contrib/gis/geos/__init__.py",
+            "tests/template_tests/syntax_tests/i18n/test_get_current_language_bidi.py"
+          ],
+          "retrieval_ms": 40.75119999470189
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/views/csrf.py",
+            "django/db/models/fields/related_descriptors.py",
+            "django/db/models/query.py",
+            "django/contrib/gis/geoip2/__init__.py",
+            "django/forms/models.py"
+          ],
+          "retrieval_ms": 447.83749995986
+        }
+      }
+    },
+    {
+      "task_id": "django__django-13809",
+      "repo": "django/django",
+      "gold_files": [
+        "django/core/management/commands/runserver.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.25,
+          "ndcg_at_k": 0.43067655807339306,
+          "retrieved_files": [
+            "django/core/management/base.py",
+            "django/core/management/commands/check.py",
+            "django/core/management/commands/migrate.py",
+            "django/core/management/commands/runserver.py",
+            "django/core/management/commands/startproject.py"
+          ],
+          "retrieval_ms": 310.62860001111403
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/contrib/admin/static/admin/js/jquery.init.js",
+            "django/dispatch/__init__.py",
+            "tests/i18n/patterns/urls/included.py",
+            "tests/template_tests/alternate_urls.py",
+            "django/contrib/staticfiles/testing.py"
+          ],
+          "retrieval_ms": 33.676300023216754
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.09090909090909091,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/user_commands/models.py",
+            "django/contrib/admin/static/admin/js/jquery.init.js",
+            "django/core/management/base.py",
+            "django/core/management/commands/check.py",
+            "django/dispatch/__init__.py"
+          ],
+          "retrieval_ms": 266.8080000439659
+        }
+      }
+    },
+    {
+      "task_id": "django__django-11740",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/migrations/autodetector.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/admin_widgets/models.py",
+            "tests/admin_views/models.py",
+            "tests/model_formsets/models.py",
+            "tests/gis_tests/layermap/models.py",
+            "tests/prefetch_related/models.py"
+          ],
+          "retrieval_ms": 674.9368000309914
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/custom_columns/models.py",
+            "tests/aggregation_regress/models.py",
+            "tests/m2m_recursive/models.py",
+            "tests/model_options/models/tablespaces.py",
+            "django/middleware/csrf.py"
+          ],
+          "retrieval_ms": 99.12520000943914
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/gis_tests/layermap/models.py",
+            "tests/admin_views/models.py",
+            "tests/m2m_recursive/models.py",
+            "tests/aggregation_regress/models.py",
+            "tests/queries/models.py"
+          ],
+          "retrieval_ms": 703.7296000053175
+        }
+      }
+    },
+    {
+      "task_id": "django__django-15315",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/db/models/base.py",
+            "django/db/models/fields/files.py",
+            "django/db/models/fields/reverse_related.py",
+            "tests/basic/tests.py",
+            "django/db/models/fields/related.py"
+          ],
+          "retrieval_ms": 574.1525000194088
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/i18n/commands/__init__.py",
+            "tests/str/models.py",
+            "tests/urlpatterns_reverse/included_urls2.py",
+            "tests/field_defaults/models.py",
+            "tests/or_lookups/models.py"
+          ],
+          "retrieval_ms": 36.319300008472055
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/db/models/fields/related_descriptors.py",
+            "tests/str/models.py",
+            "docs/conf.py",
+            "django/db/migrations/migration.py",
+            "django/db/models/base.py"
+          ],
+          "retrieval_ms": 355.358500033617
+        }
+      }
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "gold_files": [
+        "astropy/io/ascii/html.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "astropy/io/ascii/tests/test_html.py",
+            "astropy/io/fits/scripts/fitsheader.py",
+            "astropy/table/connect.py",
+            "setup.py",
+            "astropy/table/tests/test_jsviewer.py"
+          ],
+          "retrieval_ms": 3901.1683999560773
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "examples/template/example-template.py",
+            "docs/conf.py",
+            "astropy/io/fits/scripts/fitsdiff.py",
+            "examples/io/skip_create-large-fits.py",
+            "astropy/io/fits/scripts/fitscheck.py"
+          ],
+          "retrieval_ms": 87.248100026045
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "setup.py",
+            "examples/template/example-template.py",
+            "astropy/utils/xml/tests/test_iterparse.py",
+            "docs/conf.py",
+            "astropy/io/ascii/tests/test_cds.py"
+          ],
+          "retrieval_ms": 3141.721400024835
+        }
+      }
+    },
+    {
+      "task_id": "django__django-15731",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/models/manager.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/test/testcases.py",
+            "tests/template_tests/syntax_tests/i18n/test_blocktranslate.py",
+            "django/db/models/expressions.py",
+            "django/template/base.py",
+            "tests/template_tests/syntax_tests/i18n/test_translate.py"
+          ],
+          "retrieval_ms": 659.4582999823615
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/test_sqlite.py",
+            "tests/m2m_regress/models.py",
+            "tests/m2m_recursive/models.py",
+            "django/contrib/gis/geometry.py",
+            "django/contrib/gis/geoip2/__init__.py"
+          ],
+          "retrieval_ms": 24.839399964548647
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "docs/conf.py",
+            "django/db/models/query_utils.py",
+            "tests/m2m_recursive/models.py",
+            "django/core/checks/security/csrf.py",
+            "django/template/base.py"
+          ],
+          "retrieval_ms": 523.7208000035025
+        }
+      }
+    },
+    {
+      "task_id": "django__django-16454",
+      "repo": "django/django",
+      "gold_files": [
+        "django/core/management/base.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.5,
+          "retrieved_files": [
+            "tests/user_commands/management/commands/subparser.py",
+            "tests/user_commands/management/commands/subparser_dest.py",
+            "django/core/management/base.py",
+            "tests/user_commands/tests.py",
+            "django/core/management/__init__.py"
+          ],
+          "retrieval_ms": 509.613000031095
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/core/checks/security/csrf.py",
+            "docs/conf.py",
+            "tests/i18n/sampleproject/update_catalogs.py",
+            "django/conf/global_settings.py",
+            "django/contrib/admin/utils.py"
+          ],
+          "retrieval_ms": 32.84739999799058
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "django/core/management/base.py",
+            "tests/admin_scripts/tests.py",
+            "django/core/management/commands/runserver.py",
+            "docs/conf.py",
+            "django/db/backends/mysql/base.py"
+          ],
+          "retrieval_ms": 758.3425999619067
+        }
+      }
+    },
+    {
+      "task_id": "django__django-14787",
+      "repo": "django/django",
+      "gold_files": [
+        "django/utils/decorators.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/utils/functional.py",
+            "django/test/testcases.py",
+            "tests/gis_tests/utils.py",
+            "tests/decorators/tests.py",
+            "django/test/utils.py"
+          ],
+          "retrieval_ms": 357.0207000011578
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/transactions/models.py",
+            "tests/template_tests/templatetags/inclusion.py",
+            "tests/postgres_tests/__init__.py",
+            "tests/middleware/views.py",
+            "tests/get_earliest_or_latest/models.py"
+          ],
+          "retrieval_ms": 48.22280001826584
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.07142857142857142,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/contrib/gis/geos/prototypes/errcheck.py",
+            "django/utils/functional.py",
+            "tests/transactions/models.py",
+            "django/test/testcases.py",
+            "tests/template_tests/templatetags/inclusion.py"
+          ],
+          "retrieval_ms": 369.3652000511065
+        }
+      }
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "repo": "sphinx-doc/sphinx",
+      "gold_files": [
+        "sphinx/extension.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.5,
+          "retrieved_files": [
+            "sphinx/application.py",
+            "sphinx/cmd/quickstart.py",
+            "sphinx/extension.py",
+            "tests/test_environment_indexentries.py",
+            "sphinx/util/stemmer/porter.py"
+          ],
+          "retrieval_ms": 213.9344000024721
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sphinx/themes/basic/static/jquery-3.5.1.js",
+            "sphinx/__init__.py",
+            "tests/test_util_inventory.py",
+            "sphinx/builders/_epub_base.py",
+            "doc/usage/extensions/example_numpy.py"
+          ],
+          "retrieval_ms": 31.893899955321103
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sphinx/themes/basic/static/jquery-3.5.1.js",
+            "sphinx/__init__.py",
+            "doc/usage/extensions/example_numpy.py",
+            "sphinx/ext/extlinks.py",
+            "doc/usage/extensions/example_google.py"
+          ],
+          "retrieval_ms": 355.67219997756183
+        }
+      }
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "repo": "astropy/astropy",
+      "gold_files": [
+        "astropy/io/fits/card.py",
+        "astropy/io/fits/header.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.5,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.38685280723454163,
+          "retrieved_files": [
+            "astropy/io/fits/hdu/base.py",
+            "astropy/io/fits/header.py",
+            "astropy/io/fits/hdu/hdulist.py",
+            "astropy/io/fits/tests/test_hdulist.py",
+            "astropy/io/fits/tests/test_header.py"
+          ],
+          "retrieval_ms": 334.61749996058643
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "astropy/stats/__init__.py",
+            "astropy/units/quantity_helper/__init__.py",
+            "astropy/wcs/docstrings.py",
+            "astropy/utils/__init__.py",
+            "astropy/utils/tests/test_progress_bar_func.py"
+          ],
+          "retrieval_ms": 122.4244000040926
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "docs/conf.py",
+            "examples/io/skip_create-large-fits.py",
+            "astropy/io/fits/hdu/base.py",
+            "astropy/stats/__init__.py",
+            "cextern/cfitsio/zlib/zlib.h"
+          ],
+          "retrieval_ms": 579.1504000080749
+        }
+      }
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "repo": "scikit-learn/scikit-learn",
+      "gold_files": [
+        "sklearn/utils/_set_output.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "sklearn/utils/_set_output.py",
+            "sklearn/utils/tests/test_set_output.py",
+            "sklearn/utils/tests/test_utils.py",
+            "sklearn/compose/tests/test_column_transformer.py",
+            "sklearn/_build_utils/openmp_helpers.py"
+          ],
+          "retrieval_ms": 658.1119999755174
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "examples/linear_model/plot_iris_logistic.py",
+            "examples/applications/plot_out_of_core_classification.py",
+            "examples/svm/plot_custom_kernel.py",
+            "examples/decomposition/plot_pca_iris.py",
+            "examples/svm/plot_svm_anova.py"
+          ],
+          "retrieval_ms": 96.81399998953566
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.5,
+          "retrieved_files": [
+            "examples/miscellaneous/plot_set_output.py",
+            "examples/linear_model/plot_iris_logistic.py",
+            "sklearn/utils/_set_output.py",
+            "examples/release_highlights/plot_release_highlights_1_1_0.py",
+            "examples/applications/plot_out_of_core_classification.py"
+          ],
+          "retrieval_ms": 1149.8515999992378
+        }
+      }
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "repo": "sympy/sympy",
+      "gold_files": [
+        "sympy/matrices/sparse.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/matrices/tests/test_commonmatrix.py",
+            "sympy/printing/tests/test_theanocode.py",
+            "sympy/physics/quantum/pauli.py",
+            "sympy/physics/mechanics/tests/test_models.py",
+            "sympy/physics/hep/tests/test_gamma_matrices.py"
+          ],
+          "retrieval_ms": 492.0964000048116
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/matrices/tests/test_densetools.py",
+            "sympy/physics/mechanics/tests/test_models.py",
+            "sympy/physics/vector/tests/test_printing.py",
+            "sympy/physics/quantum/tests/test_grover.py",
+            "sympy/polys/benchmarks/bench_groebnertools.py"
+          ],
+          "retrieval_ms": 74.59999999264255
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "sympy/physics/mechanics/tests/test_models.py",
+            "sympy/matrices/tests/test_matrices.py",
+            "examples/advanced/qft.py",
+            "sympy/tensor/array/tests/test_immutable_ndim_array.py",
+            "sympy/matrices/tests/test_commonmatrix.py"
+          ],
+          "retrieval_ms": 563.9019000227563
+        }
+      }
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "repo": "astropy/astropy",
+      "gold_files": [
+        "astropy/utils/introspection.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_files": [
+            "astropy/utils/introspection.py",
+            "astropy/units/tests/test_quantity.py",
+            "ah_bootstrap.py",
+            "astropy/utils/tests/test_introspection.py",
+            "astropy/__init__.py"
+          ],
+          "retrieval_ms": 876.1591000366025
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "astropy/units/utils.py",
+            "astropy/utils/timer.py",
+            "astropy/io/ascii/tests/test_ecsv.py",
+            "astropy/io/ascii/daophot.py",
+            "astropy/tests/tests/test_run_tests.py"
+          ],
+          "retrieval_ms": 106.26959998626262
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.38685280723454163,
+          "retrieved_files": [
+            "astropy/units/tests/test_quantity.py",
+            "astropy/wcs/setup_package.py",
+            "astropy/modeling/tabular.py",
+            "astropy/constants/__init__.py",
+            "astropy/utils/introspection.py"
+          ],
+          "retrieval_ms": 828.7665999960154
+        }
+      }
+    },
+    {
+      "task_id": "django__django-15695",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/migrations/operations/models.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/migrations/test_operations.py",
+            "tests/postgres_tests/test_operations.py"
+          ],
+          "retrieval_ms": 400.87689994834363
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/contrib/gis/geos/prototypes/misc.py",
+            "django/contrib/gis/gdal/prototypes/raster.py",
+            "django/forms/formsets.py",
+            "django/contrib/gis/gdal/geometries.py",
+            "django/middleware/csrf.py"
+          ],
+          "retrieval_ms": 101.4809999614954
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/contrib/gis/geos/prototypes/misc.py",
+            "tests/migrations/test_operations.py",
+            "django/contrib/gis/gdal/prototypes/raster.py",
+            "django/forms/formsets.py",
+            "django/contrib/gis/gdal/geometries.py"
+          ],
+          "retrieval_ms": 502.9043999966234
+        }
+      }
+    },
+    {
+      "task_id": "django__django-15563",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/models/sql/compiler.py",
+        "django/db/models/sql/subqueries.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/model_inheritance/tests.py",
+            "tests/admin_changelist/tests.py",
+            "tests/model_inheritance_regress/tests.py",
+            "django/db/models/fields/related_descriptors.py",
+            "tests/delete_regress/tests.py"
+          ],
+          "retrieval_ms": 621.0494000115432
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/db/backends/oracle/schema.py",
+            "tests/model_options/models/tablespaces.py",
+            "django/contrib/gis/gdal/geometries.py",
+            "tests/gis_tests/distapp/models.py",
+            "django/forms/formsets.py"
+          ],
+          "retrieval_ms": 105.24920001626015
+        },
+        "hybrid": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/serializers/test_natural.py",
+            "tests/queries/models.py",
+            "tests/queryset_pickle/models.py",
+            "tests/serializers/test_xml.py",
+            "tests/model_inheritance_regress/models.py"
+          ],
+          "retrieval_ms": 613.0574999842793
+        }
+      }
+    },
+    {
+      "task_id": "django__django-16502",
+      "repo": "django/django",
+      "gold_files": [
+        "django/core/servers/basehttp.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/utils/cache.py",
+            "django/views/csrf.py",
+            "django/views/static.py",
+            "django/test/client.py",
+            "tests/middleware/tests.py"
+          ],
+          "retrieval_ms": 799.521500011906
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "django/conf/global_settings.py",
+            "django/conf/locale/en/formats.py",
+            "docs/conf.py",
+            "django/middleware/cache.py",
+            "django/contrib/admin/static/admin/js/vendor/jquery/jquery.js"
+          ],
+          "retrieval_ms": 79.21900000656024
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.38685280723454163,
+          "retrieved_files": [
+            "django/views/csrf.py",
+            "django/utils/cache.py",
+            "docs/conf.py",
+            "django/conf/global_settings.py",
+            "django/core/servers/basehttp.py"
+          ],
+          "retrieval_ms": 949.5527999824844
+        }
+      }
+    },
+    {
+      "task_id": "django__django-12774",
+      "repo": "django/django",
+      "gold_files": [
+        "django/db/models/query.py"
+      ],
+      "methods": {
+        "bm25": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.6309297535714575,
+          "retrieved_files": [
+            "tests/lookup/tests.py",
+            "django/db/models/query.py",
+            "django/db/models/fields/related.py",
+            "django/db/models/constraints.py",
+            "tests/schema/tests.py"
+          ],
+          "retrieval_ms": 371.6880999854766
+        },
+        "dense": {
+          "recall_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "retrieved_files": [
+            "tests/m2m_regress/models.py",
+            "tests/m2m_recursive/models.py",
+            "tests/get_object_or_404/models.py",
+            "django/contrib/gis/geos/prototypes/geom.py",
+            "django/utils/text.py"
+          ],
+          "retrieval_ms": 29.177899996284395
+        },
+        "hybrid": {
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.38685280723454163,
+          "retrieved_files": [
+            "setup.py",
+            "tests/m2m_regress/models.py",
+            "django/contrib/admin/utils.py",
+            "tests/lookup/tests.py",
+            "django/db/models/query.py"
+          ],
+          "retrieval_ms": 519.7922000079416
+        }
+      }
+    }
+  ],
+  "localization_outcomes": {
+    "bm25": {
+      "misses": 11,
+      "partial": 1,
+      "complete": 8
+    },
+    "dense": {
+      "misses": 20,
+      "partial": 0,
+      "complete": 0
+    },
+    "hybrid": {
+      "misses": 14,
+      "partial": 0,
+      "complete": 6
+    }
+  },
+  "paired_task_transitions": {
+    "dense": {
+      "improved": 0,
+      "worsened": 9,
+      "unchanged": 11
+    },
+    "hybrid": {
+      "improved": 1,
+      "worsened": 4,
+      "unchanged": 15
+    }
+  },
+  "tasks_with_unindexed_gold_files": [],
+  "configuration": {
+    "method": "bm25",
+    "model_name": null,
+    "model_revision": null,
+    "top_k": 5,
+    "candidate_chunks": 50,
+    "context_budget_chars": 40000,
+    "lines_per_chunk": 80,
+    "overlap": 20,
+    "bm25_path_prior_weight": 0.15,
+    "rrf_candidate_multiplier": null,
+    "rrf_constant": null,
+    "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a"
+  },
+  "input_manifest": [
+    {
+      "instance_id": "django__django-16100",
+      "repo": "django/django",
+      "base_commit": "c6350d594c359151ee17b0c4f354bb44f28ff69e",
+      "issue_sha256": "1348b1dd6ab1cb64b3178fe8cf3fa0b9998eaa9eb0a7c522fb5eed67f62254ba",
+      "patch_sha256": "138d0f4718704c149e0d700931a1996a1c9f8ac11801f6241e9015d47695a49b"
+    },
+    {
+      "instance_id": "sympy__sympy-18211",
+      "repo": "sympy/sympy",
+      "base_commit": "b4f1aa3540fe68d078d76e78ba59d022dd6df39f",
+      "issue_sha256": "e2e6d8d8bb9ce663b29aaccb73683ba91e87ceb98a7d613750de91f2d4b245a5",
+      "patch_sha256": "f391664f98c719c093064631d83e53a01d97786031184ad221ad623516d8392a"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+      "issue_sha256": "e814405fe0885a2284bec4dfdf1efa5bd0386117d02410e9ad0ec98c0e1712ab",
+      "patch_sha256": "e6cc08c8b1858c3d41964c220e396638c15e601f88fa9cb6493938e5fdd814c6"
+    },
+    {
+      "instance_id": "django__django-11880",
+      "repo": "django/django",
+      "base_commit": "06909fe084f87a65459a83bd69d7cdbe4fce9a7c",
+      "issue_sha256": "e602e90dd73a70f9faf006238dfda2347f4aa08bb29365ae2611b3ea92f3eff4",
+      "patch_sha256": "8c47d5fdef900230cb6fd10f627d6b0efeb792d704526a476d0ffe6c0e2dd3e9"
+    },
+    {
+      "instance_id": "django__django-13809",
+      "repo": "django/django",
+      "base_commit": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "issue_sha256": "7a85668efd30416150d8bb3013727c6ebf8d0013064afc93e5b96d2aabcf456c",
+      "patch_sha256": "6ffda1af3e10ea2092376fb86a88a1e7533dbae2c2a09bf9e1974f62bf0fbba8"
+    },
+    {
+      "instance_id": "django__django-11740",
+      "repo": "django/django",
+      "base_commit": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "issue_sha256": "e957578643e3473772f3962d3350cf65879725d62c071efa6b97fc4fda1f7d27",
+      "patch_sha256": "87a8df03c5a6c48e26c26af2b41d2c9d67e197947dfb94bdbda1f07a3c613d85"
+    },
+    {
+      "instance_id": "django__django-15315",
+      "repo": "django/django",
+      "base_commit": "652c68ffeebd510a6f59e1b56b3e007d07683ad8",
+      "issue_sha256": "a26b3534bece469f866614b19fadd37e13c9a06ce293bfe21e32313b9cfa90fd",
+      "patch_sha256": "dd19fbbb798dd2c982213626ce7cc38a457efc858d2df02621d80ea1e288687b"
+    },
+    {
+      "instance_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "base_commit": "19cc80471739bcb67b7e8099246b391c355023ee",
+      "issue_sha256": "be929904c3062b54da2fa3ad7de338bd7f1f41a5aa48e64bec41f244d6e17c5a",
+      "patch_sha256": "7f579408e4ad94b129886283f9c6df7d27d3965e2aaaa88141045515dd4710d9"
+    },
+    {
+      "instance_id": "django__django-15731",
+      "repo": "django/django",
+      "base_commit": "93cedc82f29076c824d476354527af1150888e4f",
+      "issue_sha256": "b28cf585d0d568812aef7b882e47df7a542f7736ee900877c426c000a3ed953c",
+      "patch_sha256": "2fdd6b1bc7201f28c9eaf734652e6431eaea51114b75d9b35fe43ea0e2ce066b"
+    },
+    {
+      "instance_id": "django__django-16454",
+      "repo": "django/django",
+      "base_commit": "1250483ebf73f7a82ff820b94092c63ce4238264",
+      "issue_sha256": "1b38e35ca2721cfc6bfdf1b9fdc133975c7e5c72b4ef5e91e132fd578e89d0e0",
+      "patch_sha256": "c6d58006c0fc2adb0d3e2c0a3639767ffda1306b493f820480cd9570028d95ce"
+    },
+    {
+      "instance_id": "django__django-14787",
+      "repo": "django/django",
+      "base_commit": "004b4620f6f4ad87261e149898940f2dcd5757ef",
+      "issue_sha256": "b52409ced83e2b68e7961a34db6792ca6b89277456ea14c6c166c7f8c8e17c0d",
+      "patch_sha256": "96d2dfb5441604f64daf06f4bc5ce0877dd5ab7db83a11835d1201d067ca92a6"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9711",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "81a4fd973d4cfcb25d01a7b0be62cdb28f82406d",
+      "issue_sha256": "774dbded97246fc337cc3a9f01569a66641396f3952440385d51e6f7e095234a",
+      "patch_sha256": "93e8416e245c285b21095773344f64a37bb31a7ba66227864873ac4622934ae2"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "repo": "astropy/astropy",
+      "base_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "issue_sha256": "f7420a19ba5b0c807396a84da376d8303e69ff66d0216c332adf099da589a714",
+      "patch_sha256": "f993c1ada6f19bcdfa8989e0c1c61151cd881a81d549f2789663270537c093f2"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0",
+      "issue_sha256": "9737299393a037ff2845a2f62b558550b2900387a4de7ee94c19b48d397f1d33",
+      "patch_sha256": "cd985cfd10afb83adb9d714fb81873b001a56de5938d93b5a9c7dbb641d3c9b3"
+    },
+    {
+      "instance_id": "sympy__sympy-13031",
+      "repo": "sympy/sympy",
+      "base_commit": "2dfa7457f20ee187fbb09b5b6a1631da4458388c",
+      "issue_sha256": "5d95a063a1ada8b9273255940d122605d87ea3ab2aa27f524725442be780b5c6",
+      "patch_sha256": "a3b080cca8903951b4fdaa9df27df3f50269b170f4f4b726733c6a3d782efc9d"
+    },
+    {
+      "instance_id": "astropy__astropy-7671",
+      "repo": "astropy/astropy",
+      "base_commit": "a7141cd90019b62688d507ae056298507678c058",
+      "issue_sha256": "90a901a7b3d510c5fe9317b76fc9f83e883b577de167936d9e76ccbd69677f70",
+      "patch_sha256": "42828c5c129810409cbbf1882df2b6c7f82d613261b8c9da70cb2ac67a184ab3"
+    },
+    {
+      "instance_id": "django__django-15695",
+      "repo": "django/django",
+      "base_commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
+      "issue_sha256": "613bfb30e51009598a05937b5149afbc0cf7b5eb59572cc4282e9154fd39da22",
+      "patch_sha256": "7d0932bd7b423b787a0b7e34ef3875efcbf1e9a54987ae7e3094db2b4987f748"
+    },
+    {
+      "instance_id": "django__django-15563",
+      "repo": "django/django",
+      "base_commit": "9ffd4eae2ce7a7100c98f681e2b6ab818df384a4",
+      "issue_sha256": "46a090e69eecd18516e4819f11699ec9c5b3d2226db86a616217d9115cdfb5a7",
+      "patch_sha256": "5e8e9ba00474f521ef63e85e42edb2d51e2566ad114d6ff7c62e1d64dbadd832"
+    },
+    {
+      "instance_id": "django__django-16502",
+      "repo": "django/django",
+      "base_commit": "246eb4836a6fb967880f838aa0d22ecfdca8b6f1",
+      "issue_sha256": "7efef7822c78cdf0e41a2bf058fd740eeb35cb07a471343a0bbc7128caf0305f",
+      "patch_sha256": "a4cd5d618966b2716837f8c58dbe81436c7580acb05b28cfc5a4f8bf144cad85"
+    },
+    {
+      "instance_id": "django__django-12774",
+      "repo": "django/django",
+      "base_commit": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "issue_sha256": "8c35fba9272466eec8851a624ea13c5c07eb184359c94dfb922efed85b0fc3b6",
+      "patch_sha256": "d0b9b8daa663676ec20792e9adfd03c280b7e80f2b45d40197d805c1baea6dce"
+    }
+  ],
+  "method_configurations": {
+    "bm25": {
+      "method": "bm25",
+      "model_name": null,
+      "model_revision": null,
+      "top_k": 5,
+      "candidate_chunks": 50,
+      "context_budget_chars": 40000,
+      "lines_per_chunk": 80,
+      "overlap": 20,
+      "bm25_path_prior_weight": 0.15,
+      "rrf_candidate_multiplier": null,
+      "rrf_constant": null,
+      "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a"
+    },
+    "dense": {
+      "method": "dense",
+      "model_name": "microsoft/codebert-base",
+      "model_revision": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+      "top_k": 5,
+      "candidate_chunks": 50,
+      "context_budget_chars": 40000,
+      "lines_per_chunk": 80,
+      "overlap": 20,
+      "bm25_path_prior_weight": 0.15,
+      "rrf_candidate_multiplier": null,
+      "rrf_constant": null,
+      "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a",
+      "resolved_model_revision": "3b0952feddeffad0063f274080e3c23d75e7eb39"
+    },
+    "hybrid": {
+      "method": "hybrid",
+      "model_name": "microsoft/codebert-base",
+      "model_revision": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+      "top_k": 5,
+      "candidate_chunks": 50,
+      "context_budget_chars": 40000,
+      "lines_per_chunk": 80,
+      "overlap": 20,
+      "bm25_path_prior_weight": 0.15,
+      "rrf_candidate_multiplier": 4,
+      "rrf_constant": 60,
+      "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a",
+      "resolved_model_revision": "3b0952feddeffad0063f274080e3c23d75e7eb39"
+    }
+  },
+  "provenance": {
+    "bm25": {
+      "python": "3.13.5",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "source_sha256": "def5f9af3123e1e1df4a328e4f64c5d383535e438173a5231200c19881674180",
+      "packages": {
+        "torch": "2.10.0+cu130",
+        "transformers": "4.57.6",
+        "datasets": "4.8.5"
+      },
+      "code_commit": "4dea0a6564d54a2e592de2584aabceff18b22f8c",
+      "working_tree_dirty": true,
+      "tasks_sha256": "ba5532c3510548656ed58873bd3289e8ef954247f672691c6d159118f5f1db3e"
+    },
+    "dense": {
+      "python": "3.13.5",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "source_sha256": "def5f9af3123e1e1df4a328e4f64c5d383535e438173a5231200c19881674180",
+      "packages": {
+        "torch": "2.10.0+cu130",
+        "transformers": "4.57.6",
+        "datasets": "4.8.5"
+      },
+      "code_commit": "e2eddece62ce1fbbdf688a09510d93f601eaa962",
+      "working_tree_dirty": false,
+      "tasks_sha256": "ba5532c3510548656ed58873bd3289e8ef954247f672691c6d159118f5f1db3e"
+    },
+    "hybrid": {
+      "python": "3.13.5",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "source_sha256": "def5f9af3123e1e1df4a328e4f64c5d383535e438173a5231200c19881674180",
+      "packages": {
+        "torch": "2.10.0+cu130",
+        "transformers": "4.57.6",
+        "datasets": "4.8.5"
+      },
+      "code_commit": "e2eddece62ce1fbbdf688a09510d93f601eaa962",
+      "working_tree_dirty": false,
+      "tasks_sha256": "ba5532c3510548656ed58873bd3289e8ef954247f672691c6d159118f5f1db3e"
+    }
+  },
+  "interpretation": [
+    "File localization does not measure successful bug fixes.",
+    "Task bootstrap treats tasks as independent; repository-macro intervals resample repository means.",
+    "A paired interval including zero does not establish an improvement.",
+    "Repository balancing changes the estimand; this is not a SWE-bench population-weighted score.",
+    "Timings are one request per issue with recorded cache states, not a serving-load benchmark."
+  ],
+  "resource_observations": {
+    "samples": 890,
+    "first_sample": "2026-10-13T07:58:23.330049+00:00",
+    "last_sample": "2026-10-13T08:59:05.272389+00:00",
+    "peak_observed_process_rss_mib": 1585.0,
+    "max_process_lifetime_peak_rss_mib": 1697.4,
+    "peak_observed_device_gpu_used_mib": 1039,
+    "scope": "Process resident memory samples; Windows lifetime peaks where available. GPU device usage includes other applications and is not attributable to this run. Sampling began during the original 20-task dense arm."
+  }
+}
