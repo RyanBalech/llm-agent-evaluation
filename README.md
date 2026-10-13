@@ -36,6 +36,10 @@ Generated diagnoses remain hypotheses; source excerpts and locations come from t
 [Architecture and tradeoffs](docs/ARCHITECTURE.md) ·
 [Local verification record](docs/VERIFICATION.md).
 
+Live static demo: [ryanbalech.github.io/llm-agent-evaluation](https://ryanbalech.github.io/llm-agent-evaluation/).
+It runs the shared BM25 engine in the browser against prepared source snapshots. The Python app
+supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval.
+
 This release localizes code. Generated fixes and execution of repository code are outside
 its implemented workflow. Full dense/hybrid SWE-bench results are still pending; no accuracy
 improvement is claimed. The server supports local or authenticated single-user deployment, with
