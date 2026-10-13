@@ -51,11 +51,26 @@ def summarize(results: dict, name: str) -> dict:
                            "mean_index_seconds": mean(r["index_seconds"] for r in rows),
                            "source_cache_hits": sum(r.get("source_cache_hit", False) for r in rows),
                            "embedding_cache_hits": sum(bool(r.get("embedding_cache_hit")) for r in rows)}
+    outcomes = {method: {
+        "misses": sum(task["recall_at_k"] == 0 for task in result["tasks"]),
+        "partial": sum(0 < task["recall_at_k"] < 1 for task in result["tasks"]),
+        "complete": sum(task["recall_at_k"] == 1 for task in result["tasks"]),
+    } for method, result in results.items()}
+    transitions = {}
+    for method in ("dense", "hybrid"):
+        differences = [new["recall_at_k"] - old["recall_at_k"]
+                       for old, new in zip(baseline["tasks"], results[method]["tasks"])]
+        transitions[method] = {"improved": sum(x > 0 for x in differences),
+                               "worsened": sum(x < 0 for x in differences),
+                               "unchanged": sum(x == 0 for x in differences)}
     return {"name": name, "n_tasks": len(task_rows), "n_repositories": len(repositories),
             "repository_counts": dict(sorted(Counter(repository.values()).items())),
             "aggregates": {m: r["aggregate"] for m, r in results.items()},
             "paired_vs_bm25": paired, "repository_macro": macro,
             "by_repository": by_repo, "timings": timings, "tasks": task_rows,
+            "localization_outcomes": outcomes, "paired_task_transitions": transitions,
+            "tasks_with_unindexed_gold_files": [r["task_id"] for r in baseline["tasks"]
+                                                 if r.get("unindexed_gold_files")],
             "configuration": baseline["configuration"], "input_manifest": baseline["input_manifest"],
             "method_configurations": {m: r["configuration"] for m, r in results.items()},
             "provenance": {m: r.get("study_environment", r.get("environment"))
