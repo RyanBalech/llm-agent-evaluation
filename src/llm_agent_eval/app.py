@@ -185,12 +185,14 @@ def create_app(data_dir: Path | None = None, *, token: str | None = None) -> Fas
         result = json.loads((PACKAGE / "evidence" / "baseline.json").read_text())
         studies = [json.loads(path.read_text(encoding="utf-8"))
                    for path in sorted((PACKAGE / "evidence").glob("study_*.json"))]
+        limitations = ["12 of 20 tasks are Django; this is a small development slice.",
+                       "File localization does not measure successful bug fixes.",
+                       "Latency is from the archived environment, not this server."]
+        if not studies:
+            limitations.append("Dense and hybrid full-study results are not yet available.")
         return {"baseline": result, "label": "Archived 20-task SWE-bench Verified experiment",
                 "studies": studies,
-                "limitations": ["12 of 20 tasks are Django; this is a small development slice.",
-                                 "File localization does not measure successful bug fixes.",
-                                 "Dense and hybrid full-study results are not yet available.",
-                                 "Latency is from the archived environment, not this server."],
+                "limitations": limitations,
                 "source": "https://github.com/RyanBalech/llm-agent-evaluation/blob/main/"
                           "results/published/swebench_verified_bm25_20.json"}
 
