@@ -5,6 +5,7 @@ Use --live to also index the public project repository (requires network access)
 """
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -38,12 +39,16 @@ def main():
         expect(search).to_be_enabled(timeout=30000)
         search.click()
         expect(page.locator(".result-card").first).to_be_visible(timeout=120000)
+        expect(page.locator(".result-card").first.locator(".code-line").first).to_be_visible()
+        expect(page.locator(".result-card").first.locator(".line-number").first).to_have_text(
+            re.compile(r"[1-9][0-9]*"))
         expect(page.locator(".result-name").filter(has_text="inventory.py")).to_be_visible()
         with page.expect_download() as download:
             page.get_by_role("button", name="Export JSON").click()
         download.value.save_as(output / "demo-search.json")
         result = json.loads((output / "demo-search.json").read_text())
         assert result["files"] and result["selected_characters"] <= result["context_budget_chars"]
+        assert result["files"][0]["snippets"][0]["text"]
         page.screenshot(path=str(output / "repolens-desktop.png"), full_page=True)
         if args.explain:
             page.locator("#explain-button").click()
@@ -59,8 +64,10 @@ def main():
             page.get_by_label("What is going wrong?").fill("select_under_character_budget skips chunks that exceed the context budget")
             search.click()
             expect(page.locator(".result-card").first).to_be_visible(timeout=30000)
-            assert page.locator(".snippet-heading a").first.get_attribute("href").startswith(
-                "https://github.com/RyanBalech/llm-agent-evaluation/blob/")
+            source_url = page.locator(".snippet-heading a").first.get_attribute("href")
+            assert re.match(
+                r"https://github\.com/RyanBalech/llm-agent-evaluation/blob/[0-9a-f]{40}/",
+                source_url)
         page.get_by_role("button", name="Evaluation lab").click()
         expect(page.get_by_text("0.425", exact=True).first).to_be_visible()
         assert page.locator("#baseline-tasks tbody tr").count() == 20
