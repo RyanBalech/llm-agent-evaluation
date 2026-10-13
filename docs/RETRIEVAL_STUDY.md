@@ -52,6 +52,8 @@ one issue, worsened four, and matched BM25 on fifteen. For `django__django-16502
 hybrid found `django/core/servers/basehttp.py` at rank five while BM25 missed it.
 For `django__django-11880`, BM25 found `django/forms/fields.py` at rank three and
 hybrid missed it. These are observed ranks, not explanations of why a method failed.
+The dense and BM25 top-five file sets overlapped by only 0.15 files per issue on
+average, so fusion combined mostly different candidates.
 CodeBERT uses general pretrained weights with mean pooling, without retrieval fine-tuning;
 long chunks also truncate at 512 model tokens. Neither factor has been isolated here.
 
