@@ -531,7 +531,7 @@ async function connect() {
     if (config.browser_mode) {
       $("access-button").hidden = true;
       $("public-demo-note").textContent =
-        "Search prepared repository snapshots locally in your browser. For arbitrary GitHub indexing and dense retrieval, run the Python app. Optional explanations download a local model (~2 GB) and require WebGPU.";
+        "Search prepared repository snapshots locally in your browser. For arbitrary GitHub indexing and dense retrieval, run the Python app. Optional explanations download a local model (~1 GB) and require WebGPU.";
       $("explain-button").textContent = "Explain locally · download model";
     }
     notice();
