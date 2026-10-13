@@ -19,7 +19,7 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: python -m pip install -e ".[dev,app]"
-      - run: ruff check src tests
+      - run: ruff check src tests scripts
       - run: pytest -q
 
   browser:

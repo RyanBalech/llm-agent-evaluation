@@ -105,7 +105,7 @@ multi-user load, or production SLA has been measured.
 
 ```powershell
 python -m pytest -q
-python -m ruff check src tests
+python -m ruff check src tests scripts
 python -m pip install playwright
 python -m playwright install chromium
 # With the app running in another terminal:
