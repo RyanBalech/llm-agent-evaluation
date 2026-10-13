@@ -20,7 +20,7 @@ def build(output: Path):
     html = (package / "static/index.html").read_text(encoding="utf-8")
     html = html.replace('href="/static/', 'href="./static/').replace('src="/static/', 'src="./static/')
     html = html.replace('href="/"', 'href="./"').replace('href="/docs"',
-        'href="https://github.com/RyanBalech/llm-agent-evaluation/blob/feat/repolens-product/docs/PRODUCT.md"')
+        'href="https://github.com/RyanBalech/llm-agent-evaluation/blob/main/docs/PRODUCT.md"')
     html = html.replace("API reference ↗", "Product guide ↗")
     html = html.replace('<script src="./static/app.js" defer></script>',
         '<script src="./static/pages.js" defer></script>\n    <script src="./static/app.js" defer></script>')

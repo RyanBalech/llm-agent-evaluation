@@ -32,6 +32,9 @@ def main():
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(args.url)
         expect(page.get_by_text("Browser ready" if args.static else "Server connected", exact=True)).to_be_visible()
+        if args.static:
+            assert page.get_by_role("link", name="Product guide").get_attribute("href") == (
+                "https://github.com/RyanBalech/llm-agent-evaluation/blob/main/docs/PRODUCT.md")
         page.get_by_role("button", name="Try the sample shop").click()
         expect(page.locator("#active-index strong")).to_have_text("Sample shop · demonstration")
         expect(page.get_by_role("button", name="Try the sample shop")).to_be_enabled()
