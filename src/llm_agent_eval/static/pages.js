@@ -75,7 +75,7 @@
         id: crypto.randomUUID(),
         status: "generating",
         message:
-          "Loading the local browser model. The first download is approximately 2 GB…",
+          "Loading the local browser model. The first download is approximately 1 GB…",
       };
       jobs.set(job.id, job);
       call("explain", { ...JSON.parse(options.body), job_id: job.id }).then(

@@ -187,8 +187,8 @@ WebAssembly worker. Queries stay in the browser. Prepared source snapshots have 
 links; arbitrary repository ingestion and dense retrieval remain available in the Python app.
 The first search downloads the Python runtime from a version-pinned CDN.
 
-On WebGPU-capable browsers, optional explanations run a quantized Qwen2.5-Coder-3B-Instruct
-model through WebLLM. Clicking the explanation button starts an approximately 2 GB model download;
+On WebGPU-capable browsers, optional explanations run a quantized Qwen2.5-Coder-1.5B-Instruct
+model through WebLLM. Clicking the explanation button starts an approximately 1 GB model download;
 subsequent uses can reuse the browser cache. This is a different inference runtime from the Python
 model, and its output is not assumed identical. Generated JSON is constrained to known evidence IDs,
 then validated with the shared Python citation validator. The source snippets are copied from the

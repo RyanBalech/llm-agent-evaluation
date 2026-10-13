@@ -1,8 +1,8 @@
 import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs";
 
 let pythonPromise, modelPromise;
-const modelId = "Qwen2.5-Coder-3B-Instruct-q4f16_1-MLC";
-const modelRevision = "5213029e7ae2ad46baf9657aa491186e56cd34d6";
+const modelId = "Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC";
+const modelRevision = "30184a4f713a9aaf6c548ace1290615d0ea041ff";
 const snapshots = new Map();
 const base = new URL("../", import.meta.url);
 async function python() {
