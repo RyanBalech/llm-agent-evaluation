@@ -42,8 +42,9 @@ they are not latency percentiles or throughput measurements.
 
 ## Unverified or pending
 
-- The balanced 50-task CodeBERT/hybrid comparison remains pending. The frozen runner
-  preserves a per-task checkpoint; no gain is claimed from partial results.
+- The balanced 50-task CodeBERT/hybrid comparison is unfinished and optional. The runner
+  was stopped after 19 dense tasks with zero failures; its checkpoint is preserved outside
+  published results. No gain is claimed from partial results.
 - The 20-task report includes task-paired and repository-macro uncertainty estimates.
   Sustained load tests and developer usability measurements have not been performed.
 - Local Docker execution could not be run because the Docker daemon is unavailable on this

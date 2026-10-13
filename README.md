@@ -42,8 +42,8 @@ supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval
 
 This release localizes code. Generated fixes and execution of repository code are outside
 its implemented workflow. The completed 20-task dense/hybrid study does not show an accuracy
-improvement; the balanced 50-task comparison is still running. The server supports local or
-authenticated single-user deployment, with
+improvement; the balanced 50-task comparison is an optional unfinished extension. The server
+supports local or authenticated single-user deployment, with
 one process per data directory. A static browser build supports prepared repositories, Python BM25
 in WebAssembly, and optional WebGPU explanations without a paid hosting account.
 
@@ -110,7 +110,9 @@ an unindexed gold file.
 - Paired comparisons that reject mismatched budgets, task lists and incomplete runs.
 
 Dense inference and cache reuse have been checked with the real CodeBERT encoder. The
-20-task comparison is complete; the balanced 50-task dense/hybrid comparison is pending.
+20-task comparison is complete. The balanced 50-task BM25 arm is complete; its dense/hybrid
+comparison was stopped after 19 dense tasks, with its checkpoint preserved. It is not used for
+an accuracy comparison or required to run RepoLens.
 The benchmark loads one encoder per run, reuses content-addressed
 embeddings, records resolved encoder revisions and writes an atomic checkpoint per task.
 

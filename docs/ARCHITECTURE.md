@@ -72,8 +72,8 @@ The archived 20-task slice includes twelve Django tasks. Paired bootstrap interv
 pairing by task, not repository-level dependence. Future work should freeze a separate test set,
 report repository composition, and use repository-aware uncertainty analysis where appropriate.
 The 20-task dense/hybrid comparison is complete and shows no accuracy improvement over BM25.
-The separately frozen 50-task comparison remains pending. CodeBERT mean pooling without
-retrieval fine-tuning is an experimental baseline; it has no guaranteed semantic advantage.
+The separately frozen 50-task comparison is unfinished and optional. CodeBERT mean pooling
+without retrieval fine-tuning is an experimental baseline; it has no guaranteed semantic advantage.
 
 ## Design constraints
 

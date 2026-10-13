@@ -82,7 +82,9 @@ The lexical baseline includes a filename/path-match weight of 0.15.
 All methods use top-k 5, 50 candidate chunks, a 40,000-character budget, 80-line
 chunks and 20-line overlap. The completed 20-task comparison above supersedes the
 earlier real-encoder smoke check, which is archived separately in
-`results/published/dense_smoke.json`. The balanced 50-task dense/hybrid run is pending.
+`results/published/dense_smoke.json`. The balanced 50-task dense/hybrid run stopped after
+19 completed dense tasks and remains an optional, unfinished extension. Its checkpoint
+is retained outside published results.
 
 The comparison command rejects failed/incomplete studies, duplicate task IDs,
 different ordered task sets and unequal context/chunk budgets. This prevents a

@@ -3,7 +3,7 @@
 The current evidence and failure examples are in [RETRIEVAL_STUDY.md](RETRIEVAL_STUDY.md).
 
 The 20-task comparison of dense and hybrid retrieval against lexical retrieval is
-complete. The next measured comparison is the repository-balanced 50-task slice.
+complete. An optional extension is the repository-balanced 50-task slice.
 Complete all requested tasks before comparing scores; partial checkpoints are for
 recovery and diagnosis only.
 
