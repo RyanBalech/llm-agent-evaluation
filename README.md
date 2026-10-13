@@ -87,6 +87,9 @@ and smoke tasks, BM25 completed 50/50 with Recall@5 **0.555**, MRR **0.441**, an
 This repository-balanced sample has a different composition; the difference from the original
 baseline is not a method improvement. [Raw results](results/published/verified_balanced_50_bm25.json)
 and [frozen manifest](configs/verified_balanced_50_manifest.json) include task-level provenance.
+One balanced task includes `setup.cfg` among its gold files. The source-only index excludes that
+configuration file, so perfect recall is unavailable on that task; the raw result records it as
+an unindexed gold file.
 
 ## Implemented methods
 
