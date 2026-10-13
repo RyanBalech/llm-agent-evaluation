@@ -56,6 +56,9 @@ The dense and BM25 top-five file sets overlapped by only 0.15 files per issue on
 average, so fusion combined mostly different candidates.
 CodeBERT uses general pretrained weights with mean pooling, without retrieval fine-tuning;
 long chunks also truncate at 512 model tokens. Neither factor has been isolated here.
+The [CodeBERT paper](https://aclanthology.org/2020.findings-emnlp.139/) evaluates code search
+after task-specific fine-tuning. These results measure this project's untuned pooling
+configuration, not the paper's trained code-search system.
 
 Dense index time mixes fifteen cache misses (mean 425.4 s) with five cache hits
 (mean 6.9 s). Hybrid reused all twenty embedding caches. All twenty source snapshots
