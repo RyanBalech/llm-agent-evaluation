@@ -72,6 +72,12 @@ def main():
         expect(page.get_by_text("0.425", exact=True).first).to_be_visible()
         expect(page.get_by_role("heading", name="Frozen 20-task comparison")).to_be_visible()
         assert page.locator("#baseline-tasks tbody tr").count() == 20
+        with page.expect_download() as study_download:
+            page.get_by_role("button", name="Download complete study JSON").first.click()
+        study_download.value.save_as(output / "verified-20-study.json")
+        study = json.loads((output / "verified-20-study.json").read_text())
+        assert study["n_tasks"] == 20 and len(study["tasks"]) == 20
+        assert study["aggregates"]["bm25"]["mean_recall_at_k"] == 0.425
         page.screenshot(path=str(output / "repolens-evaluation.png"), full_page=True)
         page.get_by_role("button", name="Investigate", exact=True).click()
         if args.live:
