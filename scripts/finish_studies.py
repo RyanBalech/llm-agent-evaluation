@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 import shutil
 import subprocess
 import sys
@@ -39,9 +38,10 @@ def main() -> None:
     args = parser.parse_args()
     if args.wait_pid:
         while not Path("results/verified-20/comparison.json").exists():
-            try:
-                os.kill(args.wait_pid, 0)
-            except OSError:
+            found = subprocess.run(
+                ["tasklist", "/FI", f"PID eq {args.wait_pid}", "/FO", "CSV", "/NH"],
+                check=True, capture_output=True, text=True).stdout
+            if f'"{args.wait_pid}"' not in found:
                 break
             sleep(30)
     study("results/verified-20", ".benchmark/study.jsonl",
