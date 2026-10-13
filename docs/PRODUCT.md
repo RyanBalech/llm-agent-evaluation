@@ -12,7 +12,8 @@
    indexed commit. Highlighted terms explain lexical overlap; they do not prove causation.
 5. Export JSON to preserve the query, commit, configuration, selected code, scores, timings,
    and index fingerprint. Repeat with a different budget or method to investigate behavior.
-6. Open Evaluation lab to inspect the archived 20-task study, including every miss.
+6. Open Evaluation lab to inspect the archived baseline, the completed 20-task paired
+   comparison and every original baseline miss.
 
 The sample shop contains a deliberately incomplete cancellation function. It is a demonstration,
 not a held-out evaluation. No account, model download, or internet connection is needed for it.

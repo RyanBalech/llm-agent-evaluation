@@ -1,0 +1,726 @@
+{
+  "n_requested": 20,
+  "n_successful": 20,
+  "n_failed": 0,
+  "n_completed": 20,
+  "aggregate": {
+    "mean_recall_at_k": 0.425,
+    "mean_reciprocal_rank": 0.2791666666666667,
+    "mean_ndcg_at_k": 0.2974229559439696,
+    "mean_retrieval_ms": 651.8249549990287,
+    "mean_retrieved_characters": 39428.6
+  },
+  "configuration": {
+    "method": "bm25",
+    "model_name": null,
+    "model_revision": null,
+    "top_k": 5,
+    "candidate_chunks": 50,
+    "context_budget_chars": 40000,
+    "lines_per_chunk": 80,
+    "overlap": 20,
+    "bm25_path_prior_weight": 0.15,
+    "rrf_candidate_multiplier": null,
+    "rrf_constant": null,
+    "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a"
+  },
+  "tasks": [
+    {
+      "task_id": "django__django-16100",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "django/contrib/admin/options.py",
+        "django/db/transaction.py",
+        "tests/select_for_update/tests.py",
+        "tests/transactions/tests.py",
+        "django/db/backends/base/features.py"
+      ],
+      "retrieved_characters": 38431,
+      "retrieval_ms": 337.4294000095688,
+      "setup_seconds": 2.3489674999727868,
+      "n_indexed_chunks": 8756,
+      "source_seconds": 0.263290099974256,
+      "index_seconds": 1.8642173000262119,
+      "source_sha256": "686e9fc8edc13229f4d5e9adc07b5855a8fe58d3449e6cc31b8d7c9917245d6f",
+      "source_cache_hit": true,
+      "n_indexed_files": 2272,
+      "gold_files": [
+        "django/contrib/admin/options.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sympy/solvers/solveset.py",
+        "sympy/utilities/tests/test_wester.py",
+        "sympy/solvers/tests/test_solveset.py"
+      ],
+      "retrieved_characters": 39888,
+      "retrieval_ms": 475.1920999842696,
+      "setup_seconds": 6.865142399969045,
+      "n_indexed_chunks": 11300,
+      "source_seconds": 0.5081530999741517,
+      "index_seconds": 5.86721530003706,
+      "source_sha256": "4dc9cc40823d4f624cd081b4273786214cd3996a7c553c1017ab53bc357c283e",
+      "source_cache_hit": true,
+      "n_indexed_files": 1281,
+      "gold_files": [
+        "sympy/core/relational.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sphinx/ext/intersphinx.py",
+        "sphinx/builders/_epub_base.py",
+        "sphinx/themes/basic/static/jquery-3.5.1.js",
+        "sphinx/ext/autosummary/__init__.py",
+        "sphinx/ext/napoleon/__init__.py"
+      ],
+      "retrieved_characters": 39929,
+      "retrieval_ms": 143.06750003015622,
+      "setup_seconds": 1.2722263000323437,
+      "n_indexed_chunks": 2482,
+      "source_seconds": 0.08551180001813918,
+      "index_seconds": 1.11161030002404,
+      "source_sha256": "930d71bc203b91df96474a3c49e4b7cd59e3d8194170ed157674ded3751ed7e7",
+      "source_cache_hit": true,
+      "n_indexed_files": 605,
+      "gold_files": [
+        "sphinx/util/docfields.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-11880",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "django/forms/models.py",
+        "django/forms/forms.py",
+        "django/forms/fields.py",
+        "django/core/exceptions.py",
+        "django/test/testcases.py"
+      ],
+      "retrieved_characters": 39807,
+      "retrieval_ms": 325.7764999871142,
+      "setup_seconds": 2.0997924000257626,
+      "n_indexed_chunks": 7031,
+      "source_seconds": 0.2873095999821089,
+      "index_seconds": 1.5667514000087976,
+      "source_sha256": "a227d6ed043590ac1f5abd0868b7c49ee091ba405238de8573454273622218f4",
+      "source_cache_hit": true,
+      "n_indexed_files": 2161,
+      "gold_files": [
+        "django/forms/fields.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-13809",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "retrieved_files": [
+        "django/core/management/base.py",
+        "django/core/management/commands/check.py",
+        "django/core/management/commands/migrate.py",
+        "django/core/management/commands/runserver.py",
+        "django/core/management/commands/startproject.py"
+      ],
+      "retrieved_characters": 38517,
+      "retrieval_ms": 310.62860001111403,
+      "setup_seconds": 2.5221378999995068,
+      "n_indexed_chunks": 7448,
+      "source_seconds": 0.17179819999728352,
+      "index_seconds": 2.1790192000335082,
+      "source_sha256": "4210fd1c8f92bbee9a87335d2f66cdd304d33a654bd0805d25af7d26ffb84551",
+      "source_cache_hit": true,
+      "n_indexed_files": 2213,
+      "gold_files": [
+        "django/core/management/commands/runserver.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-11740",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/admin_widgets/models.py",
+        "tests/admin_views/models.py",
+        "tests/model_formsets/models.py",
+        "tests/gis_tests/layermap/models.py",
+        "tests/prefetch_related/models.py"
+      ],
+      "retrieved_characters": 39435,
+      "retrieval_ms": 674.9368000309914,
+      "setup_seconds": 3.1772924999822862,
+      "n_indexed_chunks": 7011,
+      "source_seconds": 0.2570553999976255,
+      "index_seconds": 2.6870405999943614,
+      "source_sha256": "a2f7443bb2157f05a737052ec7bfaa2be3c345cd9e44b74536d8707d282971cb",
+      "source_cache_hit": true,
+      "n_indexed_files": 2158,
+      "gold_files": [
+        "django/db/migrations/autodetector.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-15315",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/db/models/base.py",
+        "django/db/models/fields/files.py",
+        "django/db/models/fields/reverse_related.py",
+        "tests/basic/tests.py",
+        "django/db/models/fields/related.py"
+      ],
+      "retrieved_characters": 39499,
+      "retrieval_ms": 574.1525000194088,
+      "setup_seconds": 3.4538850000244565,
+      "n_indexed_chunks": 7788,
+      "source_seconds": 0.3098026000079699,
+      "index_seconds": 2.8437581000034697,
+      "source_sha256": "318a78ac4fb40c8dbc37c46fac846c24d91ad88bc78890615949de0d9b4d7014",
+      "source_cache_hit": true,
+      "n_indexed_files": 2253,
+      "gold_files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "astropy/io/ascii/tests/test_html.py",
+        "astropy/io/fits/scripts/fitsheader.py",
+        "astropy/table/connect.py",
+        "setup.py",
+        "astropy/table/tests/test_jsviewer.py"
+      ],
+      "retrieved_characters": 38994,
+      "retrieval_ms": 3901.1683999560773,
+      "setup_seconds": 5.640663600002881,
+      "n_indexed_chunks": 11586,
+      "source_seconds": 0.4320425000041723,
+      "index_seconds": 4.741049100004602,
+      "source_sha256": "07af73583c8d6d6f2a328ba8e2032ed886249df34a5a170fb02db16626360dc0",
+      "source_cache_hit": true,
+      "n_indexed_files": 1099,
+      "gold_files": [
+        "astropy/io/ascii/html.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-15731",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/test/testcases.py",
+        "tests/template_tests/syntax_tests/i18n/test_blocktranslate.py",
+        "django/db/models/expressions.py",
+        "django/template/base.py",
+        "tests/template_tests/syntax_tests/i18n/test_translate.py"
+      ],
+      "retrieved_characters": 39742,
+      "retrieval_ms": 659.4582999823615,
+      "setup_seconds": 3.799640499986708,
+      "n_indexed_chunks": 8683,
+      "source_seconds": 0.3518388000084087,
+      "index_seconds": 3.1365923000266775,
+      "source_sha256": "b5a90a37cfb334acfd236445404259bc30fa11f25cece42445c701239a47cb87",
+      "source_cache_hit": true,
+      "n_indexed_files": 2268,
+      "gold_files": [
+        "django/db/models/manager.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-16454",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "tests/user_commands/management/commands/subparser.py",
+        "tests/user_commands/management/commands/subparser_dest.py",
+        "django/core/management/base.py",
+        "tests/user_commands/tests.py",
+        "django/core/management/__init__.py"
+      ],
+      "retrieved_characters": 39328,
+      "retrieval_ms": 509.613000031095,
+      "setup_seconds": 2.5945213999948464,
+      "n_indexed_chunks": 8793,
+      "source_seconds": 0.37684290000470355,
+      "index_seconds": 1.9437484999652952,
+      "source_sha256": "14fff8a7bbb1f29a94852094bd8dd3a4fb1a20aa8a53e31f7f3828f0ff99f5e9",
+      "source_cache_hit": true,
+      "n_indexed_files": 2269,
+      "gold_files": [
+        "django/core/management/base.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-14787",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/utils/functional.py",
+        "django/test/testcases.py",
+        "tests/gis_tests/utils.py",
+        "tests/decorators/tests.py",
+        "django/test/utils.py"
+      ],
+      "retrieved_characters": 39183,
+      "retrieval_ms": 357.0207000011578,
+      "setup_seconds": 2.4186046000104398,
+      "n_indexed_chunks": 7716,
+      "source_seconds": 0.19466460001422092,
+      "index_seconds": 2.0220092999516055,
+      "source_sha256": "f14c45242e12e3b16cd7288213b635ec65fc979cc6b5c163499cf8135baa4cf3",
+      "source_cache_hit": true,
+      "n_indexed_files": 2244,
+      "gold_files": [
+        "django/utils/decorators.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "retrieved_files": [
+        "sphinx/application.py",
+        "sphinx/cmd/quickstart.py",
+        "sphinx/extension.py",
+        "tests/test_environment_indexentries.py",
+        "sphinx/util/stemmer/porter.py"
+      ],
+      "retrieved_characters": 39239,
+      "retrieval_ms": 213.9344000024721,
+      "setup_seconds": 1.3340885000070557,
+      "n_indexed_chunks": 2518,
+      "source_seconds": 0.2209517000010237,
+      "index_seconds": 1.0309539000154473,
+      "source_sha256": "c14b5667b5bee07e6a541bdd9135fd25b5eda07e634803263a8f5dd2d47d11b1",
+      "source_cache_hit": true,
+      "n_indexed_files": 617,
+      "gold_files": [
+        "sphinx/extension.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "astropy/io/fits/hdu/base.py",
+        "astropy/io/fits/header.py",
+        "astropy/io/fits/hdu/hdulist.py",
+        "astropy/io/fits/tests/test_hdulist.py",
+        "astropy/io/fits/tests/test_header.py"
+      ],
+      "retrieved_characters": 39512,
+      "retrieval_ms": 334.61749996058643,
+      "setup_seconds": 4.509862999955658,
+      "n_indexed_chunks": 10842,
+      "source_seconds": 0.4788461999851279,
+      "index_seconds": 3.6352730999933556,
+      "source_sha256": "ef480793e122694315d34470e97eec772c3bf9a8b774471617b290d597365438",
+      "source_cache_hit": true,
+      "n_indexed_files": 1180,
+      "gold_files": [
+        "astropy/io/fits/card.py",
+        "astropy/io/fits/header.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sklearn/utils/_set_output.py",
+        "sklearn/utils/tests/test_set_output.py",
+        "sklearn/utils/tests/test_utils.py",
+        "sklearn/compose/tests/test_column_transformer.py",
+        "sklearn/_build_utils/openmp_helpers.py"
+      ],
+      "retrieved_characters": 39701,
+      "retrieval_ms": 658.1119999755174,
+      "setup_seconds": 1.9299202000256628,
+      "n_indexed_chunks": 6286,
+      "source_seconds": 0.41592270002001897,
+      "index_seconds": 1.3286995000089519,
+      "source_sha256": "368fd279caf2d4b4d872d6c6596ebc525b8a5f44f16e730fb4da88eff9192627",
+      "source_cache_hit": true,
+      "n_indexed_files": 871,
+      "gold_files": [
+        "sklearn/utils/_set_output.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sympy/matrices/tests/test_commonmatrix.py",
+        "sympy/printing/tests/test_theanocode.py",
+        "sympy/physics/quantum/pauli.py",
+        "sympy/physics/mechanics/tests/test_models.py",
+        "sympy/physics/hep/tests/test_gamma_matrices.py"
+      ],
+      "retrieved_characters": 39396,
+      "retrieval_ms": 492.0964000048116,
+      "setup_seconds": 2.935282799997367,
+      "n_indexed_chunks": 7922,
+      "source_seconds": 0.1544436999829486,
+      "index_seconds": 2.6183246999862604,
+      "source_sha256": "9da1c3deef62e80756dc0192db0ada44e8790601e972c884536f7c78dda8f1a9",
+      "source_cache_hit": true,
+      "n_indexed_files": 1065,
+      "gold_files": [
+        "sympy/matrices/sparse.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "astropy/utils/introspection.py",
+        "astropy/units/tests/test_quantity.py",
+        "ah_bootstrap.py",
+        "astropy/utils/tests/test_introspection.py",
+        "astropy/__init__.py"
+      ],
+      "retrieved_characters": 39512,
+      "retrieval_ms": 876.1591000366025,
+      "setup_seconds": 4.750777499983087,
+      "n_indexed_chunks": 10361,
+      "source_seconds": 0.4002071000286378,
+      "index_seconds": 4.033378400024958,
+      "source_sha256": "c0041d0c4335b99fe3797a6ada996c2f568b21de1a85afd705ca62719ab45a85",
+      "source_cache_hit": true,
+      "n_indexed_files": 1149,
+      "gold_files": [
+        "astropy/utils/introspection.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-15695",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/migrations/test_operations.py",
+        "tests/postgres_tests/test_operations.py"
+      ],
+      "retrieved_characters": 38814,
+      "retrieval_ms": 400.87689994834363,
+      "setup_seconds": 4.067872299987357,
+      "n_indexed_chunks": 8675,
+      "source_seconds": 0.5230627999990247,
+      "index_seconds": 2.983556999999564,
+      "source_sha256": "5c30364f592bd26d4dd2d573a88cdce0e390a9d30f9ccb91ec5dd1f02134e497",
+      "source_cache_hit": true,
+      "n_indexed_files": 2268,
+      "gold_files": [
+        "django/db/migrations/operations/models.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-15563",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tests/model_inheritance/tests.py",
+        "tests/admin_changelist/tests.py",
+        "tests/model_inheritance_regress/tests.py",
+        "django/db/models/fields/related_descriptors.py",
+        "tests/delete_regress/tests.py"
+      ],
+      "retrieved_characters": 39763,
+      "retrieval_ms": 621.0494000115432,
+      "setup_seconds": 3.6455584000214003,
+      "n_indexed_chunks": 8608,
+      "source_seconds": 0.47722579998662695,
+      "index_seconds": 2.876064000010956,
+      "source_sha256": "45a7c565a36915d185e6d9c30bd6e13b98cf4703d92163b8c1b4cceb230736e8",
+      "source_cache_hit": true,
+      "n_indexed_files": 2263,
+      "gold_files": [
+        "django/db/models/sql/compiler.py",
+        "django/db/models/sql/subqueries.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-16502",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/utils/cache.py",
+        "django/views/csrf.py",
+        "django/views/static.py",
+        "django/test/client.py",
+        "tests/middleware/tests.py"
+      ],
+      "retrieved_characters": 39914,
+      "retrieval_ms": 799.521500011906,
+      "setup_seconds": 3.492732100014109,
+      "n_indexed_chunks": 8793,
+      "source_seconds": 0.37315870000747964,
+      "index_seconds": 2.8217739000101574,
+      "source_sha256": "06dc6abf5a48d7d73f53eec2ea4dbf5447db50cb11e56602d01e9aab9d0ecd3e",
+      "source_cache_hit": true,
+      "n_indexed_files": 2269,
+      "gold_files": [
+        "django/core/servers/basehttp.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-12774",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "tests/lookup/tests.py",
+        "django/db/models/query.py",
+        "django/db/models/fields/related.py",
+        "django/db/models/constraints.py",
+        "tests/schema/tests.py"
+      ],
+      "retrieved_characters": 39968,
+      "retrieval_ms": 371.6880999854766,
+      "setup_seconds": 3.032378100033384,
+      "n_indexed_chunks": 7186,
+      "source_seconds": 0.2727996000321582,
+      "index_seconds": 2.4922740000183694,
+      "source_sha256": "4330e3777895f0f31ffbf5e9208fe318c9a0e64d5b66fd7b222632e9f4ba8410",
+      "source_cache_hit": true,
+      "n_indexed_files": 2191,
+      "gold_files": [
+        "django/db/models/query.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    }
+  ],
+  "failures": [],
+  "input_manifest": [
+    {
+      "instance_id": "django__django-16100",
+      "repo": "django/django",
+      "base_commit": "c6350d594c359151ee17b0c4f354bb44f28ff69e",
+      "issue_sha256": "1348b1dd6ab1cb64b3178fe8cf3fa0b9998eaa9eb0a7c522fb5eed67f62254ba",
+      "patch_sha256": "138d0f4718704c149e0d700931a1996a1c9f8ac11801f6241e9015d47695a49b"
+    },
+    {
+      "instance_id": "sympy__sympy-18211",
+      "repo": "sympy/sympy",
+      "base_commit": "b4f1aa3540fe68d078d76e78ba59d022dd6df39f",
+      "issue_sha256": "e2e6d8d8bb9ce663b29aaccb73683ba91e87ceb98a7d613750de91f2d4b245a5",
+      "patch_sha256": "f391664f98c719c093064631d83e53a01d97786031184ad221ad623516d8392a"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+      "issue_sha256": "e814405fe0885a2284bec4dfdf1efa5bd0386117d02410e9ad0ec98c0e1712ab",
+      "patch_sha256": "e6cc08c8b1858c3d41964c220e396638c15e601f88fa9cb6493938e5fdd814c6"
+    },
+    {
+      "instance_id": "django__django-11880",
+      "repo": "django/django",
+      "base_commit": "06909fe084f87a65459a83bd69d7cdbe4fce9a7c",
+      "issue_sha256": "e602e90dd73a70f9faf006238dfda2347f4aa08bb29365ae2611b3ea92f3eff4",
+      "patch_sha256": "8c47d5fdef900230cb6fd10f627d6b0efeb792d704526a476d0ffe6c0e2dd3e9"
+    },
+    {
+      "instance_id": "django__django-13809",
+      "repo": "django/django",
+      "base_commit": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "issue_sha256": "7a85668efd30416150d8bb3013727c6ebf8d0013064afc93e5b96d2aabcf456c",
+      "patch_sha256": "6ffda1af3e10ea2092376fb86a88a1e7533dbae2c2a09bf9e1974f62bf0fbba8"
+    },
+    {
+      "instance_id": "django__django-11740",
+      "repo": "django/django",
+      "base_commit": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "issue_sha256": "e957578643e3473772f3962d3350cf65879725d62c071efa6b97fc4fda1f7d27",
+      "patch_sha256": "87a8df03c5a6c48e26c26af2b41d2c9d67e197947dfb94bdbda1f07a3c613d85"
+    },
+    {
+      "instance_id": "django__django-15315",
+      "repo": "django/django",
+      "base_commit": "652c68ffeebd510a6f59e1b56b3e007d07683ad8",
+      "issue_sha256": "a26b3534bece469f866614b19fadd37e13c9a06ce293bfe21e32313b9cfa90fd",
+      "patch_sha256": "dd19fbbb798dd2c982213626ce7cc38a457efc858d2df02621d80ea1e288687b"
+    },
+    {
+      "instance_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "base_commit": "19cc80471739bcb67b7e8099246b391c355023ee",
+      "issue_sha256": "be929904c3062b54da2fa3ad7de338bd7f1f41a5aa48e64bec41f244d6e17c5a",
+      "patch_sha256": "7f579408e4ad94b129886283f9c6df7d27d3965e2aaaa88141045515dd4710d9"
+    },
+    {
+      "instance_id": "django__django-15731",
+      "repo": "django/django",
+      "base_commit": "93cedc82f29076c824d476354527af1150888e4f",
+      "issue_sha256": "b28cf585d0d568812aef7b882e47df7a542f7736ee900877c426c000a3ed953c",
+      "patch_sha256": "2fdd6b1bc7201f28c9eaf734652e6431eaea51114b75d9b35fe43ea0e2ce066b"
+    },
+    {
+      "instance_id": "django__django-16454",
+      "repo": "django/django",
+      "base_commit": "1250483ebf73f7a82ff820b94092c63ce4238264",
+      "issue_sha256": "1b38e35ca2721cfc6bfdf1b9fdc133975c7e5c72b4ef5e91e132fd578e89d0e0",
+      "patch_sha256": "c6d58006c0fc2adb0d3e2c0a3639767ffda1306b493f820480cd9570028d95ce"
+    },
+    {
+      "instance_id": "django__django-14787",
+      "repo": "django/django",
+      "base_commit": "004b4620f6f4ad87261e149898940f2dcd5757ef",
+      "issue_sha256": "b52409ced83e2b68e7961a34db6792ca6b89277456ea14c6c166c7f8c8e17c0d",
+      "patch_sha256": "96d2dfb5441604f64daf06f4bc5ce0877dd5ab7db83a11835d1201d067ca92a6"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9711",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "81a4fd973d4cfcb25d01a7b0be62cdb28f82406d",
+      "issue_sha256": "774dbded97246fc337cc3a9f01569a66641396f3952440385d51e6f7e095234a",
+      "patch_sha256": "93e8416e245c285b21095773344f64a37bb31a7ba66227864873ac4622934ae2"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "repo": "astropy/astropy",
+      "base_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "issue_sha256": "f7420a19ba5b0c807396a84da376d8303e69ff66d0216c332adf099da589a714",
+      "patch_sha256": "f993c1ada6f19bcdfa8989e0c1c61151cd881a81d549f2789663270537c093f2"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25747",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0",
+      "issue_sha256": "9737299393a037ff2845a2f62b558550b2900387a4de7ee94c19b48d397f1d33",
+      "patch_sha256": "cd985cfd10afb83adb9d714fb81873b001a56de5938d93b5a9c7dbb641d3c9b3"
+    },
+    {
+      "instance_id": "sympy__sympy-13031",
+      "repo": "sympy/sympy",
+      "base_commit": "2dfa7457f20ee187fbb09b5b6a1631da4458388c",
+      "issue_sha256": "5d95a063a1ada8b9273255940d122605d87ea3ab2aa27f524725442be780b5c6",
+      "patch_sha256": "a3b080cca8903951b4fdaa9df27df3f50269b170f4f4b726733c6a3d782efc9d"
+    },
+    {
+      "instance_id": "astropy__astropy-7671",
+      "repo": "astropy/astropy",
+      "base_commit": "a7141cd90019b62688d507ae056298507678c058",
+      "issue_sha256": "90a901a7b3d510c5fe9317b76fc9f83e883b577de167936d9e76ccbd69677f70",
+      "patch_sha256": "42828c5c129810409cbbf1882df2b6c7f82d613261b8c9da70cb2ac67a184ab3"
+    },
+    {
+      "instance_id": "django__django-15695",
+      "repo": "django/django",
+      "base_commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
+      "issue_sha256": "613bfb30e51009598a05937b5149afbc0cf7b5eb59572cc4282e9154fd39da22",
+      "patch_sha256": "7d0932bd7b423b787a0b7e34ef3875efcbf1e9a54987ae7e3094db2b4987f748"
+    },
+    {
+      "instance_id": "django__django-15563",
+      "repo": "django/django",
+      "base_commit": "9ffd4eae2ce7a7100c98f681e2b6ab818df384a4",
+      "issue_sha256": "46a090e69eecd18516e4819f11699ec9c5b3d2226db86a616217d9115cdfb5a7",
+      "patch_sha256": "5e8e9ba00474f521ef63e85e42edb2d51e2566ad114d6ff7c62e1d64dbadd832"
+    },
+    {
+      "instance_id": "django__django-16502",
+      "repo": "django/django",
+      "base_commit": "246eb4836a6fb967880f838aa0d22ecfdca8b6f1",
+      "issue_sha256": "7efef7822c78cdf0e41a2bf058fd740eeb35cb07a471343a0bbc7128caf0305f",
+      "patch_sha256": "a4cd5d618966b2716837f8c58dbe81436c7580acb05b28cfc5a4f8bf144cad85"
+    },
+    {
+      "instance_id": "django__django-12774",
+      "repo": "django/django",
+      "base_commit": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "issue_sha256": "8c35fba9272466eec8851a624ea13c5c07eb184359c94dfb922efed85b0fc3b6",
+      "patch_sha256": "d0b9b8daa663676ec20792e9adfd03c280b7e80f2b45d40197d805c1baea6dce"
+    }
+  ],
+  "input_manifest_sha256": "aad0f9ae72fcb3656879e6546f756f0ec9aa7d993e62e10d598e015937f1a4b8",
+  "environment": {
+    "python": "3.13.5"
+  },
+  "study_environment": {
+    "python": "3.13.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "source_sha256": "def5f9af3123e1e1df4a328e4f64c5d383535e438173a5231200c19881674180",
+    "packages": {
+      "torch": "2.10.0+cu130",
+      "transformers": "4.57.6",
+      "datasets": "4.8.5"
+    },
+    "code_commit": "4dea0a6564d54a2e592de2584aabceff18b22f8c",
+    "working_tree_dirty": true,
+    "tasks_sha256": "ba5532c3510548656ed58873bd3289e8ef954247f672691c6d159118f5f1db3e"
+  }
+}

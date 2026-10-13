@@ -41,8 +41,9 @@ It runs the shared BM25 engine in the browser against prepared source snapshots.
 supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval.
 
 This release localizes code. Generated fixes and execution of repository code are outside
-its implemented workflow. Full dense/hybrid SWE-bench results are still pending; no accuracy
-improvement is claimed. The server supports local or authenticated single-user deployment, with
+its implemented workflow. The completed 20-task dense/hybrid study does not show an accuracy
+improvement; the balanced 50-task comparison is still running. The server supports local or
+authenticated single-user deployment, with
 one process per data directory. A static browser build supports prepared repositories, Python BM25
 in WebAssembly, and optional WebGPU explanations without a paid hosting account.
 
@@ -57,22 +58,31 @@ A file-localization benchmark for the retrieval stage of software-engineering ag
 Given an issue and its repository at the issue's base commit, rank candidate source
 files under a fixed code-context budget. Reference patches supply scoring labels only.
 
-## Measured baseline
+## Measured retrieval results
 
-On a fixed **20-task SWE-bench Verified slice**, the lexical baseline completed 20/20 tasks:
+On a fixed **20-task SWE-bench Verified slice**, all three methods completed the same 20 tasks at
+the same base commits, with a 40,000-character budget and five distinct output files:
 
-| Metric | BM25 + filename/path prior |
-|---|---:|
-| Mean file Recall@5 | 0.425 |
-| Mean reciprocal rank | 0.279 |
-| Mean nDCG@5 | 0.297 |
+| Method | Recall@5 | MRR | nDCG@5 | Mean query latency |
+|---|---:|---:|---:|---:|
+| BM25 + filename/path prior | **0.425** | **0.279** | **0.297** | 652 ms |
+| CodeBERT mean pooling | 0.000 | 0.000 | 0.000 | 104 ms |
+| Hybrid reciprocal-rank fusion | 0.300 | 0.163 | 0.183 | 732 ms |
+
+The paired task-bootstrap 95% interval for CodeBERT minus BM25 Recall@5 is
+**[−0.650, −0.225]**; for hybrid minus BM25 it is **[−0.325, 0.050]**. CodeBERT
+underperformed in this setup. The hybrid interval includes zero, so this sample does not
+establish a difference in Recall@5. Query latency excludes source acquisition and indexing.
+Dense index construction averaged 425 seconds on 15 cache misses and 6.9 seconds on five cache
+hits; these local timings are not a serving-load benchmark.
 
 The existing baseline includes a path-match weight of 0.15; it is not unmodified
 BM25. Gold-label verification finds eight complete top-five localizations, one
 partial localization and eleven misses. Twelve of the twenty tasks are from Django.
 These are localization scores, not resolved-issue or patch-correctness scores.
 
-[Results and concrete failure cases](docs/RETRIEVAL_STUDY.md) ·
+[Results, confidence intervals and failure cases](docs/RETRIEVAL_STUDY.md) ·
+[Complete 20-task comparison](results/published/verified_20_report.json) ·
 [Raw baseline](results/published/swebench_verified_bm25_20.json) ·
 [Label-checked analysis](results/published/bm25_error_analysis.json) ·
 [Design decisions](docs/METHOD.md)
@@ -99,9 +109,9 @@ an unindexed gold file.
 - Distinct-file Recall@K, MRR and nDCG; whole-chunk packing under a character budget.
 - Paired comparisons that reject mismatched budgets, task lists and incomplete runs.
 
-Dense inference and cache reuse have been checked with the real CodeBERT encoder on
-the engineering smoke task. The full dense/hybrid study has not completed; no gain is
-claimed. The benchmark now loads one encoder per run, reuses content-addressed
+Dense inference and cache reuse have been checked with the real CodeBERT encoder. The
+20-task comparison is complete; the balanced 50-task dense/hybrid comparison is pending.
+The benchmark loads one encoder per run, reuses content-addressed
 embeddings, records resolved encoder revisions and writes an atomic checkpoint per task.
 
 ## Run

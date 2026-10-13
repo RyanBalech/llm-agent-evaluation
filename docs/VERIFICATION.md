@@ -26,6 +26,9 @@ The live static deployment is at
   not diagnosis quality across real issues. [Recorded output](../results/published/local_explanation_smoke.json).
 - The separate repository-balanced lexical run completed all 50 tasks across 12 repositories,
   with Recall@5 0.555. This is a different task sample, not an improvement over the original 20-task score.
+- The frozen 20-task BM25, CodeBERT and hybrid arms all completed with no failures. Their
+  paired validator accepted task IDs, commits, source hashes and evaluation settings.
+  CodeBERT Recall@5 was 0.000, and hybrid Recall@5 was 0.300, versus BM25's 0.425.
 - Pull request #4 remains a draft. Its five CI jobs pass, including tests, both browser builds,
   a dense-cache check, and a container build plus health/demo request.
 
@@ -39,10 +42,10 @@ they are not latency percentiles or throughput measurements.
 
 ## Unverified or pending
 
-- The complete CodeBERT/hybrid comparison on the twenty- and fifty-task slices remains pending.
-  The frozen runner preserves a per-task checkpoint; no gain is claimed from partial results.
-- Repository-aware uncertainty estimates await completed paired comparisons. Sustained load
-  tests and developer usability measurements have not been performed.
+- The balanced 50-task CodeBERT/hybrid comparison remains pending. The frozen runner
+  preserves a per-task checkpoint; no gain is claimed from partial results.
+- The 20-task report includes task-paired and repository-macro uncertainty estimates.
+  Sustained load tests and developer usability measurements have not been performed.
 - Local Docker execution could not be run because the Docker daemon is unavailable on this
   workstation. The CI container job builds the image and checks health and authenticated demo.
 - The public Pages build accepts only prepared repositories. Arbitrary public GitHub indexing,

@@ -70,6 +70,7 @@ def main():
                 source_url)
         page.get_by_role("button", name="Evaluation lab").click()
         expect(page.get_by_text("0.425", exact=True).first).to_be_visible()
+        expect(page.get_by_role("heading", name="Frozen 20-task comparison")).to_be_visible()
         assert page.locator("#baseline-tasks tbody tr").count() == 20
         page.screenshot(path=str(output / "repolens-evaluation.png"), full_page=True)
         page.get_by_role("button", name="Investigate", exact=True).click()
