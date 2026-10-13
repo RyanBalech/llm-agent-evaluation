@@ -46,6 +46,11 @@ improvement is claimed. The server supports local or authenticated single-user d
 one process per data directory. A static browser build supports prepared repositories, Python BM25
 in WebAssembly, and optional WebGPU explanations without a paid hosting account.
 
+The retrieval engine ranks existing source excerpts. Optional local model generation describes
+those excerpts and suggests what to inspect next; citations point to the retrieved snapshot.
+A complete coding agent would also edit code and verify a patch against tests. RepoLens does not
+perform those steps, and a plausible explanation is not proof that it found the cause.
+
 ## Evaluation framework
 
 A file-localization benchmark for the retrieval stage of software-engineering agents.
