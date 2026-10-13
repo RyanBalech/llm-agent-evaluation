@@ -1,0 +1,1753 @@
+{
+  "n_requested": 50,
+  "n_successful": 50,
+  "n_failed": 0,
+  "n_completed": 50,
+  "aggregate": {
+    "mean_recall_at_k": 0.555,
+    "mean_reciprocal_rank": 0.4413896103896104,
+    "mean_ndcg_at_k": 0.44296102548778227,
+    "mean_retrieval_ms": 358.94872599630617,
+    "mean_retrieved_characters": 39324.2
+  },
+  "configuration": {
+    "method": "bm25",
+    "model_name": null,
+    "model_revision": null,
+    "top_k": 5,
+    "candidate_chunks": 50,
+    "context_budget_chars": 40000,
+    "lines_per_chunk": 80,
+    "overlap": 20,
+    "bm25_path_prior_weight": 0.15,
+    "rrf_candidate_multiplier": null,
+    "rrf_constant": null,
+    "engine_sha256": "8461cce528a2d4078b6a3d81cd04b4d0c30d38e9748d5bee236c3911a88f361a"
+  },
+  "tasks": [
+    {
+      "task_id": "astropy__astropy-14369",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "astropy/io/ascii/tests/test_cds.py",
+        "astropy/io/ascii/cds.py",
+        "astropy/io/ascii/mrt.py",
+        "astropy/units/cds.py",
+        "astropy/io/ascii/daophot.py"
+      ],
+      "retrieved_characters": 39610,
+      "retrieval_ms": 1138.1957000121474,
+      "setup_seconds": 34.394477599998936,
+      "n_indexed_chunks": 9800,
+      "source_seconds": 30.34320890001254,
+      "index_seconds": 3.709264900011476,
+      "source_sha256": "2495238f91fb1900b4db3e253b7a6476a3995c1c715e3b9d4b8b6d61450bde07",
+      "source_cache_hit": false,
+      "n_indexed_files": 1037,
+      "gold_files": [
+        "astropy/units/format/cds.py",
+        "astropy/units/format/cds_parsetab.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-13512",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.09090909090909091,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/utils/html.py",
+        "tests/template_tests/test_response.py",
+        "django/core/signing.py",
+        "django/utils/encoding.py",
+        "django/db/backends/postgresql/base.py"
+      ],
+      "retrieved_characters": 38817,
+      "retrieval_ms": 273.3316000085324,
+      "setup_seconds": 55.53730590001214,
+      "n_indexed_chunks": 7387,
+      "source_seconds": 51.12052769999718,
+      "index_seconds": 4.102178799977992,
+      "source_sha256": "4eacc2c02c9d4c2c07f33b75a2884d41abb29d7e5a97369981b8671cbadb4648",
+      "source_cache_hit": false,
+      "n_indexed_files": 2210,
+      "gold_files": [
+        "django/contrib/admin/utils.py",
+        "django/forms/fields.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24026",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "tutorials/introductory/customizing.py",
+        "tutorials/intermediate/color_cycle.py",
+        "lib/matplotlib/tests/test_cycles.py",
+        "tutorials/colors/colors.py",
+        "lib/matplotlib/axes/_base.py"
+      ],
+      "retrieved_characters": 38863,
+      "retrieval_ms": 623.2435000129044,
+      "setup_seconds": 38.41123989998596,
+      "n_indexed_chunks": 5802,
+      "source_seconds": 35.8360264999792,
+      "index_seconds": 2.3872522999881767,
+      "source_sha256": "47832aa0ac0a648a090bfb35cd33ee61fefd6a916b8a52333028f63e6dbdaf10",
+      "source_cache_hit": false,
+      "n_indexed_files": 1115,
+      "gold_files": [
+        "lib/matplotlib/stackplot.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "mwaskom__seaborn-3187",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "retrieved_files": [
+        "seaborn/utils.py",
+        "seaborn/_core/plot.py",
+        "seaborn/categorical.py",
+        "seaborn/_core/rules.py",
+        "seaborn/_stats/density.py"
+      ],
+      "retrieved_characters": 38558,
+      "retrieval_ms": 70.79319999320433,
+      "setup_seconds": 5.617157400003634,
+      "n_indexed_chunks": 947,
+      "source_seconds": 5.099911400000565,
+      "index_seconds": 0.4816319000092335,
+      "source_sha256": "1e019bf20042a03b607eb2151eed36b64d1cdc589b6dc3d7162c506e2ee5ceb0",
+      "source_cache_hit": false,
+      "n_indexed_files": 145,
+      "gold_files": [
+        "seaborn/_core/scales.py",
+        "seaborn/utils.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pallets__flask-5014",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "src/flask/wrappers.py",
+        "src/flask/helpers.py",
+        "src/flask/app.py",
+        "src/flask/sessions.py",
+        "src/flask/blueprints.py"
+      ],
+      "retrieved_characters": 39749,
+      "retrieval_ms": 13.281199964694679,
+      "setup_seconds": 3.6223880000179633,
+      "n_indexed_chunks": 320,
+      "source_seconds": 3.483597500016913,
+      "index_seconds": 0.12723079998977482,
+      "source_sha256": "7fdec083cca9a3ef78c462f7229790ce5659483621fd84726c09ca7fc2d7226d",
+      "source_cache_hit": false,
+      "n_indexed_files": 77,
+      "gold_files": [
+        "src/flask/blueprints.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "psf__requests-2931",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "requests/__init__.py",
+        "test_requests.py",
+        "requests/utils.py",
+        "requests/sessions.py",
+        "requests/models.py"
+      ],
+      "retrieved_characters": 38651,
+      "retrieval_ms": 11.611099995207042,
+      "setup_seconds": 3.6136708999983966,
+      "n_indexed_chunks": 344,
+      "source_seconds": 3.402371000032872,
+      "index_seconds": 0.19645240000681952,
+      "source_sha256": "a53088fe6ec34042a9c71155046e2ca958d493eff03b5c8dba922adc6582697c",
+      "source_cache_hit": false,
+      "n_indexed_files": 83,
+      "gold_files": [
+        "requests/models.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pydata__xarray-4356",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "xarray/core/nanops.py",
+        "xarray/tests/test_duck_array_ops.py",
+        "xarray/core/rolling.py",
+        "xarray/core/dask_array_ops.py",
+        "xarray/core/variable.py"
+      ],
+      "retrieved_characters": 39543,
+      "retrieval_ms": 71.28440000815317,
+      "setup_seconds": 5.825866399973165,
+      "n_indexed_chunks": 1576,
+      "source_seconds": 5.3400574999977835,
+      "index_seconds": 0.442870499973651,
+      "source_sha256": "aebd922a6d90ca3ca296f4a261dc31213ac4bb30bbfcac795adaf820b5f41f39",
+      "source_cache_hit": false,
+      "n_indexed_files": 143,
+      "gold_files": [
+        "xarray/core/nanops.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "doc/data/messages/a/attribute-defined-outside-init/bad.py",
+        "tests/functional/a/attribute_defined_outside_init.py",
+        "pylint/checkers/classes/class_checker.py",
+        "tests/functional/m/mixin_class_rgx.py",
+        "tests/functional/a/access/access_member_before_definition.py"
+      ],
+      "retrieved_characters": 39716,
+      "retrieval_ms": 2144.5139000425115,
+      "setup_seconds": 40.95305559999542,
+      "n_indexed_chunks": 2910,
+      "source_seconds": 40.25707539997529,
+      "index_seconds": 0.6147819000179879,
+      "source_sha256": "3aa250d438a36089114f9147db309ecaea010afd5c8010ae8881e6383042a405",
+      "source_cache_hit": false,
+      "n_indexed_files": 1841,
+      "gold_files": [
+        "pylint/lint/expand_modules.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pytest-dev__pytest-7982",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.14285714285714285,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "src/_pytest/python_api.py",
+        "src/_pytest/capture.py",
+        "testing/test_junitxml.py",
+        "src/_pytest/compat.py",
+        "src/_pytest/tmpdir.py"
+      ],
+      "retrieved_characters": 38403,
+      "retrieval_ms": 49.003399966750294,
+      "setup_seconds": 7.337459400005173,
+      "n_indexed_chunks": 1322,
+      "source_seconds": 6.913272500038147,
+      "index_seconds": 0.37913730001309887,
+      "source_sha256": "b44eccff5a9c0e74acb50dcf77c28c737aa370774e13c97bd4ad1fa1dd246d28",
+      "source_cache_hit": false,
+      "n_indexed_files": 215,
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sklearn/linear_model/logistic.py",
+        "sklearn/linear_model/tests/test_logistic.py",
+        "examples/linear_model/plot_logistic_multinomial.py"
+      ],
+      "retrieved_characters": 39442,
+      "retrieval_ms": 1218.2074000011198,
+      "setup_seconds": 25.415172400011215,
+      "n_indexed_chunks": 4131,
+      "source_seconds": 23.621298299985938,
+      "index_seconds": 1.6250557000166737,
+      "source_sha256": "3270bec9fffd9365675bf719bfeaf250064ab66878b696bc85d3455d07ebe934",
+      "source_cache_hit": false,
+      "n_indexed_files": 752,
+      "gold_files": [
+        "sklearn/linear_model/logistic.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8056",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "doc/conf.py",
+        "sphinx/ext/napoleon/docstring.py",
+        "sphinx/ext/napoleon/__init__.py",
+        "doc/usage/extensions/example_google.py",
+        "sphinx/themes/basic/static/jquery-3.5.1.js"
+      ],
+      "retrieved_characters": 39791,
+      "retrieval_ms": 235.61749997315928,
+      "setup_seconds": 21.766719800012652,
+      "n_indexed_chunks": 2839,
+      "source_seconds": 20.53453880001325,
+      "index_seconds": 1.122766699991189,
+      "source_sha256": "b03683660e6b870450aa094bf11335d25d0dc582b28cd2736119f95f5461c45c",
+      "source_cache_hit": false,
+      "n_indexed_files": 557,
+      "gold_files": [
+        "sphinx/ext/napoleon/docstring.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sympy/physics/vector/vector.py",
+        "sympy/physics/vector/dyadic.py",
+        "sympy/physics/vector/point.py",
+        "sympy/physics/vector/functions.py",
+        "sympy/physics/vector/frame.py"
+      ],
+      "retrieved_characters": 39739,
+      "retrieval_ms": 658.7331999908201,
+      "setup_seconds": 40.77463280002121,
+      "n_indexed_chunks": 9208,
+      "source_seconds": 35.156744400039315,
+      "index_seconds": 5.212017999961972,
+      "source_sha256": "61ddb9bfb709b2f4ee45af9ca2b74cabc477dc0e8dd3d58fecc2326098adf328",
+      "source_cache_hit": false,
+      "n_indexed_files": 1153,
+      "gold_files": [
+        "sympy/physics/vector/vector.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-13579",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py",
+        "astropy/wcs/wcsapi/tests/test_fitswcs.py",
+        "astropy/visualization/wcsaxes/tests/test_misc.py",
+        "astropy/visualization/wcsaxes/tests/test_wcsapi.py",
+        "astropy/coordinates/tests/accuracy/test_altaz_icrs.py"
+      ],
+      "retrieved_characters": 39592,
+      "retrieval_ms": 1649.6618000091985,
+      "setup_seconds": 35.54234220000217,
+      "n_indexed_chunks": 11598,
+      "source_seconds": 31.772560900019016,
+      "index_seconds": 3.4786862999899313,
+      "source_sha256": "c856b15e41eaede67ca2cd98ad9b9274331549d73bfb4286877e8fd4865aabe5",
+      "source_cache_hit": false,
+      "n_indexed_files": 1100,
+      "gold_files": [
+        "astropy/wcs/wcsapi/wrappers/sliced_wcs.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-15957",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/db/models/query.py",
+        "tests/prefetch_related/tests.py",
+        "django/template/defaulttags.py"
+      ],
+      "retrieved_characters": 38494,
+      "retrieval_ms": 335.5520999757573,
+      "setup_seconds": 65.0330492000212,
+      "n_indexed_chunks": 8734,
+      "source_seconds": 62.84648270002799,
+      "index_seconds": 1.9616537999827415,
+      "source_sha256": "dd5198c0ef91357d19343c070325b12728472c1febd68cd07931f95ae6df34f1",
+      "source_cache_hit": false,
+      "n_indexed_files": 2270,
+      "gold_files": [
+        "django/db/models/fields/related_descriptors.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.14285714285714285,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "examples/userdemo/anchored_box04.py",
+        "examples/misc/anchored_artists.py",
+        "tutorials/text/annotations.py",
+        "lib/matplotlib/legend.py",
+        "lib/mpl_toolkits/axes_grid1/anchored_artists.py"
+      ],
+      "retrieved_characters": 39180,
+      "retrieval_ms": 342.00479998253286,
+      "setup_seconds": 37.082340999972075,
+      "n_indexed_chunks": 5833,
+      "source_seconds": 34.972675899975,
+      "index_seconds": 1.917761699995026,
+      "source_sha256": "81f9d6573a00a5a686098a2ef024cbbf1e4310884541448a2c4ca68a7bfbbc61",
+      "source_cache_hit": false,
+      "n_indexed_files": 1126,
+      "gold_files": [
+        "lib/matplotlib/offsetbox.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "mwaskom__seaborn-3069",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.14285714285714285,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "seaborn/_oldcore.py",
+        "seaborn/categorical.py",
+        "seaborn/_core/scales.py",
+        "seaborn/_statistics.py",
+        "seaborn/distributions.py"
+      ],
+      "retrieved_characters": 38070,
+      "retrieval_ms": 59.02220000280067,
+      "setup_seconds": 5.593003999965731,
+      "n_indexed_chunks": 936,
+      "source_seconds": 5.16860460001044,
+      "index_seconds": 0.39081099996110424,
+      "source_sha256": "670f05ddcddda1c33183d2a5d42243dc5a9bcad9d1f004f21760a34e657e611d",
+      "source_cache_hit": false,
+      "n_indexed_files": 143,
+      "gold_files": [
+        "seaborn/_core/plot.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "psf__requests-1142",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "requests/adapters.py",
+        "requests/models.py",
+        "requests/packages/urllib3/util.py",
+        "requests/packages/urllib3/request.py",
+        "requests/api.py"
+      ],
+      "retrieved_characters": 38941,
+      "retrieval_ms": 8.10149998869747,
+      "setup_seconds": 3.9027405999950133,
+      "n_indexed_chunks": 245,
+      "source_seconds": 3.751689600001555,
+      "index_seconds": 0.13992820004932582,
+      "source_sha256": "33c2aff573920e23f72db6c5d1a4d6277d3317fc8b044c7621c56616dc0f6864",
+      "source_cache_hit": false,
+      "n_indexed_files": 69,
+      "gold_files": [
+        "requests/models.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pydata__xarray-3677",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "xarray/core/merge.py",
+        "xarray/core/combine.py",
+        "versioneer.py",
+        "xarray/_version.py",
+        "xarray/tests/test_merge.py"
+      ],
+      "retrieved_characters": 39795,
+      "retrieval_ms": 74.20629996340722,
+      "setup_seconds": 5.900684000051115,
+      "n_indexed_chunks": 1437,
+      "source_seconds": 5.579942200041842,
+      "index_seconds": 0.2918962000403553,
+      "source_sha256": "33875313d3b9278da8851d400312782e1237f72a67b1aa2d8ed697ae9451e489",
+      "source_cache_hit": false,
+      "n_indexed_files": 141,
+      "gold_files": [
+        "xarray/core/dataset.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pylint-dev__pylint-6386",
+      "recall_at_k": 0.75,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.787702056960637,
+      "retrieved_files": [
+        "pylint/config/utils.py",
+        "pylint/config/arguments_manager.py",
+        "pylint/config/option_manager_mixin.py",
+        "tests/config/test_config.py",
+        "pylint/lint/base_options.py"
+      ],
+      "retrieved_characters": 39501,
+      "retrieval_ms": 61.914000019896775,
+      "setup_seconds": 23.745778399985284,
+      "n_indexed_chunks": 2331,
+      "source_seconds": 23.411464699951466,
+      "index_seconds": 0.29951490001985803,
+      "source_sha256": "19512657a4d8ea40478be8e259a797ef5c04f7f0b9bf57d220249338f0033564",
+      "source_cache_hit": false,
+      "n_indexed_files": 1321,
+      "gold_files": [
+        "pylint/config/argument.py",
+        "pylint/config/arguments_manager.py",
+        "pylint/config/utils.py",
+        "pylint/lint/base_options.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pytest-dev__pytest-7432",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "src/_pytest/skipping.py",
+        "src/_pytest/outcomes.py",
+        "testing/test_skipping.py",
+        "testing/test_warnings.py",
+        "src/_pytest/stepwise.py"
+      ],
+      "retrieved_characters": 39770,
+      "retrieval_ms": 46.10880004474893,
+      "setup_seconds": 6.190298500005156,
+      "n_indexed_chunks": 1300,
+      "source_seconds": 5.87427500000922,
+      "index_seconds": 0.28579609998269007,
+      "source_sha256": "75596c04218304d1a387136aa0ef343659af39f54a0ca6cf9015992c573871f6",
+      "source_cache_hit": false,
+      "n_indexed_files": 206,
+      "gold_files": [
+        "src/_pytest/skipping.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13779",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "sklearn/ensemble/tests/test_voting.py",
+        "sklearn/ensemble/voting.py",
+        "sklearn/ensemble/tests/test_gradient_boosting.py"
+      ],
+      "retrieved_characters": 39527,
+      "retrieval_ms": 172.44550003670156,
+      "setup_seconds": 19.43165049998788,
+      "n_indexed_chunks": 4187,
+      "source_seconds": 17.49351050000405,
+      "index_seconds": 1.7809333000332117,
+      "source_sha256": "f7838775c91e18f6d4af175d31e1a18f585f80ea360b33997aad3c13078fefa2",
+      "source_cache_hit": false,
+      "n_indexed_files": 721,
+      "gold_files": [
+        "sklearn/ensemble/voting.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sphinx/ext/autodoc/__init__.py",
+        "tests/roots/test-ext-autodoc/target/__init__.py",
+        "tests/test_ext_autodoc_configs.py",
+        "tests/test_ext_autodoc.py",
+        "tests/test_ext_autodoc_autoclass.py"
+      ],
+      "retrieved_characters": 38621,
+      "retrieval_ms": 97.95309999026358,
+      "setup_seconds": 18.304674300015904,
+      "n_indexed_chunks": 2904,
+      "source_seconds": 17.251844600017648,
+      "index_seconds": 0.9678961999597959,
+      "source_sha256": "8fdecc0b10cb52b4d7b94aa298a9698ebf87cfab3d2d1cd02e16865eec714d35",
+      "source_cache_hit": false,
+      "n_indexed_files": 575,
+      "gold_files": [
+        "sphinx/ext/autodoc/__init__.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "retrieved_files": [
+        "sympy/matrices/matrices.py",
+        "release/fabfile.py",
+        "sympy/utilities/autowrap.py",
+        "sympy/utilities/tests/test_autowrap.py",
+        "sympy/interactive/printing.py"
+      ],
+      "retrieved_characters": 38985,
+      "retrieval_ms": 1762.3114999732934,
+      "setup_seconds": 33.94403940002667,
+      "n_indexed_chunks": 9069,
+      "source_seconds": 29.303048200032208,
+      "index_seconds": 4.319977500010282,
+      "source_sha256": "d383e366a2a44115a197285783eb3d6500d4e58880d90985af0c980195b47e9d",
+      "source_cache_hit": false,
+      "n_indexed_files": 1134,
+      "gold_files": [
+        "sympy/matrices/matrices.py",
+        "sympy/utilities/randtest.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-7606",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "astropy/units/core.py",
+        "astropy/io/votable/tree.py",
+        "astropy/units/quantity.py",
+        "astropy/units/tests/test_units.py",
+        "astropy/visualization/wcsaxes/coordinate_helpers.py"
+      ],
+      "retrieved_characters": 39010,
+      "retrieval_ms": 497.2146000363864,
+      "setup_seconds": 33.811639399966225,
+      "n_indexed_chunks": 10399,
+      "source_seconds": 30.28442649997305,
+      "index_seconds": 3.012414600001648,
+      "source_sha256": "4bdbf66bd60f129216fba39e0fe88fcaca168632e7706fb5111611e38e6e11e4",
+      "source_cache_hit": false,
+      "n_indexed_files": 1157,
+      "gold_files": [
+        "astropy/units/core.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-13279",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/conf/global_settings.py",
+        "django/contrib/messages/storage/cookie.py",
+        "tests/messages_tests/test_cookie.py",
+        "django/contrib/auth/tokens.py",
+        "django/contrib/auth/hashers.py"
+      ],
+      "retrieved_characters": 39606,
+      "retrieval_ms": 215.8509999862872,
+      "setup_seconds": 64.69914229999995,
+      "n_indexed_chunks": 7327,
+      "source_seconds": 62.992794599966146,
+      "index_seconds": 1.5330283000366762,
+      "source_sha256": "80c0b76fed0ed38b65d1997ac72c6d71843a68621e9eebb1fca967ebcead6882",
+      "source_cache_hit": false,
+      "n_indexed_files": 2203,
+      "gold_files": [
+        "django/contrib/sessions/backends/base.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "matplotlib__matplotlib-25332",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "lib/matplotlib/tests/test_pickle.py",
+        "galleries/examples/text_labels_and_annotations/align_ylabels.py",
+        "galleries/tutorials/intermediate/artists.py",
+        "lib/matplotlib/tests/test_figure.py",
+        "galleries/examples/specialty_plots/mri_with_eeg.py"
+      ],
+      "retrieved_characters": 39581,
+      "retrieval_ms": 253.16239998210222,
+      "setup_seconds": 38.71731500001624,
+      "n_indexed_chunks": 5857,
+      "source_seconds": 36.51917829999002,
+      "index_seconds": 1.9595755999907851,
+      "source_sha256": "2adcc76ad6a72c2442c9adb44cfaa4229c3a55eb4ce34a944c2eb841c2aa1e2a",
+      "source_cache_hit": false,
+      "n_indexed_files": 1114,
+      "gold_files": [
+        "lib/matplotlib/cbook.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "psf__requests-1921",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "retrieved_files": [
+        "requests/models.py",
+        "requests/api.py",
+        "test_requests.py",
+        "requests/sessions.py",
+        "requests/cookies.py"
+      ],
+      "retrieved_characters": 38518,
+      "retrieval_ms": 15.60590002918616,
+      "setup_seconds": 4.2493944999878295,
+      "n_indexed_chunks": 298,
+      "source_seconds": 3.991048600000795,
+      "index_seconds": 0.24711260001640767,
+      "source_sha256": "4014dada2cd2a4c0409fc847bbc5e7b6025457547fcff5a71822df2cbdf26d2d",
+      "source_cache_hit": false,
+      "n_indexed_files": 75,
+      "gold_files": [
+        "requests/sessions.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pydata__xarray-3095",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "xarray/core/dataset.py",
+        "xarray/tests/test_dataset.py",
+        "xarray/tests/test_dataarray.py",
+        "xarray/tests/test_combine.py",
+        "xarray/tests/test_variable.py"
+      ],
+      "retrieved_characters": 39700,
+      "retrieval_ms": 68.88909998815507,
+      "setup_seconds": 4.9654992000432685,
+      "n_indexed_chunks": 1174,
+      "source_seconds": 4.666424199996982,
+      "index_seconds": 0.2707727000233717,
+      "source_sha256": "313c577457d27dee8abbbb314644ad328513027aff5ecc7f2f8dcdac02efb725",
+      "source_cache_hit": false,
+      "n_indexed_files": 132,
+      "gold_files": [
+        "xarray/core/indexing.py",
+        "xarray/core/variable.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pylint-dev__pylint-4970",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "pylint/checkers/similar.py",
+        "tests/functional/t/too/too_many_ancestors_ignored_parents.py",
+        "pylint/extensions/code_style.py",
+        "pylint/checkers/format.py",
+        "tests/checkers/unittest_similar.py"
+      ],
+      "retrieved_characters": 39761,
+      "retrieval_ms": 37.13469998911023,
+      "setup_seconds": 17.553706200036686,
+      "n_indexed_chunks": 1722,
+      "source_seconds": 17.272741699998733,
+      "index_seconds": 0.24791259999619797,
+      "source_sha256": "651fe88cbfa8b47aec2b2c2e415447fb6e88d94202d83671c77767d0e1d179a5",
+      "source_cache_hit": false,
+      "n_indexed_files": 837,
+      "gold_files": [
+        "pylint/checkers/similar.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pytest-dev__pytest-5809",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "testing/test_pastebin.py",
+        "src/_pytest/pastebin.py",
+        "src/_pytest/reports.py",
+        "src/_pytest/capture.py",
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retrieved_characters": 39880,
+      "retrieval_ms": 35.998000006657094,
+      "setup_seconds": 5.485672499984503,
+      "n_indexed_chunks": 1120,
+      "source_seconds": 5.263550999981817,
+      "index_seconds": 0.1994264000095427,
+      "source_sha256": "a2382d24e22b5ecbd7f37098f0482e0dff1284ee72b17237a02408a82d6d297d",
+      "source_cache_hit": false,
+      "n_indexed_files": 190,
+      "gold_files": [
+        "src/_pytest/pastebin.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13135",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sklearn/preprocessing/_discretization.py",
+        "sklearn/preprocessing/tests/test_discretization.py",
+        "examples/preprocessing/plot_discretization_strategies.py",
+        "examples/preprocessing/plot_discretization.py",
+        "examples/preprocessing/plot_discretization_classification.py"
+      ],
+      "retrieved_characters": 39642,
+      "retrieval_ms": 681.6891999915242,
+      "setup_seconds": 20.59522990003461,
+      "n_indexed_chunks": 4405,
+      "source_seconds": 19.48240189999342,
+      "index_seconds": 1.0127722999895923,
+      "source_sha256": "33d2b9f6c260acc2a62256746dccbcbed3c25076711603e4759cc13eae3dbfa2",
+      "source_cache_hit": false,
+      "n_indexed_files": 791,
+      "gold_files": [
+        "sklearn/preprocessing/_discretization.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9673",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "doc/usage/extensions/example_google.py",
+        "doc/usage/extensions/example_numpy.py",
+        "sphinx/ext/napoleon/__init__.py",
+        "sphinx/ext/napoleon/docstring.py"
+      ],
+      "retrieved_characters": 39316,
+      "retrieval_ms": 106.24550003558397,
+      "setup_seconds": 18.119764900009613,
+      "n_indexed_chunks": 2515,
+      "source_seconds": 17.531146500026807,
+      "index_seconds": 0.5308606999460608,
+      "source_sha256": "f5272e8eea7dbb80b3c6a47fc70a5fdcdec84834f4e903ee05c26324a50fab90",
+      "source_cache_hit": false,
+      "n_indexed_files": 617,
+      "gold_files": [
+        "sphinx/ext/autodoc/typehints.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "sympy/core/expr.py",
+        "sympy/integrals/integrals.py",
+        "sympy/matrices/immutable.py",
+        "sympy/integrals/prde.py",
+        "sympy/matrices/matrices.py"
+      ],
+      "retrieved_characters": 39591,
+      "retrieval_ms": 282.4080999707803,
+      "setup_seconds": 34.36556730000302,
+      "n_indexed_chunks": 10248,
+      "source_seconds": 30.828383599990048,
+      "index_seconds": 3.27664639998693,
+      "source_sha256": "44fe6ee824ce09f301da4d24be8f47568e215bdc93caf0de71e8d24e4266ad23",
+      "source_cache_hit": false,
+      "n_indexed_files": 1233,
+      "gold_files": [
+        "sympy/core/add.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-7336",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "astropy/units/decorators.py",
+        "astropy/nddata/nddata.py",
+        "astropy/nddata/ccddata.py",
+        "astropy/utils/decorators.py",
+        "astropy/coordinates/attributes.py"
+      ],
+      "retrieved_characters": 39926,
+      "retrieval_ms": 592.7968000178225,
+      "setup_seconds": 28.14624080003705,
+      "n_indexed_chunks": 10298,
+      "source_seconds": 25.48741450003581,
+      "index_seconds": 2.434390500013251,
+      "source_sha256": "c8213150427b2fb31e1b81fdb4069102002becef5019c384e4bede8a102d8a33",
+      "source_cache_hit": false,
+      "n_indexed_files": 1145,
+      "gold_files": [
+        "astropy/units/decorators.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-11964",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "django/db/models/enums.py",
+        "tests/model_enums/tests.py",
+        "tests/forms_tests/tests/tests.py",
+        "django/forms/widgets.py",
+        "tests/migrations/test_writer.py"
+      ],
+      "retrieved_characters": 39548,
+      "retrieval_ms": 462.47490000678226,
+      "setup_seconds": 51.57639319996815,
+      "n_indexed_chunks": 7047,
+      "source_seconds": 49.70254109997768,
+      "index_seconds": 1.6906254999921657,
+      "source_sha256": "cf36991222fa3c80fa6a40810ae053544f4927652b439e5d4fc19390e1e0df46",
+      "source_cache_hit": false,
+      "n_indexed_files": 2163,
+      "gold_files": [
+        "django/db/models/enums.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "matplotlib__matplotlib-14623",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "examples/scales/scales.py",
+        "examples/images_contours_and_fields/contourf_log.py",
+        "examples/userdemo/colormap_normalizations_lognorm.py",
+        "examples/pyplots/pyplot_scales.py",
+        "tutorials/introductory/pyplot.py"
+      ],
+      "retrieved_characters": 39760,
+      "retrieval_ms": 246.1777999997139,
+      "setup_seconds": 36.943471999955364,
+      "n_indexed_chunks": 6216,
+      "source_seconds": 35.500385299965274,
+      "index_seconds": 1.3090069000027142,
+      "source_sha256": "b9946b77885da14dabb3f3edcf716d07fde888bb37425a1dc635c55f068a5f51",
+      "source_cache_hit": false,
+      "n_indexed_files": 1118,
+      "gold_files": [
+        "lib/matplotlib/axes/_base.py",
+        "lib/matplotlib/ticker.py",
+        "lib/mpl_toolkits/mplot3d/axes3d.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "psf__requests-1766",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "requests/auth.py",
+        "docs/conf.py",
+        "requests/packages/urllib3/util.py",
+        "requests/api.py",
+        "requests/utils.py"
+      ],
+      "retrieved_characters": 38604,
+      "retrieval_ms": 14.776800002437085,
+      "setup_seconds": 2.926217899948824,
+      "n_indexed_chunks": 287,
+      "source_seconds": 2.7273194000008516,
+      "index_seconds": 0.18699480005307123,
+      "source_sha256": "2cc0e39c4f583f11d5cc2b7a2d4cf122b3f254c4356122d7355573187915f30e",
+      "source_cache_hit": false,
+      "n_indexed_files": 75,
+      "gold_files": [
+        "requests/auth.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pydata__xarray-6721",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "xarray/core/dataarray.py",
+        "xarray/core/groupby.py",
+        "xarray/core/dataset.py",
+        "xarray/backends/rasterio_.py",
+        "xarray/backends/zarr.py"
+      ],
+      "retrieved_characters": 39306,
+      "retrieval_ms": 475.93130002496764,
+      "setup_seconds": 5.9269975000061095,
+      "n_indexed_chunks": 2153,
+      "source_seconds": 5.4181495000375435,
+      "index_seconds": 0.4572417999734171,
+      "source_sha256": "db671ac22acf1059de17dad22f2bd3a3919d6ee12561bcea7e29d30781bae1fc",
+      "source_cache_hit": false,
+      "n_indexed_files": 160,
+      "gold_files": [
+        "xarray/core/common.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pylint-dev__pylint-6903",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "pylint/lint/run.py",
+        "tests/regrtest_data/import_package_subpackage_module.py",
+        "pylint/checkers/__init__.py",
+        "pylint/lint/parallel.py",
+        "pylint/testutils/constants.py"
+      ],
+      "retrieved_characters": 39417,
+      "retrieval_ms": 217.73080003913492,
+      "setup_seconds": 31.226737699995283,
+      "n_indexed_chunks": 2829,
+      "source_seconds": 30.86757940001553,
+      "index_seconds": 0.31978589994832873,
+      "source_sha256": "a7e6b80d2e6328f1f74bb737243d5b44848af2f2a929a1ac4b4d8cac5e08a191",
+      "source_cache_hit": false,
+      "n_indexed_files": 1772,
+      "gold_files": [
+        "pylint/lint/run.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pytest-dev__pytest-7521",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "testing/code/test_excinfo.py",
+        "src/_pytest/python_api.py",
+        "testing/code/test_source.py",
+        "testing/python/approx.py",
+        "testing/test_doctest.py"
+      ],
+      "retrieved_characters": 39141,
+      "retrieval_ms": 123.84019995806739,
+      "setup_seconds": 6.098953199980315,
+      "n_indexed_chunks": 1305,
+      "source_seconds": 5.786828799988143,
+      "index_seconds": 0.28224140004022047,
+      "source_sha256": "8915d546dca36b8514b6d733cbffc883a9fc50360de9c7c487ebbfa3439b25ab",
+      "source_cache_hit": false,
+      "n_indexed_files": 207,
+      "gold_files": [
+        "src/_pytest/capture.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-10297",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "sklearn/linear_model/ridge.py",
+        "sklearn/linear_model/tests/test_ridge.py",
+        "sklearn/linear_model/coordinate_descent.py"
+      ],
+      "retrieved_characters": 39982,
+      "retrieval_ms": 215.0584000046365,
+      "setup_seconds": 19.362243699957617,
+      "n_indexed_chunks": 4087,
+      "source_seconds": 18.0061819999828,
+      "index_seconds": 1.2593704999890178,
+      "source_sha256": "b702fb3054845f9079adbafbaed6a3aeb783f1aa43808e3b8ad6a3d4ed0158d4",
+      "source_cache_hit": false,
+      "n_indexed_files": 737,
+      "gold_files": [
+        "sklearn/linear_model/ridge.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-10323",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "setup.py",
+        "tests/test_build_texinfo.py",
+        "sphinx/cmd/quickstart.py",
+        "sphinx/setup_command.py",
+        "sphinx/directives/code.py"
+      ],
+      "retrieved_characters": 39138,
+      "retrieval_ms": 147.73199998307973,
+      "setup_seconds": 17.396353799966164,
+      "n_indexed_chunks": 2516,
+      "source_seconds": 16.817831599968486,
+      "index_seconds": 0.5177389000309631,
+      "source_sha256": "06259b097ae08e82f95724cb20cc92fc2beaf5fc16ab341979181d934e614226",
+      "source_cache_hit": false,
+      "n_indexed_files": 621,
+      "gold_files": [
+        "sphinx/directives/code.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "retrieved_files": [
+        "sympy/utilities/autowrap.py",
+        "sympy/external/tests/test_autowrap.py",
+        "sympy/utilities/lambdify.py",
+        "sympy/plotting/experimental_lambdify.py",
+        "sympy/utilities/codegen.py"
+      ],
+      "retrieved_characters": 38949,
+      "retrieval_ms": 722.2599999513477,
+      "setup_seconds": 35.0306807999732,
+      "n_indexed_chunks": 10457,
+      "source_seconds": 31.438855000014883,
+      "index_seconds": 3.30757939995965,
+      "source_sha256": "82fd073573d34d6f1d936bfea02acfb985d5e894bd9f82105e136d94b7626a28",
+      "source_cache_hit": false,
+      "n_indexed_files": 1234,
+      "gold_files": [
+        "sympy/utilities/codegen.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "astropy__astropy-14365",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "retrieved_files": [
+        "astropy/io/ascii/qdp.py",
+        "astropy/io/ascii/tests/test_qdp.py",
+        "astropy/io/ascii/tests/test_write.py",
+        "astropy/io/ascii/__init__.py"
+      ],
+      "retrieved_characters": 38973,
+      "retrieval_ms": 543.2075999560766,
+      "setup_seconds": 29.14313939999556,
+      "n_indexed_chunks": 9837,
+      "source_seconds": 26.41783910000231,
+      "index_seconds": 2.4633278000401333,
+      "source_sha256": "f8aa7bf7361edee5fe93b525d803d5b9356bce525c772413211f1c623cfb53da",
+      "source_cache_hit": false,
+      "n_indexed_files": 1038,
+      "gold_files": [
+        "astropy/io/ascii/qdp.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "django__django-11790",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "django/db/backends/oracle/operations.py",
+        "tests/auth_tests/test_forms.py",
+        "setup.py",
+        "tests/forms_tests/tests/test_forms.py",
+        "tests/auth_tests/test_views.py"
+      ],
+      "retrieved_characters": 39386,
+      "retrieval_ms": 172.58660000516102,
+      "setup_seconds": 49.784566699992865,
+      "n_indexed_chunks": 7020,
+      "source_seconds": 47.9070592999924,
+      "index_seconds": 1.6563034999999218,
+      "source_sha256": "709455ffa7a87d00dec69dffa3732991886be8bc5708ee91058a1b7112a682f8",
+      "source_cache_hit": false,
+      "n_indexed_files": 2159,
+      "gold_files": [
+        "django/contrib/auth/forms.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "matplotlib__matplotlib-20676",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "retrieved_files": [
+        "tutorials/introductory/usage.py",
+        "setup.py",
+        "tutorials/text/pgf.py",
+        "lib/matplotlib/widgets.py",
+        "tutorials/advanced/transforms_tutorial.py"
+      ],
+      "retrieved_characters": 39206,
+      "retrieval_ms": 368.3090999838896,
+      "setup_seconds": 34.260498900024686,
+      "n_indexed_chunks": 5634,
+      "source_seconds": 32.669961800042074,
+      "index_seconds": 1.4306912000174634,
+      "source_sha256": "2d24fda2e9ef4fec98e8b7160c16c9fbb3af4f2935e8e3cd2cccfbfa216675f2",
+      "source_cache_hit": false,
+      "n_indexed_files": 1107,
+      "gold_files": [
+        "lib/matplotlib/widgets.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "psf__requests-5414",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "retrieved_files": [
+        "requests/help.py",
+        "requests/models.py",
+        "setup.py",
+        "requests/__init__.py",
+        "docs/conf.py"
+      ],
+      "retrieved_characters": 39918,
+      "retrieval_ms": 6.823499978054315,
+      "setup_seconds": 3.0849517000024207,
+      "n_indexed_chunks": 178,
+      "source_seconds": 2.9356601999606937,
+      "index_seconds": 0.14578660001279786,
+      "source_sha256": "0409d62adac077272bb92e0f01c23b3edb4be135a84a1a922b5639b5c18e8caf",
+      "source_cache_hit": false,
+      "n_indexed_files": 34,
+      "gold_files": [
+        "requests/models.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pydata__xarray-6992",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.3065735963827292,
+      "retrieved_files": [
+        "doc/conf.py",
+        "xarray/core/variable.py",
+        "xarray/core/dataset.py",
+        "doc/gallery/plot_cartopy_facetgrid.py",
+        "xarray/core/combine.py"
+      ],
+      "retrieved_characters": 39483,
+      "retrieval_ms": 147.45339995715767,
+      "setup_seconds": 6.20810829999391,
+      "n_indexed_chunks": 2181,
+      "source_seconds": 5.595745200000238,
+      "index_seconds": 0.5524307999876328,
+      "source_sha256": "64f5103eedd225bd845d890093855f101714d52f970ceb7a482fbc96b151995a",
+      "source_cache_hit": false,
+      "n_indexed_files": 163,
+      "gold_files": [
+        "xarray/core/dataset.py",
+        "xarray/core/indexes.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pylint-dev__pylint-4661",
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.2640681225725909,
+      "retrieved_files": [
+        "tests/lint/unittest_lint.py",
+        "doc/conf.py",
+        "pylint/lint/parallel.py",
+        "pylint/config/__init__.py",
+        "pylint/pyreverse/main.py"
+      ],
+      "retrieved_characters": 39687,
+      "retrieval_ms": 59.21709997346625,
+      "setup_seconds": 17.17314189998433,
+      "n_indexed_chunks": 1691,
+      "source_seconds": 16.85860119998688,
+      "index_seconds": 0.2731848999974318,
+      "source_sha256": "ae2ebed205406ce6fad4500a41639cbceda5813228abb70093b1b5e43d230049",
+      "source_cache_hit": false,
+      "n_indexed_files": 800,
+      "gold_files": [
+        "pylint/config/__init__.py",
+        "setup.cfg"
+      ],
+      "unindexed_gold_files": [
+        "setup.cfg"
+      ],
+      "embedding_cache_hit": null
+    },
+    {
+      "task_id": "pytest-dev__pytest-5262",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "retrieved_files": [
+        "testing/python/collect.py",
+        "testing/test_assertion.py",
+        "testing/python/fixtures.py",
+        "src/_pytest/tmpdir.py",
+        "testing/code/test_excinfo.py"
+      ],
+      "retrieved_characters": 39823,
+      "retrieval_ms": 119.76380000123754,
+      "setup_seconds": 5.819690699980129,
+      "n_indexed_chunks": 1104,
+      "source_seconds": 5.575250199995935,
+      "index_seconds": 0.21905689995037392,
+      "source_sha256": "0d85367e95b7c9ed37d1481118653aee980883b2753159b350a3d43c0905d18a",
+      "source_cache_hit": false,
+      "n_indexed_files": 189,
+      "gold_files": [
+        "src/_pytest/capture.py"
+      ],
+      "unindexed_gold_files": [],
+      "embedding_cache_hit": null
+    }
+  ],
+  "failures": [],
+  "input_manifest": [
+    {
+      "instance_id": "astropy__astropy-14369",
+      "repo": "astropy/astropy",
+      "base_commit": "fa4e8d1cd279acf9b24560813c8652494ccd5922",
+      "issue_sha256": "005d3d61c2ffbfa601f53125a9fb5271a1a87979977b857204d9f3cf5190fba9",
+      "patch_sha256": "f58ccaa7b95c38a3d9ee7c950a51e98e34ca30e9f778e74338f4fadc450ad055"
+    },
+    {
+      "instance_id": "django__django-13512",
+      "repo": "django/django",
+      "base_commit": "b79088306513d5ed76d31ac40ab3c15f858946ea",
+      "issue_sha256": "77633ba2243ab634f8e720517e2dea5dee17f839be6ad5ae87c58b4bf021cbf6",
+      "patch_sha256": "c8370211cbf37387fa30af6468cc52c0078a51e80fa36168001daa7b7071e600"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24026",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "14c96b510ebeba40f573e512299b1976f35b620e",
+      "issue_sha256": "4ee911f96026baf36281275f48621c1a645938de534397eb62e8411bfbd8a34d",
+      "patch_sha256": "7fb9c0edadd2946da359462ccfd37a80a3a044ca0a1f76c60167bb3cb809ce24"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "repo": "mwaskom/seaborn",
+      "base_commit": "22cdfb0c93f8ec78492d87edb810f10cb7f57a31",
+      "issue_sha256": "72157e71b5c0ed5d58d66a7eeb30ed7b2fb237374183b9ebee200f5d58abd77b",
+      "patch_sha256": "578f98370810261561a8936dd7202e8c6644ef8d9ae52a54578a680f3cb4fc1f"
+    },
+    {
+      "instance_id": "pallets__flask-5014",
+      "repo": "pallets/flask",
+      "base_commit": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d",
+      "issue_sha256": "f77d8eab7dd608172aa78b3b50dfa7e0e9b3a6a1c52d14a1cb02417eb5a0ab00",
+      "patch_sha256": "087d51d66413bfa35111ac0eca31f1db1636572702cfd967c428049b453f451d"
+    },
+    {
+      "instance_id": "psf__requests-2931",
+      "repo": "psf/requests",
+      "base_commit": "5f7a3a74aab1625c2bb65f643197ee885e3da576",
+      "issue_sha256": "c36c337f6c5d918e8d193684510213e2eaed8633e575b819757674cca0d980fd",
+      "patch_sha256": "5b5a77408b00928b0380cd6a40ccb53f0cf77b16f040e1743e313883aad104db"
+    },
+    {
+      "instance_id": "pydata__xarray-4356",
+      "repo": "pydata/xarray",
+      "base_commit": "e05fddea852d08fc0845f954b79deb9e9f9ff883",
+      "issue_sha256": "45eae8de9d15e25d24a44a925c8abe59036ea87382e3c37e60e620e30b2ff0ff",
+      "patch_sha256": "e3299024f87adf29bd68405d8dbd116578006ec65275a1b429750a2a9bbca60e"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7080",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "3c5eca2ded3dd2b59ebaf23eb289453b5d2930f0",
+      "issue_sha256": "82319497af035b3cdcd4ee71b5fccd578074989dfa157dc54ecc5bf8ea76ceab",
+      "patch_sha256": "f908ad1f6d4b8df3755a634c6741abf8ae613bc59278a54c16560c16d255580f"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7982",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "a7e38c5c61928033a2dc1915cbee8caa8544a4d0",
+      "issue_sha256": "90201d780cf37fdf665a7ea9c601714391d34ccc8bb513bf3e7d5f3e667e49da",
+      "patch_sha256": "76762ad86ffeec79de2f946c2dd097c003a9dd6097b8c9e7829d71338056222f"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-11578",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "dd69361a0d9c6ccde0d2353b00b86e0e7541a3e3",
+      "issue_sha256": "e4945959c7c914eff336d7a28037c018533b3473ef69f46f3bcf8c51560a211a",
+      "patch_sha256": "b335bc1b4c076a04737f2ce1d9ada148f0a66b74fa3efcf95cb981ae710803f7"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8056",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "e188d56ed1248dead58f3f8018c0e9a3f99193f7",
+      "issue_sha256": "4ad73beedadd0040b395a860a9ece993226dfb83750d36cef213cb166e04589b",
+      "patch_sha256": "0f8c8a5e18d39337e6b76124d5161b9cac33f78fba9d7decb43610bd55389374"
+    },
+    {
+      "instance_id": "sympy__sympy-14711",
+      "repo": "sympy/sympy",
+      "base_commit": "c6753448b5c34f95e250105d76709fe4d349ca1f",
+      "issue_sha256": "e4767d6b2a2a74a4b7ef986a9f1f89a8a65d7e7bf026dae881f92dbd7b3ad77c",
+      "patch_sha256": "603fc55c24e66a70d67dac2cb8661fdb9be0c08333133151cfd7a72fbe9881eb"
+    },
+    {
+      "instance_id": "astropy__astropy-13579",
+      "repo": "astropy/astropy",
+      "base_commit": "0df94ff7097961e92fd7812036a24b145bc13ca8",
+      "issue_sha256": "70a48b6e4c77b5abc12b1e750bbb70110b7215d19c9ea3550f2b7261be84021d",
+      "patch_sha256": "3b039e1e3ea35e64bb09b0b59d7b46d6190d2196972a8e9fe7383957f299d068"
+    },
+    {
+      "instance_id": "django__django-15957",
+      "repo": "django/django",
+      "base_commit": "f387d024fc75569d2a4a338bfda76cc2f328f627",
+      "issue_sha256": "676a7fa58acee1293e62f431bfea0ddd001785e0efd2051bb50d7314027e9213",
+      "patch_sha256": "bbb8d0c537cad1f83cc69e1a3f91b3b21e7dbc54f6e8777747e1aadeebe4e8f4"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24570",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "8f0003ae902952372824c9917975fb372c026a42",
+      "issue_sha256": "e92b7455ee344da93d431a6f48428a89f1ee055b46c062bc804d4456e74c15a5",
+      "patch_sha256": "9e8828f0c2f3fd9dfca48f7973646b461982ce3bab6e52057ce8f9f0d6998453"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "repo": "mwaskom/seaborn",
+      "base_commit": "54cab15bdacfaa05a88fbc5502a5b322d99f148e",
+      "issue_sha256": "739f9b2e6297497555d4d850e066137b282ad7c5bbcdee814e957ef0f81a9b1e",
+      "patch_sha256": "f209d3f9733c3c4bdcafb48f8601948c53ee16451e7775b33186439ccac7096c"
+    },
+    {
+      "instance_id": "psf__requests-1142",
+      "repo": "psf/requests",
+      "base_commit": "22623bd8c265b78b161542663ee980738441c307",
+      "issue_sha256": "0192533ff2ef0c53a600b3ef02cb9dc20bf0998d56eeaee80ca1a76c46758eec",
+      "patch_sha256": "c25c1f930edaf8514d3a5f2bc5631a8e8080ecb2511c789ec171f37d14e627a6"
+    },
+    {
+      "instance_id": "pydata__xarray-3677",
+      "repo": "pydata/xarray",
+      "base_commit": "ef6e6a7b86f8479b9a1fecf15ad5b88a2326b31e",
+      "issue_sha256": "4d1a08fa41ecef39ce23af292d1139cdc7d030bef74172654e29d4876338b716",
+      "patch_sha256": "eb6bc3dcb4a4406f23abc17190cffd828ee58e1948e5621cc75abbd9fae142cd"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6386",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "754b487f4d892e3d4872b6fc7468a71db4e31c13",
+      "issue_sha256": "5a767dafdd95cd6eef40ba263e539f02b0f86d745a804a7bc792d1a8c8b59a41",
+      "patch_sha256": "9f82c0b5df51c65fbbe78c3f24bda13c07571ab541c2e50d0ee15a9aabbeef45"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7432",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "e6e300e729dd33956e5448d8be9a0b1540b4e53a",
+      "issue_sha256": "f8453cfb1e017be81d0fd5ac8fc5b6faeff6045f71763c81e7fd51537a81ef31",
+      "patch_sha256": "fe1bcec846085b964928724c5e75591b1e0280ef37dd9cdb7faf31a89cfcf062"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13779",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "b34751b7ed02b2cfcc36037fb729d4360480a299",
+      "issue_sha256": "d32c6ecdfaf0eeb42a35e7cb05bd03fc034571aaef7c7743a452422c2bcdc6bc",
+      "patch_sha256": "6faf85c3ffaaebff5458d13c730b28c4d6acfded07cc733b80278df6d2166cb4"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8595",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "b19bce971e82f2497d67fdacdeca8db08ae0ba56",
+      "issue_sha256": "f5549e64af66510e584758f04371935b8c6c3a5fec4fda812b8571a7bd733be4",
+      "patch_sha256": "e49e0193e868dbd51b26a9f09163ce7604090ed1676ff719f8dfb038424d6ad9"
+    },
+    {
+      "instance_id": "sympy__sympy-13877",
+      "repo": "sympy/sympy",
+      "base_commit": "1659712001810f5fc563a443949f8e3bb38af4bd",
+      "issue_sha256": "e8eb7f7fe32ffe357b6a54186c56ae0f9326084bf90504838895599d08e0dbc8",
+      "patch_sha256": "dde1037513c519560a0a2dca777d048dd4d1a3eaf07303decb77e93746760011"
+    },
+    {
+      "instance_id": "astropy__astropy-7606",
+      "repo": "astropy/astropy",
+      "base_commit": "3cedd79e6c121910220f8e6df77c54a0b344ea94",
+      "issue_sha256": "d61965d0866c6a856d68dc4229f873e783399415a60d2a906d7847b777623ddd",
+      "patch_sha256": "af5731a54158ba6516ce223c9e7e42bf9c2e2c761d5f3fdce3701179886ce114"
+    },
+    {
+      "instance_id": "django__django-13279",
+      "repo": "django/django",
+      "base_commit": "6e9c5ee88fc948e05b4a7d9f82a8861ed2b0343d",
+      "issue_sha256": "1717b549ca903701f93bd54096281c7b223c471cb822f2e8703d60637a33eb91",
+      "patch_sha256": "d36bf1b48d82cb603217809b7f8d223a5e3532a87635f1a6fd35f6601020ad7d"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-25332",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "66ba515e671638971bd11a34cff12c107a437e0b",
+      "issue_sha256": "86c03c9b73bf970095097ed7e90516f96639aaf8b1a81a8ba3ddd8f620e0eee4",
+      "patch_sha256": "78c38ea9ff9fda1c9ee826d5689e9d2067c3bf4b5ea94e3c6c1eadba7522354a"
+    },
+    {
+      "instance_id": "psf__requests-1921",
+      "repo": "psf/requests",
+      "base_commit": "3c88e520da24ae6f736929a750876e7654accc3d",
+      "issue_sha256": "3f7bdcd805645db3f6bbfa3476d3207f878afdfa4a91f8c8d56705d9aaf48e8d",
+      "patch_sha256": "33fc461de67706a7d3c91008799489d6d1e6b521bfc0131dd22c4959d00b9f08"
+    },
+    {
+      "instance_id": "pydata__xarray-3095",
+      "repo": "pydata/xarray",
+      "base_commit": "1757dffac2fa493d7b9a074b84cf8c830a706688",
+      "issue_sha256": "3d8f2d8422b56bd5980ec478be1413ef87805484446fc15dbd482342a59abb25",
+      "patch_sha256": "15ee0073513dfa4723e55f92c67f7ca66c9651a6d627c08c06e7bada6bcd7525"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4970",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "40cc2ffd7887959157aaf469e09585ec2be7f528",
+      "issue_sha256": "194295749557b085970e22cc0886d8d0d772e77521bf3b3af55f43f90a3d65ee",
+      "patch_sha256": "7eb3a09727133387bf81fa3a1596746a2dcca2c0c9eba95caaa69b65d619dccd"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5809",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "8aba863a634f40560e25055d179220f0eefabe9a",
+      "issue_sha256": "22a2be85d2560116244c4051221d1ab5109fa7476651aac4e4ee8e26e4b8e6f1",
+      "patch_sha256": "61efb9f46d91358079c84a64a3bed46abf0f1616952b41cbcb9efcd6956e57db"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13135",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "a061ada48efccf0845acae17009553e01764452b",
+      "issue_sha256": "582b6fe37fa8edbe272dd4ea41164cad281e24f1b7c1970a33a900e93b8180df",
+      "patch_sha256": "002ed7c9407799d7d096b7e3c0e61eaef11158bc7a03d8d74ab0c11880f7de3d"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9673",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "5fb51fb1467dc5eea7505402c3c5d9b378d3b441",
+      "issue_sha256": "7926d944c30024620395f3792e0585e9f9105999c2de9d57269a75f648dc5b2b",
+      "patch_sha256": "991eff8c26f286c98ed4dfa1c7151513c6b9f0033447f97bcebb20e745196c72"
+    },
+    {
+      "instance_id": "sympy__sympy-15875",
+      "repo": "sympy/sympy",
+      "base_commit": "b506169ad727ee39cb3d60c8b3ff5e315d443d8e",
+      "issue_sha256": "66200c6c95ab27678328e3e9e41742399523e236227071c0751e274a8fd9f265",
+      "patch_sha256": "19cccea449ce5f295cdc31aa50f5b72ed56a9d0c0baac92d109e01c1d77a5578"
+    },
+    {
+      "instance_id": "astropy__astropy-7336",
+      "repo": "astropy/astropy",
+      "base_commit": "732d89c2940156bdc0e200bb36dc38b5e424bcba",
+      "issue_sha256": "1c51cc8817f7b2f1feb043bdd2a54fcc4f89150dad82c60dbd43f68d1dcdf90d",
+      "patch_sha256": "11f006a6ea5c6b90a0dfd5687f096bf7263c1c6adc9fe3c15874733983f3bc8a"
+    },
+    {
+      "instance_id": "django__django-11964",
+      "repo": "django/django",
+      "base_commit": "fc2b1cc926e34041953738e58fa6ad3053059b22",
+      "issue_sha256": "9f510b2ad7d3833f07816f18dfa6dbb8dacf72061c288cfe399418bfe4da25ab",
+      "patch_sha256": "5df808eec57ca720def54b40bc2695b724f2d62fa767a7586342af4856936cfd"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-14623",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "d65c9ca20ddf81ef91199e6d819f9d3506ef477c",
+      "issue_sha256": "464f0388f374a7b9d35c4376287b032364fc63e51dfb872fbd0806154dbbc152",
+      "patch_sha256": "bf6c58aeace23b251199ff653b448e26c5b916eabbe9f7972cd16fbb81bfbf03"
+    },
+    {
+      "instance_id": "psf__requests-1766",
+      "repo": "psf/requests",
+      "base_commit": "847735553aeda6e6633f2b32e14ba14ba86887a4",
+      "issue_sha256": "90d541e87a05a5135b7ee242c82702e5cad1e2cae9e5571fcbc032d7d6d80682",
+      "patch_sha256": "fdf4dc67f564bc801f1fe74b1e6000a3186f19acec083f7585caef1b58671b12"
+    },
+    {
+      "instance_id": "pydata__xarray-6721",
+      "repo": "pydata/xarray",
+      "base_commit": "cc183652bf6e1273e985e1c4b3cba79c896c1193",
+      "issue_sha256": "8885a8e303e07d8e74f13a24134ecd7d051a2e2ded38ac313d6667e68b93a021",
+      "patch_sha256": "47497c21bbb7e54a64da12a51355c18933620cd48dc4cf36f8cf4ba509b0eb88"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6903",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "ca80f03a43bc39e4cc2c67dc99817b3c9f13b8a6",
+      "issue_sha256": "5b236da9e3dbb09d3bf45598d1cc24596fa01daf96d7280482e081345f4ed50f",
+      "patch_sha256": "4b0aa53db6637dcaab2ff2373a8ebf3495df12181640b7dd38e5bb19c0e9fbcd"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7521",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "41d211c24a6781843b174379d6d6538f5c17adb9",
+      "issue_sha256": "39f1953e5d5a7481355aa6109b16ecaebbb037957e473cc71e9ab1402d3aa9b9",
+      "patch_sha256": "e1f62165b6ecc14c60b08bb71a59b927adba0c3b9a8393394481cc6a4f0f8f0e"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "b90661d6a46aa3619d3eec94d5281f5888add501",
+      "issue_sha256": "80b289fedf3bc996489e3ce2ce6f575ea7c8153524ea8736ccd7e0dad0c29a41",
+      "patch_sha256": "36db36590ab75976c976fa4aef8b12d64caf9a65f849e7147b56fb67c4e2aa09"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10323",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "31eba1a76dd485dc633cae48227b46879eda5df4",
+      "issue_sha256": "789a19432537c3948b2c7389aa497711b6ec5a68c9f0d8c3ce2b73eb15f57753",
+      "patch_sha256": "c5ca13567dea50fa6203dd33dbb0e89bf85d8e0854ade535fae80a530815f024"
+    },
+    {
+      "instance_id": "sympy__sympy-16792",
+      "repo": "sympy/sympy",
+      "base_commit": "09786a173e7a0a488f46dd6000177c23e5d24eed",
+      "issue_sha256": "48b3d6d8e3ddfc9a78b57d8f79cf5ca78ba55a990f1eba937b998fd9160a77a8",
+      "patch_sha256": "4c45274d348e1d5179eb44c4273357eeef40400b7780aa03cfce05dba3a192d2"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "repo": "astropy/astropy",
+      "base_commit": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+      "issue_sha256": "615252d5c44819451977588671ce903d3a21c41a8bf011738e2aee39218d56c6",
+      "patch_sha256": "42420ff7003feddd01ddde186a66486ab686dc91af2a3155970dea6ca4df63c3"
+    },
+    {
+      "instance_id": "django__django-11790",
+      "repo": "django/django",
+      "base_commit": "b1d6b35e146aea83b171c1b921178bbaae2795ed",
+      "issue_sha256": "4482bb11e178b43b0d8d59d373ea8ed2631996c27f7ec51d89d65dad47ab37cb",
+      "patch_sha256": "45134a10c54998cc6a8454e4a13ecf9366976fe6876aa64ae59317e229304c3a"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-20676",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "6786f437df54ca7780a047203cbcfaa1db8dc542",
+      "issue_sha256": "c201ac5236b0a5eb57faa1768a12c67f0132074a5538d82feb717a62af9ad01d",
+      "patch_sha256": "2943065dce13dc7e0f4f5bacc13353a4fe4e3fc3398086c9421b1b4cf4012383"
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "repo": "psf/requests",
+      "base_commit": "39d0fdd9096f7dceccbc8f82e1eda7dd64717a8e",
+      "issue_sha256": "08faa0ea47836476b5f4b3709c06a00569996ccc654011299f9c8587cd7007ba",
+      "patch_sha256": "41e9433ac5e2cdb17a3972bec818a1118ea4a3f2b7485cd11fff7e27f6f3f680"
+    },
+    {
+      "instance_id": "pydata__xarray-6992",
+      "repo": "pydata/xarray",
+      "base_commit": "45c0a114e2b7b27b83c9618bc05b36afac82183c",
+      "issue_sha256": "2fd625e5f58b6b7b7c292b9ba90307e8583cad9d4ddb395fe9805bb06c74208b",
+      "patch_sha256": "2c9df82ff3c01c158b6cf1155a89b46da0d60f6705cd29ededd6bce02e9847e8"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4661",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "1d1619ef913b99b06647d2030bddff4800abdf63",
+      "issue_sha256": "9888ff5d07c438e865ef06f4e23337fdf555c438756ab3d74e75abea222cb932",
+      "patch_sha256": "43b3e2e849942d287987af5f42b532695dac6e68625778d6d29981cb0dcb3b59"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5262",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "58e6a09db49f34886ff13f3b7520dd0bcd7063cd",
+      "issue_sha256": "d957354242a7a545699ec4d161c3e4c6ab6df9288000d6e46a051b8b7ff50301",
+      "patch_sha256": "2dbcd95f7a4bf52ae721d6289d1d4ee68dbb08ada5082e98784a7138fc126428"
+    }
+  ],
+  "input_manifest_sha256": "d20835799bfc27761ea598b840a4cd845874f7c8b2bc2c8f802df5a253a6eee0",
+  "environment": {
+    "python": "3.13.5"
+  },
+  "study_environment": {
+    "python": "3.13.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "source_sha256": "def5f9af3123e1e1df4a328e4f64c5d383535e438173a5231200c19881674180",
+    "packages": {
+      "torch": "2.10.0+cu130",
+      "transformers": "4.57.6",
+      "datasets": "4.8.5"
+    },
+    "code_commit": "4dea0a6564d54a2e592de2584aabceff18b22f8c",
+    "working_tree_dirty": true,
+    "tasks_sha256": "1dd7dbc23535006a703841c76f15386ef5d1bf5d5ae905e6cc44423b0ad83a62"
+  }
+}

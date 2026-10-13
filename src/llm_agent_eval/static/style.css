@@ -889,3 +889,19 @@ dialog::backdrop {
 :is(.results-area, .compose, .panel) {
   min-width: 0;
 }
+#explain-button {
+  margin-top: 18px;
+}
+#explanation {
+  margin-top: 14px;
+  font-size: 12px;
+}
+#explanation blockquote {
+  margin: 8px 0;
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  background: var(--accent-light);
+  font-family: var(--mono);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}

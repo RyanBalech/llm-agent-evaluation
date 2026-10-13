@@ -55,13 +55,31 @@ class SearchRequest(BaseModel):
 
 def create_app(data_dir: Path | None = None, *, token: str | None = None) -> FastAPI:
     access_token = token if token is not None else os.getenv("REPOLENS_TOKEN", "")
+    public_demo = os.getenv("REPOLENS_PUBLIC_DEMO") == "1"
+    explanations_enabled = os.getenv("REPOLENS_ENABLE_EXPLANATIONS") == "1"
 
     @asynccontextmanager
     async def lifespan(app):
         app.state.service = IndexService(
             data_dir or Path(os.getenv("REPOLENS_DATA_DIR", ".repolens")),
             enable_dense=os.getenv("REPOLENS_ENABLE_DENSE") == "1")
+        app.state.explanations = None
+        if explanations_enabled:
+            from .explanations import ExplanationJobs
+            app.state.explanations = ExplanationJobs(
+                app.state.service, device=os.getenv("REPOLENS_EXPLAIN_DEVICE", "cpu"),
+                public=public_demo)
+        if public_demo:
+            app.state.service.submit("demo")
+            if os.getenv("REPOLENS_DEMO_REVISION"):
+                existing = app.state.service.list()
+                if not any(r["repository"] == "RyanBalech/llm-agent-evaluation"
+                           and r["status"] != "failed" for r in existing):
+                    app.state.service.submit("RyanBalech/llm-agent-evaluation",
+                                             os.environ["REPOLENS_DEMO_REVISION"])
         yield
+        if app.state.explanations is not None:
+            app.state.explanations.close()
         app.state.service.close()
 
     app = FastAPI(title="RepoLens", version="0.1.0", lifespan=lifespan,
@@ -79,20 +97,28 @@ def create_app(data_dir: Path | None = None, *, token: str | None = None) -> Fas
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
-        response.headers["X-Frame-Options"] = "DENY"
+        if not public_demo:
+            response.headers["X-Frame-Options"] = "DENY"
         if request.url.path not in {"/docs", "/redoc"}:
             response.headers["Content-Security-Policy"] = (
                 "default-src 'self'; script-src 'self'; style-src 'self'; "
-                "img-src 'self' data:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'")
+                "img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors "
+                + ("'self' https://huggingface.co" if public_demo else "'none'"))
         response.headers["Cache-Control"] = "no-store"
         return response
 
     def service(request: Request):
-        if access_token:
+        if access_token and not public_demo:
             supplied = request.headers.get("authorization", "")
             if not hmac.compare_digest(supplied, f"Bearer {access_token}"):
                 raise HTTPException(401, "Enter the server access token")
         return request.app.state.service
+
+    def require_write_access(request: Request):
+        if public_demo:
+            supplied = request.headers.get("authorization", "")
+            if not access_token or not hmac.compare_digest(supplied, f"Bearer {access_token}"):
+                raise HTTPException(403, "Public demo repositories are managed by the operator")
 
     @app.exception_handler(KeyError)
     async def not_found(request, exc):
@@ -110,14 +136,16 @@ def create_app(data_dir: Path | None = None, *, token: str | None = None) -> Fas
 
     @app.get("/api/config")
     def config(s: IndexService = dependency):
-        return {"dense_enabled": s.enable_dense, "max_indexes": 20, "max_pending": 3}
+        return {"dense_enabled": s.enable_dense, "max_indexes": 20, "max_pending": 3,
+                "public_demo": public_demo, "explanations_enabled": explanations_enabled}
 
     @app.get("/api/indexes")
     def indexes(s: IndexService = dependency):
         return s.list()
 
     @app.post("/api/indexes", status_code=202)
-    def index(payload: IndexRequest, s: IndexService = dependency):
+    def index(payload: IndexRequest, request: Request, s: IndexService = dependency):
+        require_write_access(request)
         return s.submit(payload.repository, payload.revision, dense=payload.dense)
 
     @app.post("/api/demo", status_code=202)
@@ -129,7 +157,8 @@ def create_app(data_dir: Path | None = None, *, token: str | None = None) -> Fas
         return s.get(index_id)
 
     @app.delete("/api/indexes/{index_id}", status_code=204)
-    def delete_index(index_id: str, s: IndexService = dependency):
+    def delete_index(index_id: str, request: Request, s: IndexService = dependency):
+        require_write_access(request)
         s.delete(index_id)
 
     @app.post("/api/search")
@@ -137,10 +166,27 @@ def create_app(data_dir: Path | None = None, *, token: str | None = None) -> Fas
         return s.search(payload.index_id, payload.query, payload.method,
                         payload.context_budget_chars, payload.top_k)
 
+    @app.post("/api/explanations", status_code=202)
+    def explain(payload: SearchRequest, request: Request, s: IndexService = dependency):
+        if request.app.state.explanations is None:
+            raise HTTPException(409, "Local explanations are disabled on this server")
+        if s.get(payload.index_id)["status"] != "ready":
+            raise HTTPException(409, "Wait for the index to become ready")
+        return request.app.state.explanations.submit(payload.model_dump())
+
+    @app.get("/api/explanations/{job_id}")
+    def explanation_status(job_id: str, request: Request, s: IndexService = dependency):
+        if request.app.state.explanations is None:
+            raise HTTPException(409, "Local explanations are disabled on this server")
+        return request.app.state.explanations.get(job_id)
+
     @app.get("/api/evaluation")
     def evaluation(s: IndexService = dependency):
         result = json.loads((PACKAGE / "evidence" / "baseline.json").read_text())
+        studies = [json.loads(path.read_text(encoding="utf-8"))
+                   for path in sorted((PACKAGE / "evidence").glob("study_*.json"))]
         return {"baseline": result, "label": "Archived 20-task SWE-bench Verified experiment",
+                "studies": studies,
                 "limitations": ["12 of 20 tasks are Django; this is a small development slice.",
                                  "File localization does not measure successful bug fixes.",
                                  "Dense and hybrid full-study results are not yet available.",
@@ -165,7 +211,8 @@ def main():
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
-    if args.host not in {"127.0.0.1", "localhost", "::1"} and not os.getenv("REPOLENS_TOKEN"):
+    if (args.host not in {"127.0.0.1", "localhost", "::1"}
+            and not os.getenv("REPOLENS_TOKEN") and os.getenv("REPOLENS_PUBLIC_DEMO") != "1"):
         parser.error("Set REPOLENS_TOKEN before listening on a network interface")
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     uvicorn.run(create_app(), host=args.host, port=args.port)

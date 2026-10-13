@@ -32,6 +32,8 @@ Interactive OpenAPI documentation is at `/docs`.
 | `POST /api/demo` | Create or reuse the bundled shop index |
 | `POST /api/search` | Search `{index_id, query, method, context_budget_chars, top_k}` |
 | `GET /api/evaluation` | Archived baseline plus explicit limitations |
+| `POST /api/explanations` | Queue local generation for the same request schema as search |
+| `GET /api/explanations/{id}` | Poll generation state and retrieve validated citations |
 
 Search defaults match the benchmark: 80-line chunks with 20-line overlap, 50 candidates,
 40,000 characters, and five files. The product omits zero-score lexical candidates to avoid
@@ -81,7 +83,7 @@ a non-root user with a read-only root filesystem, and caps CPU, memory, and proc
 For a hosted demo, put a TLS reverse proxy in front, set `REPOLENS_HOSTS` to the actual
 hostname, and configure the proxy to preserve Host. Share the token only with authorized users.
 This is single-user authentication, not multi-tenant authorization. Do not advertise it as an
-anonymous public indexing service. A public hosting provider has not been configured.
+anonymous public indexing service. The static browser deployment below avoids a public indexing server.
 
 Health: `/healthz`. Logs include indexing completion, failures, method, and search latency;
 search queries and source code are not included in application log events. No uptime,
@@ -125,5 +127,80 @@ python scripts/run_frozen_comparison.py .benchmark/study.jsonl
 The runner verifies all task IDs, base commits, issue hashes, and patch hashes against the
 audited manifest before evaluating. It runs BM25, CodeBERT, then hybrid with the same settings,
 shares the embedding cache, writes task checkpoints, and produces paired bootstrap intervals.
-Completed matching methods can be reused; an interrupted method restarts. This can take a long
+Completed matching methods can be reused; interrupted methods resume completed task checkpoints
+only when inputs, configuration, and evaluation-code fingerprints match. This can take a long
 time and fetch large repositories. Keep failures visible and do not report partial runs as complete.
+
+## Local explanations
+
+Install `.[app,ml]`, set `REPOLENS_ENABLE_EXPLANATIONS=1`, and restart the app. After searching,
+click **Explain retrieved evidence**. This runs Qwen2.5-Coder-1.5B-Instruct locally at a pinned
+model revision; there are no inference API calls or API charges. The initial model download is
+approximately 3 GB. CPU inference requires several GB of RAM and can take over a minute;
+set `REPOLENS_EXPLAIN_DEVICE=cuda` when a suitable GPU is available.
+
+Generation receives the issue and bounded excerpts from up to three retrieved files. Every
+finding must cite an existing evidence ID. The server attaches the original retrieved excerpt
+and source metadata, ignoring model-supplied quotes, URLs, and line numbers. Invalid output becomes a
+failed job rather than an unsupported explanation. Valid citations still do not establish that
+the model's diagnosis is correct. No commands, tests, or patches are executed by this feature.
+
+The model returns a suggested next check. Generated output includes model revision, token usage,
+generation time, and source commit; it is included in JSON exports after generation completes.
+Only one generation job runs at a time. Jobs expire when the server restarts.
+
+## Hugging Face Spaces
+
+`scripts/deploy_space.py` packages an explicit allowlist of application source and publishes a
+Docker Space using the locally authenticated Hugging Face account. It requires a clean committed
+working tree so deployment records an exact source revision. It requests no hardware upgrade.
+CPU Basic has no hourly hardware charge, but creating a Docker Space now requires an eligible
+paid account plan. See [Hugging Face's current hosting requirements](https://huggingface.co/docs/hub/spaces-overview).
+
+```powershell
+.venv\Scripts\hf.exe auth login
+python scripts/deploy_space.py
+```
+
+Public-demo mode (`REPOLENS_PUBLIC_DEMO=1`) enables anonymous search of prepared repositories.
+Arbitrary indexing and deletion require an operator token. The Space includes the sample shop
+and the public project repository at the deployed revision. Local generation is limited to one
+job at a time and twenty requests per hour across the demo. The operator can configure a token
+with a Space secret; no account token is packaged into the application.
+
+The Space's filesystem is ephemeral. Prepared indexes rebuild after a restart. Hugging Face
+provides the public HTTPS endpoint and may suspend inactive CPU Basic Spaces. Runtime health and
+browser behavior must be checked after each upload before calling the deployment live.
+
+## Static browser deployment
+
+GitHub Pages can serve an interactive demo without an application server. Build it with
+`python scripts/build_pages.py`, then serve `dist/pages` with any static HTTP server.
+With GitHub authentication configured, `python scripts/deploy_pages.py` publishes a clean
+committed checkout to the `gh-pages` branch and configures Pages if it is not already enabled.
+It refuses to overwrite an existing Pages configuration that points elsewhere.
+The build publishes only the bundled example, tracked public Python files at the source commit,
+the retrieval engine, and evaluation artifacts. It never exports local repository indexes.
+
+Search uses the same Python BM25 implementation and context-budget selector inside a Pyodide
+WebAssembly worker. Queries stay in the browser. Prepared source snapshots have immutable GitHub
+links; arbitrary repository ingestion and dense retrieval remain available in the Python app.
+The first search downloads the Python runtime from a version-pinned CDN.
+
+On WebGPU-capable browsers, optional explanations run a quantized Qwen2.5-Coder-3B-Instruct
+model through WebLLM. Clicking the explanation button starts an approximately 2 GB model download;
+subsequent uses can reuse the browser cache. This is a different inference runtime from the Python
+model, and its output is not assumed identical. Generated JSON is constrained to known evidence IDs,
+then validated with the shared Python citation validator. The source snippets are copied from the
+snapshot, never from generated code. No inference API, hosted GPU, or secret key is required.
+Browser GPU support, available memory, network downloads, and cache eviction affect availability.
+
+## Broader evaluation
+
+The separate 50-task manifest samples all twelve available repositories with at most five
+issues each, excludes the original twenty tasks and all smoke instances, and pins the dataset.
+Materialize it with `python scripts/materialize_balanced_slice.py`, then run:
+
+```powershell
+python scripts/run_frozen_comparison.py .benchmark/balanced-50.jsonl --manifest configs/verified_balanced_50_manifest.json --output-dir results/balanced-50
+```

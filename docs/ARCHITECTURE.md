@@ -32,7 +32,7 @@ with no lexical evidence. Demo and benchmark semantics are documented separately
 gives a typed request schema, validation, and generated documentation. The browser needs only
 repository forms, polling, and inspectable results; plain JavaScript and CSS keep it distributable
 as one Python package and one container. React is a reasonable later choice if interaction state
-becomes more complex. It is not a requirement for demonstrating full-stack engineering.
+becomes more complex.
 
 **Bare Git fetch and blob reading.** Repository ingestion does not check out files, run package
 installation, initialize submodules, or execute code. Only public GitHub HTTPS URLs are accepted.
@@ -50,9 +50,17 @@ encoder and is serialized. Repeated immutable inputs reuse content-addressed emb
 The design favors a predictable demo over high-throughput multi-tenant service.
 
 **Grounded evidence.** A result contains actual code, line numbers, matched terms, and its source
-revision. BM25 and cosine scores are not calibrated confidence. A generated explanation would
-need to cite this evidence and distinguish observed behavior from speculation. No LLM explanation
-is presented as a verified diagnosis in this release.
+revision. BM25 and cosine scores are not calibrated confidence. Optional local explanations cite
+known retrieved excerpts. Source text and locations are attached from the immutable snapshot;
+model-supplied quotes and links are ignored. Valid citations do not verify the model's diagnosis.
+
+**Static deployment without a serving bill.** Prepared public source snapshots and the Python
+lexical engine run in a Pyodide Web Worker on GitHub Pages. The browser adapter is checked against
+the server for ranking, context packing, and source evidence. A separate optional WebLLM worker
+runtime performs local GPU inference with quantized pinned weights. The server supports arbitrary
+repository ingestion and optional dense search; the static deployment intentionally has no such
+server endpoints. Search queries are not sent to an inference provider. Runtime and model assets
+are downloaded from versioned public CDNs and model repositories.
 
 ## What the evaluation measures
 

@@ -6,7 +6,9 @@ let token = "",
   lastResult = null,
   polling = false,
   searching = false,
-  denseEnabled = false;
+  denseEnabled = false,
+  publicDemo = false,
+  explanationsEnabled = false;
 const names = {
   bm25: "BM25 + path prior",
   dense: "CodeBERT · experimental",
@@ -23,6 +25,7 @@ function notice(message = "") {
   $("notice").hidden = !message;
 }
 async function api(path, options = {}) {
+  if (window.repoLensPages) return window.repoLensPages(path, options);
   const response = await fetch(path, {
     ...options,
     headers: {
@@ -43,6 +46,8 @@ async function api(path, options = {}) {
   return body;
 }
 function clearResults() {
+  $("explanation").hidden = true;
+  $("explain-button").hidden = true;
   lastResult = null;
   $("results").replaceChildren();
   $("search-summary").hidden = true;
@@ -112,7 +117,7 @@ function renderIndexes() {
     );
     select.addEventListener("click", () => selectIndex(row));
     card.append(select);
-    if (!["queued", "indexing"].includes(row.status)) {
+    if (!publicDemo && !["queued", "indexing"].includes(row.status)) {
       const remove = node("button", "×", "delete-index");
       remove.setAttribute("aria-label", `Delete index for ${row.repository}`);
       remove.addEventListener("click", async () => {
@@ -203,6 +208,8 @@ function codeBlock(snippet) {
   return pre;
 }
 function renderResults(result) {
+  $("explanation").hidden = true;
+  $("explain-button").hidden = !explanationsEnabled || !result.files.length;
   lastResult = result;
   $("empty-state").hidden = true;
   $("results").replaceChildren();
@@ -377,11 +384,77 @@ async function evaluation() {
     caveats.append(list);
     columns.append(protocol, caveats);
     container.append(columns);
+    for (const study of data.studies || []) {
+      const panel = node("div", undefined, "panel table-wrap");
+      panel.append(
+        node("h2", study.name),
+        node(
+          "p",
+          `${study.n_tasks} identical tasks across ${study.n_repositories} repositories. All three methods use the same source snapshots and context budget.`,
+        ),
+      );
+      const comparison = node("table"),
+        heading = node("tr");
+      [
+        "Method",
+        "Recall@5",
+        "MRR",
+        "nDCG@5",
+        "Recall difference vs BM25 (95% paired interval)",
+      ].forEach((label) => heading.append(node("th", label)));
+      const header = node("thead");
+      header.append(heading);
+      comparison.append(header);
+      const rows = node("tbody");
+      for (const method of ["bm25", "dense", "hybrid"]) {
+        const metrics = study.aggregates[method],
+          row = node("tr");
+        const difference = study.paired_vs_bm25[method]?.metrics.recall_at_k;
+        const label = { bm25: "BM25", dense: "CodeBERT", hybrid: "Hybrid RRF" }[
+          method
+        ];
+        [
+          label,
+          metrics.mean_recall_at_k.toFixed(3),
+          metrics.mean_reciprocal_rank.toFixed(3),
+          metrics.mean_ndcg_at_k.toFixed(3),
+          difference
+            ? `${difference.mean_difference.toFixed(3)} [${difference.ci_low.toFixed(3)}, ${difference.ci_high.toFixed(3)}]`
+            : "Reference",
+        ].forEach((value) => row.append(node("td", value)));
+        rows.append(row);
+      }
+      comparison.append(rows);
+      panel.append(comparison);
+      const notes = node("ul");
+      study.interpretation.forEach((text) => notes.append(node("li", text)));
+      panel.append(notes);
+      const download = node(
+        "button",
+        "Download complete study JSON",
+        "button secondary",
+      );
+      download.addEventListener("click", () => {
+        const url = URL.createObjectURL(
+          new Blob([JSON.stringify(study, null, 2)], {
+            type: "application/json",
+          }),
+        );
+        const link = node("a");
+        link.href = url;
+        link.download = `repolens-study-${study.n_tasks}.json`;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+      panel.append(download);
+      container.append(panel);
+    }
     const tablePanel = node("div", undefined, "panel table-wrap");
     tablePanel.append(node("h2", "Every task, including the misses"));
     const table = node("table"),
       head = node("thead"),
       hr = node("tr");
+    table.id = "baseline-tasks";
     ["Instance", "Recall@5", "Reciprocal rank", "nDCG@5"].forEach((t) =>
       hr.append(node("th", t)),
     );
@@ -447,8 +520,20 @@ async function connect() {
   try {
     const config = await api("/api/config");
     denseEnabled = config.dense_enabled;
+    publicDemo = config.public_demo;
+    explanationsEnabled = config.explanations_enabled;
+    $("index-form").hidden = publicDemo;
+    $("public-demo-note").hidden = !publicDemo;
     $("dense-option").hidden = !denseEnabled;
-    $("connection").textContent = "Server connected";
+    $("connection").textContent = config.browser_mode
+      ? "Browser ready"
+      : "Server connected";
+    if (config.browser_mode) {
+      $("access-button").hidden = true;
+      $("public-demo-note").textContent =
+        "Search prepared repository snapshots locally in your browser. For arbitrary GitHub indexing and dense retrieval, run the Python app. Optional explanations download a local model (~2 GB) and require WebGPU.";
+      $("explain-button").textContent = "Explain locally · download model";
+    }
     notice();
     await refresh();
   } catch (e) {
@@ -472,3 +557,77 @@ setInterval(async () => {
   }
 }, 1500);
 connect();
+
+$("explain-button").addEventListener("click", async () => {
+  if (!lastResult) return;
+  const captured = lastResult;
+  const button = $("explain-button");
+  const box = $("explanation");
+  button.disabled = true;
+  box.hidden = false;
+  box.dataset.status = "generating";
+  box.replaceChildren(
+    node(
+      "p",
+      "Generating a cited explanation locally… The first request also loads the model.",
+    ),
+  );
+  try {
+    let job = await api("/api/explanations", {
+      method: "POST",
+      body: JSON.stringify({
+        index_id: captured.index_id,
+        query: captured.query,
+        method: captured.method,
+        context_budget_chars: captured.context_budget_chars,
+        top_k: captured.configuration.top_k,
+      }),
+    });
+    const deadline = Date.now() + (window.repoLensPages ? 900000 : 300000);
+    while (["queued", "generating"].includes(job.status)) {
+      if (Date.now() > deadline)
+        throw Error(
+          "Explanation is taking longer than expected. Try again later.",
+        );
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (lastResult !== captured) return;
+      job = await api(`/api/explanations/${job.id}`);
+      if (job.message) box.replaceChildren(node("p", job.message));
+    }
+    if (lastResult !== captured) return;
+    if (job.status !== "ready") throw Error(job.error);
+    const result = job.result;
+    captured.generated_explanation = result;
+    box.dataset.status = "ready";
+    box.replaceChildren(node("p", "GENERATED ANALYSIS", "eyebrow"));
+    for (const finding of result.findings) {
+      box.append(node("p", finding.statement));
+      for (const citation of finding.evidence) {
+        box.append(node("blockquote", citation.quote));
+        const source = node(
+          citation.source_url ? "a" : "span",
+          `${citation.path}:${citation.start_line}–${citation.end_line}`,
+          "small",
+        );
+        if (citation.source_url) {
+          source.href = citation.source_url;
+          source.target = "_blank";
+          source.rel = "noopener noreferrer";
+        }
+        box.append(source);
+      }
+    }
+    box.append(
+      node("h2", "Suggested check"),
+      node("p", result.suggested_check),
+      node("p", result.notice, "fine-print"),
+    );
+  } catch (e) {
+    if (lastResult === captured) {
+      box.dataset.status = "failed";
+      box.replaceChildren(node("p", e.message));
+    }
+  } finally {
+    button.disabled = false;
+  }
+});

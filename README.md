@@ -28,14 +28,19 @@ Optional CodeBERT and hybrid search are enabled with `pip install -e ".[app,ml]"
 `REPOLENS_ENABLE_DENSE=1` before launch. In PowerShell: `$env:REPOLENS_ENABLE_DENSE="1"`.
 Then check **Include CodeBERT & hybrid** when indexing a repository.
 
+For source-cited local explanations, install `.[app,ml]`, set
+`REPOLENS_ENABLE_EXPLANATIONS=1`, and restart. Qwen2.5-Coder runs locally with no inference API.
+Generated diagnoses remain hypotheses; source excerpts and locations come from the retrieved snapshot.
+
 **Start here:** [Product guide and deployment](docs/PRODUCT.md) ·
 [Architecture and tradeoffs](docs/ARCHITECTURE.md) ·
 [Local verification record](docs/VERIFICATION.md).
 
 This release localizes code. Generated fixes and execution of repository code are outside
 its implemented workflow. Full dense/hybrid SWE-bench results are still pending; no accuracy
-improvement is claimed. The application is intended for a local or authenticated single-user
-deployment, with one server process per data directory.
+improvement is claimed. The server supports local or authenticated single-user deployment, with
+one process per data directory. A static browser build supports prepared repositories, Python BM25
+in WebAssembly, and optional WebGPU explanations without a paid hosting account.
 
 ## Evaluation framework
 
@@ -67,6 +72,12 @@ The completed paired sparse ablation finds Recall@5 of 0.200, 0.275, 0.375,
 0.425 and 0.425 at 5k, 10k, 20k, 40k and 80k code characters. Plain BM25 matches
 the path-prior baseline on this slice; doubling 40k to 80k adds no top-five recall.
 [All seven arms and per-task scores](results/published/sparse_ablation.json).
+
+On a separately frozen **50-task slice across 12 repositories**, excluding the original twenty
+and smoke tasks, BM25 completed 50/50 with Recall@5 **0.555**, MRR **0.441**, and nDCG@5 **0.443**.
+This repository-balanced sample has a different composition; the difference from the original
+baseline is not a method improvement. [Raw results](results/published/verified_balanced_50_bm25.json)
+and [frozen manifest](configs/verified_balanced_50_manifest.json) include task-level provenance.
 
 ## Implemented methods
 

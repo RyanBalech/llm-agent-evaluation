@@ -153,3 +153,54 @@ def test_dense_index_remains_lexically_searchable_when_dense_disabled(tmp_path, 
         response = client.post("/api/search", json={**query, "method": "dense"})
         assert response.status_code == 409
         assert "disabled" in response.json()["detail"]
+
+
+def test_public_demo_allows_search_but_requires_operator_for_mutations(tmp_path, monkeypatch):
+    monkeypatch.setenv("REPOLENS_PUBLIC_DEMO", "1")
+    monkeypatch.delenv("REPOLENS_DEMO_REVISION", raising=False)
+    with TestClient(create_app(tmp_path, token="operator-secret")) as client:
+        assert client.get("/api/config").json()["public_demo"]
+        row = client.post("/api/demo").json()
+        ready(client, row["id"])
+        assert client.post("/api/search", json={"index_id": row["id"], "query": "inventory"}).status_code == 200
+        assert client.delete(f'/api/indexes/{row["id"]}').status_code == 403
+        assert client.post("/api/indexes", json={"repository": "a/b"}).status_code == 403
+        response = client.get("/")
+        assert "https://huggingface.co" in response.headers["content-security-policy"]
+        assert "x-frame-options" not in response.headers
+
+
+def test_explanation_api_checks_configuration(tmp_path):
+    with TestClient(create_app(tmp_path)) as client:
+        response = client.post("/api/explanations", json={"index_id": "a"*32, "query": "inventory"})
+        assert response.status_code == 409
+
+
+def test_explanation_job_returns_validated_result(tmp_path, monkeypatch):
+    from llm_agent_eval.providers import Usage
+    monkeypatch.setenv("REPOLENS_ENABLE_EXPLANATIONS", "1")
+    class Client:
+        model_name = "fixture"
+        revision = "fixture-revision"
+        last_usage = Usage(10, 10, 20)
+        def complete(self, prompt):
+            evidence = json.loads(prompt.split("\n", 1)[1])["evidence"][0]
+            return json.dumps({"findings": [{"statement": "Inspect this inventory operation.",
+                                             "evidence": [{"id": evidence["id"],
+                                                           "quote": evidence["text"].splitlines()[0]}]}],
+                               "suggested_check": "Inspect its callers."})
+    app = create_app(tmp_path)
+    with TestClient(app) as client:
+        app.state.explanations.client = Client()
+        index = client.post("/api/demo").json()
+        ready(client, index["id"])
+        response = client.post("/api/explanations", json={"index_id": index["id"], "query": "inventory"})
+        assert response.status_code == 202
+        job_id = response.json()["id"]
+        for _ in range(100):
+            job = client.get(f"/api/explanations/{job_id}").json()
+            if job["status"] in {"ready", "failed"}:
+                break
+            time.sleep(.01)
+        assert job["status"] == "ready", job
+        assert job["result"]["model_revision"] == "fixture-revision"

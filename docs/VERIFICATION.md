@@ -15,6 +15,13 @@ PyTorch 2.10.0+cu130, Transformers 4.57.6, and an NVIDIA RTX 4050 Laptop GPU.
   on the public project snapshot. [Raw smoke record](../results/published/product_smoke.json).
 - All twenty materialized task IDs, source commits, issue hashes, and patch hashes match
   `configs/verified_20_manifest.json` at the pinned dataset revision.
+- Static browser integration passes against a local HTTP server: the shared Python BM25 engine
+  runs in Pyodide, searches both prepared snapshots, exports actual results, and preserves mobile layout.
+- The real local Qwen2.5-Coder-1.5B-Instruct model generated a cited cancellation explanation on
+  CUDA. Source excerpts are attached from the retrieved snapshot. This checks the generation path,
+  not diagnosis quality across real issues. [Recorded output](../results/published/local_explanation_smoke.json).
+- The separate repository-balanced lexical run completed all 50 tasks across 12 repositories,
+  with Recall@5 0.555. This is a different task sample, not an improvement over the original 20-task score.
 
 ## Functional example
 
@@ -28,8 +35,8 @@ they are not latency percentiles or throughput measurements.
 
 - The full twenty-task CodeBERT/hybrid comparison has not been completed. The frozen runner
   and paired checks are available, but no new accuracy improvement is claimed.
-- A larger held-out study, repository-aware uncertainty estimates, indexing memory profiles,
-  sustained load tests, and developer usability measurements remain future work.
+- Dense/hybrid comparisons on the larger sample, repository-aware uncertainty estimates,
+  indexing memory profiles, sustained load tests, and developer usability measurements remain pending.
 - Docker and CI definitions are included. Local container execution requires a running Docker
   daemon. Hosted deployment and a public service URL have not been provisioned.
 

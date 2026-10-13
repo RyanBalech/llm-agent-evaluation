@@ -68,6 +68,10 @@
               <span class="step">01</span>
               <h2>Choose your codebase</h2>
             </div>
+            <p id="public-demo-note" class="fine-print" hidden>
+              Explore the prepared repositories below. Run RepoLens locally to
+              index your own public GitHub repository.
+            </p>
             <form id="index-form">
               <label for="repository">Public GitHub repository</label>
               <input
@@ -176,6 +180,10 @@
             </div>
             <div id="results" aria-live="polite"></div>
             <p id="results-note" class="fine-print" hidden></p>
+            <button id="explain-button" class="secondary" hidden>
+              Explain retrieved evidence
+            </button>
+            <div id="explanation" class="panel" aria-live="polite" hidden></div>
           </section>
         </div>
         <div class="bottom-note">
