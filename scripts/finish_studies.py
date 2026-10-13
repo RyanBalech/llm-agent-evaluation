@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -11,6 +12,19 @@ from time import sleep
 
 def run(*arguments: str) -> None:
     subprocess.run([sys.executable, *arguments], check=True)
+
+
+def is_running(pid: int) -> bool:
+    if sys.platform == "win32":
+        found = subprocess.run(
+            ["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
+            check=True, capture_output=True, text=True).stdout
+        return f'"{pid}"' in found
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
 
 
 def study(directory: str, tasks: str, manifest: str, title: str, label: str) -> None:
@@ -38,10 +52,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.wait_pid:
         while not Path("results/verified-20/comparison.json").exists():
-            found = subprocess.run(
-                ["tasklist", "/FI", f"PID eq {args.wait_pid}", "/FO", "CSV", "/NH"],
-                check=True, capture_output=True, text=True).stdout
-            if f'"{args.wait_pid}"' not in found:
+            if not is_running(args.wait_pid):
                 break
             sleep(30)
     study("results/verified-20", ".benchmark/study.jsonl",
