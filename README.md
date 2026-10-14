@@ -2,7 +2,8 @@
 
 A working developer tool for finding the code behind an issue, backed by a repository-level
 retrieval evaluation framework. Index a public GitHub repository, describe a problem, inspect
-ranked source excerpts at an immutable commit, and export your investigation.
+ranked source excerpts at an immutable commit, and export your investigation. A local MCP server
+also makes the same search available to coding tools.
 
 ![RepoLens investigating a real repository](docs/images/repolens.png)
 
@@ -40,10 +41,19 @@ Live static demo: [ryanbalech.github.io/llm-agent-evaluation](https://ryanbalech
 It runs the shared BM25 engine in the browser against prepared source snapshots. The Python app
 supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval.
 
-Coding tools can use the same retrieval service through a local MCP server. It snapshots the
-configured workspace, including current edits, or a public GitHub repository; then exposes
-index status, issue search, and bounded source inspection as tools. Install `.[mcp]` and see
-[MCP setup and tool workflow](docs/MCP.md). The public Pages demo does not host an MCP endpoint.
+## Use from a coding tool
+
+Install the local MCP server and configure your client to launch it with a workspace path:
+
+```bash
+python -m pip install -e ".[mcp]"
+python -m llm_agent_eval.mcp_server --workspace /absolute/path/to/project
+```
+
+The server exposes tools to snapshot the configured workspace (including current edits) or a
+public GitHub repository, check index status, search by issue, and inspect bounded source excerpts.
+See [MCP client configuration and tool workflow](docs/MCP.md) for the launch configuration.
+The public Pages demo does not host an MCP endpoint.
 
 This release localizes code. Generated fixes and execution of repository code are outside
 its implemented workflow. The completed 20-task dense/hybrid study does not show an accuracy

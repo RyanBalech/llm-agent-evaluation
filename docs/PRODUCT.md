@@ -66,6 +66,15 @@ The first dense job downloads CodeBERT at a pinned revision. It uses CUDA when a
 otherwise CPU. Dense indexing and queries share an inference lock to limit concurrent GPU
 use. Model inputs truncate at 512 tokens. CPU inference can be substantially slower.
 
+## MCP integration
+
+Install `.[mcp]` to run the local stdio server for a coding tool. Its tools index the configured
+workspace, including current edits, or a public GitHub repository, then search and read bounded
+source excerpts from an immutable snapshot. The workspace path is fixed at server launch; tool
+calls cannot choose another local directory. Reindex after edits to capture a new snapshot.
+See [MCP setup](MCP.md) for a client configuration and the complete tool workflow. This is a
+local interface; the GitHub Pages deployment does not provide MCP.
+
 ## Container and network deployment
 
 The included container installs the lexical application. Start Docker, then:
@@ -92,7 +101,8 @@ multi-user load, or production SLA has been measured.
 
 ## Operational boundaries
 
-- Public GitHub only; no private credentials, arbitrary URLs, or local filesystem paths.
+- HTTP repository indexing accepts public GitHub only; no private credentials, arbitrary URLs,
+  or local filesystem paths. The local MCP server can index its configured workspace.
 - Three pending jobs, twenty stored records, three in-memory retrieval indexes.
 - At most 4,000 eligible source files, 20 MB eligible source, 500 KB per file, 20,000 chunks.
 - Git commands have timeouts. Symlinks, submodules, binary and invalid UTF-8 blobs are skipped.

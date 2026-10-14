@@ -13,8 +13,9 @@ Python 3.10+ and Git are required. In the RepoLens checkout:
 python -m pip install -e ".[mcp]"
 ```
 
-Configure your MCP client to launch RepoLens as a local process. Replace both absolute paths
-with paths on your machine. Set `--workspace` to the project the coding tool is investigating:
+Configure your MCP client to launch RepoLens as a local process. For clients whose configuration
+uses an `mcpServers` object, the entry looks like this. Replace both absolute paths with paths
+on your machine. Set `--workspace` to the project the coding tool is investigating:
 
 ```json
 {
