@@ -10,7 +10,9 @@ The live static deployment is at
 - Python tests cover the original retrieval/evaluation modules and the application API:
   demo search, budget enforcement, persistence across restart, deletion, authentication,
   origin and host checks, unsafe repository/ref rejection, source provenance, and interrupted jobs.
-- Ruff passes for application code, tests, and scripts. All 58 Python tests pass locally.
+- Ruff passes for application code, tests, and scripts. All 61 Python tests pass locally.
+- MCP tests cover tool discovery, a real stdio client subprocess, workspace snapshots with
+  current edits, source inspection, public commit-pinned links, and invalid input rejection.
 - Browser integration passes at desktop and mobile sizes: demo indexing, search, source
   inspection, JSON download, all twenty evaluation rows, and live public GitHub indexing.
 - The real pinned CodeBERT encoder loads on CUDA. BM25, dense, and hybrid searches all complete
@@ -29,8 +31,9 @@ The live static deployment is at
 - The frozen 20-task BM25, CodeBERT and hybrid arms all completed with no failures. Their
   paired validator accepted task IDs, commits, source hashes and evaluation settings.
   CodeBERT Recall@5 was 0.000, and hybrid Recall@5 was 0.300, versus BM25's 0.425.
-- Pull request #4 remains a draft. Its five CI jobs pass, including tests, both browser builds,
-  a dense-cache check, and a container build plus health/demo request.
+- Pull requests #4 and #5 were reviewed and merged. On the current main commit, all five CI
+  jobs pass: tests, both browser builds, a dense-cache check, and a container build plus
+  health/demo request. The separate SWE-bench smoke workflow also passes.
 
 ## Functional example
 
@@ -50,7 +53,8 @@ they are not latency percentiles or throughput measurements.
 - Local Docker execution could not be run because the Docker daemon is unavailable on this
   workstation. The CI container job builds the image and checks health and authenticated demo.
 - The public Pages build accepts only prepared repositories. Arbitrary public GitHub indexing,
-  dense/hybrid retrieval, and the Python local model require the local application.
+  dense/hybrid retrieval, and the Python local model require the local application. MCP is
+  available through a local stdio process, not the static site.
 
 Reproduce the checks with the commands in [the product guide](PRODUCT.md). Screenshot artifacts
 come from a running browser using actual API results, not static fixture screens.
