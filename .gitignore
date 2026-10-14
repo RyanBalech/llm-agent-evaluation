@@ -8,6 +8,7 @@ build/
 *.egg-info/
 .env
 .repolens/
+.repolens-mcp/
 artifacts/
 .benchmark/
 .benchmark-*.json

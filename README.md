@@ -40,6 +40,11 @@ Live static demo: [ryanbalech.github.io/llm-agent-evaluation](https://ryanbalech
 It runs the shared BM25 engine in the browser against prepared source snapshots. The Python app
 supports arbitrary public GitHub indexing and optional CodeBERT/hybrid retrieval.
 
+Coding tools can use the same retrieval service through a local MCP server. It snapshots the
+configured workspace, including current edits, or a public GitHub repository; then exposes
+index status, issue search, and bounded source inspection as tools. Install `.[mcp]` and see
+[MCP setup and tool workflow](docs/MCP.md). The public Pages demo does not host an MCP endpoint.
+
 This release localizes code. Generated fixes and execution of repository code are outside
 its implemented workflow. The completed 20-task dense/hybrid study does not show an accuracy
 improvement; the balanced 50-task comparison is an optional unfinished extension. The server

@@ -18,7 +18,7 @@ from urllib.parse import quote
 
 from .evaluation import select_under_character_budget
 from .indexing import CodeChunk, chunk_repository
-from .repository import fetch_sources
+from .repository import fetch_sources, read_workspace_sources
 from .retrieval import BM25Retriever, tokenize
 
 LOG = logging.getLogger("repolens")
@@ -31,10 +31,12 @@ class CapacityError(ValueError):
 
 
 class IndexService:
-    def __init__(self, root: Path, *, enable_dense: bool = False):
+    def __init__(self, root: Path, *, enable_dense: bool = False,
+                 workspace_root: Path | None = None):
         self.root = root.resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.enable_dense = enable_dense
+        self.workspace_root = workspace_root.resolve(strict=True) if workspace_root else None
         self.db = self.root / "repolens.sqlite3"
         self.lock = threading.RLock()
         self.inference_lock = threading.Lock()
@@ -88,12 +90,26 @@ class IndexService:
             self.worker.submit(self.build, row)
             return row
 
+    def submit_workspace(self) -> dict:
+        if self.workspace_root is None or not self.workspace_root.is_dir():
+            raise ValueError("Configure a workspace directory before indexing it")
+        return self.submit("workspace")
+
     def build(self, row: dict):
         started = perf_counter()
         row = {**row, "status": "indexing"}
         self.save(row)
         try:
-            if row["repository"] == "demo":
+            if row["repository"] == "workspace":
+                chunks, stats = read_workspace_sources(self.workspace_root)
+                digest = hashlib.sha256()
+                for chunk in chunks:
+                    digest.update(chunk.chunk_id.encode())
+                    digest.update(b"\0")
+                    digest.update(chunk.text.encode())
+                    digest.update(b"\0")
+                commit = "workspace-" + digest.hexdigest()[:16]
+            elif row["repository"] == "demo":
                 chunks = chunk_repository(Path(__file__).parent / "demo")
                 commit = "demo-" + hashlib.sha256(
                     "".join(c.text for c in chunks).encode()).hexdigest()[:12]
@@ -193,7 +209,7 @@ class IndexService:
                 files[chunk.path] = {"path": chunk.path, "score": round(item.score, 6),
                                      "snippets": []}
             terms = sorted(query_terms & set(tokenize(chunk.path + "\n" + chunk.text)))
-            url = None if row["repository"] == "demo" else (
+            url = None if row["repository"] in {"demo", "workspace"} else (
                 f'https://github.com/{row["repository"]}/blob/{row["commit"]}/'
                 f'{quote(chunk.path, safe="/")}#L{chunk.start_line}-L{chunk.end_line}')
             files[chunk.path]["snippets"].append({**asdict(chunk), "matched_terms": terms,
@@ -212,6 +228,36 @@ class IndexService:
         LOG.info(json.dumps({"event": "search", "index_id": index_id, "method": method,
                              "retrieval_ms": result["retrieval_ms"], "files": len(files)}))
         return result
+
+    def read_file(self, index_id: str, path: str, start_line: int = 1,
+                  max_lines: int = 120) -> dict:
+        """Read a bounded excerpt from the immutable source snapshot."""
+        with self.lock:
+            row = self.get(index_id)
+            if row["status"] != "ready":
+                raise ValueError("This index is not ready")
+            raw = (self.root / f"{index_id}.json").read_bytes()
+            if hashlib.sha256(raw).hexdigest() != row["index_sha256"]:
+                raise ValueError("Index snapshot failed integrity verification; reindex the repository")
+        lines = {}
+        for chunk in json.loads(raw)["chunks"]:
+            if chunk["path"] == path:
+                for number, value in enumerate(chunk["text"].split("\n"), chunk["start_line"]):
+                    lines.setdefault(number, value)
+        if not lines:
+            raise KeyError(path)
+        selected = [number for number in sorted(lines)
+                    if start_line <= number < start_line + max_lines]
+        if not selected:
+            raise ValueError("Requested line range is beyond the end of this file")
+        url = None if row["repository"] in {"demo", "workspace"} else (
+            f'https://github.com/{row["repository"]}/blob/{row["commit"]}/'
+            f'{quote(path, safe="/")}#L{selected[0]}-L{selected[-1]}')
+        return {"repository": row["repository"], "commit": row["commit"],
+                "path": path, "start_line": selected[0] if selected else start_line,
+                "end_line": selected[-1] if selected else start_line,
+                "text": "\n".join(f"{number}: {lines[number]}" for number in selected),
+                "source_url": url, "index_sha256": row["index_sha256"]}
 
     def close(self):
         self.worker.shutdown(wait=True)
