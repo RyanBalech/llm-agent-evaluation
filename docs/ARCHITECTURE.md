@@ -3,6 +3,11 @@
 ```mermaid
 flowchart LR
     UI[Browser: investigate and evaluate] --> API[FastAPI: validation and access token]
+    AGENT[Local MCP client] --> MCP[Stdio tools: validation and source inspection]
+    MCP --> JOB
+    MCP --> SEARCH
+    JOB --> LOCAL[Configured workspace: current source snapshot]
+    LOCAL --> SRC
     API --> JOB[Single indexing worker]
     JOB --> GIT[Public GitHub: bare fetch at revision]
     GIT --> SRC[UTF-8 source blobs: no execution]
@@ -33,6 +38,12 @@ gives a typed request schema, validation, and generated documentation. The brows
 repository forms, polling, and inspectable results; plain JavaScript and CSS keep it distributable
 as one Python package and one container. React is a reasonable later choice if interaction state
 becomes more complex.
+
+**Local MCP access.** The stdio server wraps the same indexing and search service for a coding
+tool. Its workspace path is configured when launched, so tool calls cannot select arbitrary local
+directories. It snapshots working-tree source without executing it. Search and source inspection
+read immutable index data; edits require a new snapshot. The MCP process has its own data directory
+and does not expose a public network endpoint.
 
 **Bare Git fetch and blob reading.** Repository ingestion does not check out files, run package
 installation, initialize submodules, or execute code. Only public GitHub HTTPS URLs are accepted.

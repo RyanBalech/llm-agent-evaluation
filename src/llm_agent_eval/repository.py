@@ -62,6 +62,45 @@ def split_source(path: str, text: str) -> list[CodeChunk]:
     return chunks
 
 
+def read_workspace_sources(root: Path) -> tuple[list[CodeChunk], dict]:
+    """Snapshot supported source files from a configured local workspace."""
+    root = root.resolve(strict=True)
+    chunks = []
+    source_bytes = 0
+    files = 0
+    skipped = 0
+    excluded = SKIP_DIRS | {".repolens", ".repolens-mcp", ".benchmark", "artifacts"}
+    for directory, dirs, names in os.walk(root, followlinks=False):
+        dirs[:] = sorted(d for d in dirs if d not in excluded
+                         and not (Path(directory) / d).is_symlink())
+        for name in sorted(names):
+            path = Path(directory) / name
+            if path.suffix.lower() not in DEFAULT_EXTENSIONS or path.is_symlink():
+                continue
+            size = path.stat().st_size
+            if size > MAX_FILE_BYTES:
+                skipped += 1
+                continue
+            files += 1
+            source_bytes += size
+            if files > MAX_FILES or source_bytes > MAX_SOURCE_BYTES:
+                raise ValueError("Workspace exceeds the limit: 4,000 source files / 20 MB")
+            try:
+                content = path.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                skipped += 1
+                continue
+            if "\0" in content:
+                skipped += 1
+                continue
+            chunks.extend(split_source(path.relative_to(root).as_posix(), content))
+            if len(chunks) > MAX_CHUNKS:
+                raise ValueError("Workspace exceeds the limit of 20,000 chunks")
+    if not chunks:
+        raise ValueError("No supported, UTF-8 source files found in the workspace")
+    return chunks, {"source_bytes": source_bytes, "skipped_files": skipped}
+
+
 def read_git_sources(root: Path, revision: str) -> tuple[list[CodeChunk], dict]:
     entries = git("ls-tree", "-r", "-l", "-z", revision, cwd=root).split(b"\0")
     blobs = []
